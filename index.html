@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 0.32.1">
+  <meta name="description" content="agora_rtc_engine API docs, for the Dart programming language.">
+  <title>agora_rtc_engine - Dart API docs</title>
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="static-assets/github.css">
+  <link rel="stylesheet" href="static-assets/styles.css">
+  <link rel="icon" href="static-assets/favicon.png">
+
+</head>
+
+<body data-base-href=""
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://www.agora.io">agora_rtc_engine package</a></li>
+  </ol>
+  <div class="self-name">agora_rtc_engine</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div id="dartdoc-sidebar-left" class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+      <form class="search-sidebar" role="search">
+        <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+      </form>
+    </header>
+    
+    <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+      <li><a href="https://www.agora.io">agora_rtc_engine package</a></li>
+    </ol>
+    
+    <h5 class="hidden-xs"><span class="package-name">agora_rtc_engine</span> <span class="package-kind">package</span></h5>
+    <ol>
+          <li class="section-title">Libraries</li>
+          <li><a href="rtc_channel/rtc_channel-library.html">rtc_channel</a></li>
+          <li><a href="rtc_engine/rtc_engine-library.html">rtc_engine</a></li>
+          <li><a href="rtc_local_view/rtc_local_view-library.html">rtc_local_view</a></li>
+          <li><a href="rtc_remote_view/rtc_remote_view-library.html">rtc_remote_view</a></li>
+    </ol>
+  </div>
+
+  <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <section class="desc markdown">
+        <h1 id="agora_rtc_engine">agora_rtc_engine</h1>
+<p><img src="https://img.shields.io/pub/v/agora_rtc_engine.svg" alt="pub package"></p>
+<p>This Flutter plugin is a wapper for <a href="https://docs.agora.io/en">Agora Video SDK</a>.</p>
+<p>Agora.io provides building blocks for you to add real-time voice and video communications through a simple and powerful SDK. You can integrate the Agora SDK to enable real-time communications in your own application quickly.</p>
+<p><em>Note</em>: This plugin is still under development, and some APIs might not be available yet.</p>
+<h2 id="usage">Usage</h2>
+<p>To use this plugin, add <code>agora_rtc_engine</code> as a <a href="https://flutter.io/platform-plugins/">dependency in your pubspec.yaml file</a>.</p>
+<h2 id="getting-started">Getting Started</h2>
+<ul>
+<li>See the <a href="example">example</a> directory for a sample app using AgoraRtcEngine.</li>
+<li>Or checkout this <a href="https://github.com/AgoraIO-Community/Agora-Flutter-Quickstart">tutorial</a> for a simple video call app using Agora Flutter SDK.</li>
+</ul>
+<h2 id="device-permission">Device Permission</h2>
+<p>Agora Video SDK requires camera and microphone permission to start video call.</p>
+<h3 id="android">Android</h3>
+<p>Open the <em>AndroidManifest.xml</em> file and add the required device permissions to the file.</p>
+<pre class="language-xml"><code class="language-xml">&lt;manifest&gt;
+    ...
+    &lt;uses-permission android:name="android.permission.READ_PHONE_STATE"/&gt;
+    &lt;uses-permission android:name="android.permission.INTERNET" /&gt;
+    &lt;uses-permission android:name="android.permission.RECORD_AUDIO" /&gt;
+    &lt;uses-permission android:name="android.permission.CAMERA" /&gt;
+    &lt;uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" /&gt;
+    &lt;uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /&gt;
+    
+    &lt;!-- The Agora SDK requires Bluetooth permissions in case users are using Bluetooth devices.--&gt;
+    &lt;uses-permission android:name="android.permission.BLUETOOTH" /&gt;
+    ...
+&lt;/manifest&gt;
+</code></pre>
+<h3 id="ios">iOS</h3>
+<p>Open the <em>info.plist</em> and add:</p>
+<ul>
+<li>Privacy - Microphone Usage Description, and add a note in the Value column.</li>
+<li>Privacy - Camera Usage Description, and add a note in the Value column.</li>
+</ul>
+<p>Your application can still run the voice call when it is switched to the background if the background mode is enabled. Select the app target in Xcode, click the <strong>Capabilities</strong> tab, enable <strong>Background Modes</strong>, and check <strong>Audio, AirPlay, and Picture in Picture</strong>.</p>
+<h2 id="error-handling">Error handling</h2>
+<h3 id="ios-black-screen">iOS black screen</h3>
+<p>Our SDK use <code>PlatformView</code>, you should set <code>io.flutter.embedded_views_preview</code> to <code>YES</code> in your <em>info.plist</em></p>
+<h3 id="ios-memory-leak">iOS memory leak</h3>
+<p>If your flutter channel is stable, <code>PlatformView</code> will cause memory leak, you can run <code>flutter channel beta</code></p>
+<p><a href="https://github.com/flutter/engine/pull/14326">You can refer to this pull request</a></p>
+<h3 id="android-black-screen">Android black screen</h3>
+<p><strong>Tips: please make sure your all configurations are correct, but still black screen</strong></p>
+<p>If your MainActivity extends <code>io.flutter.embedding.android.FlutterActivity</code> and override the <code>configureFlutterEngine</code> method</p>
+<h4 id="stable-flutter-channel">stable flutter channel</h4>
+<p>The <code>FlutterEngine</code> class will register all plugins auto</p>
+<p>The <code>GeneratedPluginRegistrant.registerWith(flutterEngine)</code> method has been added by default, so it causes the plugin register twice, our SDK may not work</p>
+<p>If you remove the <code>GeneratedPluginRegistrant.registerWith(flutterEngine)</code> method, so some other plugins may not work because the plugin can't get the activity instance when register by <code>FlutterEngine</code>, </p>
+<p><em><strong>We suggest you don't use the stable channel, because the iOS platform also has memory leak bug</strong></em></p>
+<h4 id="others-flutter-channel">others flutter channel</h4>
+<p>The <code>io.flutter.embedding.android.FlutterActivity</code> will register all plugins auto by the <code>configureFlutterEngine</code> method</p>
+<ul>
+<li>Don't forget add <code>super.configureFlutterEngine(flutterEngine)</code></li>
+<li>Don't add <code>GeneratedPluginRegistrant.registerWith(flutterEngine)</code></li>
+</ul>
+<p><a href="https://flutter.dev/docs/development/packages-and-plugins/plugin-api-migration">You can refer to the official documents</a></p>
+<h3 id="android-release-crash">Android Release crash</h3>
+<p>It causes by code obfuscation because of flutter set <code>android.enableR8=true</code> by the default</p>
+<p>Add the following line in the <em>app/proguard-rules.pro</em> file to prevent code obfuscation:</p>
+<pre class="language-dart"><code>-keep class io.agora.**{*;}
+</code></pre>
+<h2 id="how-to-contribute">How to contribute</h2>
+<p>To help work on this sdk, see our <a href="CONTRIBUTING.md">contributor guide</a>.</p>
+      </section>
+      
+        <section class="summary">
+            <h2>Libraries</h2>
+          <dl>
+            <dt id="rtc_channel">
+              <span class="name"><a href="rtc_channel/rtc_channel-library.html">rtc_channel</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
+            <dt id="rtc_engine">
+              <span class="name"><a href="rtc_engine/rtc_engine-library.html">rtc_engine</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
+            <dt id="rtc_local_view">
+              <span class="name"><a href="rtc_local_view/rtc_local_view-library.html">rtc_local_view</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
+            <dt id="rtc_remote_view">
+              <span class="name"><a href="rtc_remote_view/rtc_remote_view-library.html">rtc_remote_view</a></span>             
+            </dt>
+            <dd>
+               
+            </dd>
+          </dl>
+        </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    agora_rtc_engine
+      3.0.1-dev.1
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="static-assets/typeahead.bundle.min.js"></script>
+<script src="static-assets/highlight.pack.js"></script>
+<script src="static-assets/URI.js"></script>
+<script src="static-assets/script.js"></script>
+
+
+</body>
+
+</html>

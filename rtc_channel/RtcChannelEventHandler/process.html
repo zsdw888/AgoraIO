@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the process method from the RtcChannelEventHandler class, for the Dart programming language.">
+  <title>process method - RtcChannelEventHandler class - rtc_channel library - Dart API</title>
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../../static-assets/github.css">
+  <link rel="stylesheet" href="../../static-assets/styles.css">
+  <link rel="icon" href="../../static-assets/favicon.png">
+
+</head>
+
+<body data-base-href="../../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">agora_rtc_engine</a></li>
+    <li><a href="../../rtc_channel/rtc_channel-library.html">rtc_channel</a></li>
+    <li><a href="../../rtc_channel/RtcChannelEventHandler-class.html">RtcChannelEventHandler</a></li>
+    <li class="self-crumb">process method</li>
+  </ol>
+  <div class="self-name">process</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div id="dartdoc-sidebar-left" class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+      <form class="search-sidebar" role="search">
+        <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+      </form>
+    </header>
+    
+    <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+      <li><a href="../../index.html">agora_rtc_engine</a></li>
+      <li><a href="../../rtc_channel/rtc_channel-library.html">rtc_channel</a></li>
+      <li><a href="../../rtc_channel/RtcChannelEventHandler-class.html">RtcChannelEventHandler</a></li>
+      <li class="self-crumb">process method</li>
+    </ol>
+    
+    <h5>RtcChannelEventHandler class</h5>
+    <ol>
+    
+        <li class="section-title"><a href="../../rtc_channel/RtcChannelEventHandler-class.html#constructors">Constructors</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/RtcChannelEventHandler.html">RtcChannelEventHandler</a></li>
+    
+        <li class="section-title">
+            <a href="../../rtc_channel/RtcChannelEventHandler-class.html#instance-properties">Properties</a>
+        </li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/activeSpeaker.html">activeSpeaker</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/channelMediaRelayEvent.html">channelMediaRelayEvent</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/channelMediaRelayStateChanged.html">channelMediaRelayStateChanged</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/clientRoleChanged.html">clientRoleChanged</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/connectionLost.html">connectionLost</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/connectionStateChanged.html">connectionStateChanged</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/error.html">error</a></li>
+        <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/joinChannelSuccess.html">joinChannelSuccess</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/leaveChannel.html">leaveChannel</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/localPublishFallbackToAudioOnly.html">localPublishFallbackToAudioOnly</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/metadataReceived.html">metadataReceived</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/networkQuality.html">networkQuality</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/rejoinChannelSuccess.html">rejoinChannelSuccess</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/remoteAudioStateChanged.html">remoteAudioStateChanged</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/remoteAudioStats.html">remoteAudioStats</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/remoteSubscribeFallbackToAudioOnly.html">remoteSubscribeFallbackToAudioOnly</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/remoteVideoStateChanged.html">remoteVideoStateChanged</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/remoteVideoStats.html">remoteVideoStats</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/requestToken.html">requestToken</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/rtcStats.html">rtcStats</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/rtmpStreamingStateChanged.html">rtmpStreamingStateChanged</a></li>
+        <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/streamInjectedStatus.html">streamInjectedStatus</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/streamMessage.html">streamMessage</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/streamMessageError.html">streamMessageError</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/tokenPrivilegeWillExpire.html">tokenPrivilegeWillExpire</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/transcodingUpdated.html">transcodingUpdated</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/userJoined.html">userJoined</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/userOffline.html">userOffline</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/videoSizeChanged.html">videoSizeChanged</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/warning.html">warning</a></li>
+    
+        <li class="section-title"><a href="../../rtc_channel/RtcChannelEventHandler-class.html#instance-methods">Methods</a></li>
+        <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+        <li><a href="../../rtc_channel/RtcChannelEventHandler/process.html">process</a></li>
+        <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+    
+        <li class="section-title inherited"><a href="../../rtc_channel/RtcChannelEventHandler-class.html#operators">Operators</a></li>
+        <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
+    
+    
+    
+    
+    
+    </ol>
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <div><h1><span class="kind-method">process</span> method </h1></div>
+
+    <section class="multi-line-signature">
+      <span class="returntype">void</span>
+            <span class="name ">process</span>
+(<wbr><ol class="parameter-list"><li><span class="parameter" id="process-param-methodName"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">methodName</span>, </span></li>
+<li><span class="parameter" id="process-param-data"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a></span> <span class="parameter-name">data</span></span></li>
+</ol>)
+      
+    </section>
+    
+    <section class="summary source-code" id="source">
+      <h2><span>Implementation</span></h2>
+      <pre class="language-dart"><code class="language-dart">void process(String methodName, List&lt;dynamic&gt; data) {
+  switch (methodName) {
+    case &#39;Warning&#39;:
+      warning?.call(WarningCodeConverter.fromValue(data[0]).e);
+      break;
+    case &#39;Error&#39;:
+      error?.call(ErrorCodeConverter.fromValue(data[0]).e);
+      break;
+    case &#39;JoinChannelSuccess&#39;:
+      joinChannelSuccess?.call(data[0], data[1]);
+      break;
+    case &#39;RejoinChannelSuccess&#39;:
+      rejoinChannelSuccess?.call(data[0], data[1]);
+      break;
+    case &#39;LeaveChannel&#39;:
+      leaveChannel
+          ?.call(RtcStats.fromJson(Map&lt;String, dynamic&gt;.from(data[0])));
+      break;
+    case &#39;ClientRoleChanged&#39;:
+      clientRoleChanged?.call(ClientRoleConverter.fromValue(data[0]).e,
+          ClientRoleConverter.fromValue(data[1]).e);
+      break;
+    case &#39;UserJoined&#39;:
+      userJoined?.call(data[0], data[1]);
+      break;
+    case &#39;UserOffline&#39;:
+      userOffline?.call(
+          data[0], UserOfflineReasonConverter.fromValue(data[1]).e);
+      break;
+    case &#39;ConnectionStateChanged&#39;:
+      connectionStateChanged?.call(
+          ConnectionStateTypeConverter.fromValue(data[0]).e,
+          ConnectionChangedReasonConverter.fromValue(data[1]).e);
+      break;
+    case &#39;ConnectionLost&#39;:
+      connectionLost?.call();
+      break;
+    case &#39;TokenPrivilegeWillExpire&#39;:
+      tokenPrivilegeWillExpire?.call(data[0]);
+      break;
+    case &#39;RequestToken&#39;:
+      requestToken?.call();
+      break;
+    case &#39;ActiveSpeaker&#39;:
+      activeSpeaker?.call(data[0]);
+      break;
+    case &#39;VideoSizeChanged&#39;:
+      videoSizeChanged?.call(data[0], data[1], data[2], data[3]);
+      break;
+    case &#39;RemoteVideoStateChanged&#39;:
+      remoteVideoStateChanged?.call(
+          data[0],
+          VideoRemoteStateConverter.fromValue(data[1]).e,
+          VideoRemoteStateReasonConverter.fromValue(data[2]).e,
+          data[3]);
+      break;
+    case &#39;RemoteAudioStateChanged&#39;:
+      remoteAudioStateChanged?.call(
+          data[0],
+          AudioRemoteStateConverter.fromValue(data[1]).e,
+          AudioRemoteStateReasonConverter.fromValue(data[2]).e,
+          data[3]);
+      break;
+    case &#39;LocalPublishFallbackToAudioOnly&#39;:
+      localPublishFallbackToAudioOnly?.call(data[0]);
+      break;
+    case &#39;RemoteSubscribeFallbackToAudioOnly&#39;:
+      remoteSubscribeFallbackToAudioOnly?.call(data[0], data[1]);
+      break;
+    case &#39;RtcStats&#39;:
+      rtcStats?.call(RtcStats.fromJson(Map&lt;String, dynamic&gt;.from(data[0])));
+      break;
+    case &#39;NetworkQuality&#39;:
+      networkQuality?.call(
+          data[0],
+          NetworkQualityConverter.fromValue(data[1]).e,
+          NetworkQualityConverter.fromValue(data[2]).e);
+      break;
+    case &#39;RemoteVideoStats&#39;:
+      remoteVideoStats?.call(
+          RemoteVideoStats.fromJson(Map&lt;String, dynamic&gt;.from(data[0])));
+      break;
+    case &#39;RemoteAudioStats&#39;:
+      remoteAudioStats?.call(
+          RemoteAudioStats.fromJson(Map&lt;String, dynamic&gt;.from(data[0])));
+      break;
+    case &#39;RtmpStreamingStateChanged&#39;:
+      rtmpStreamingStateChanged?.call(
+        data[0],
+        RtmpStreamingStateConverter.fromValue(data[1]).e,
+        RtmpStreamingErrorCodeConverter.fromValue(data[2]).e,
+      );
+      break;
+    case &#39;TranscodingUpdated&#39;:
+      transcodingUpdated?.call();
+      break;
+    case &#39;StreamInjectedStatus&#39;:
+      streamInjectedStatus?.call(
+          data[0], data[1], InjectStreamStatusConverter.fromValue(data[2]).e);
+      break;
+    case &#39;StreamMessage&#39;:
+      streamMessage?.call(data[0], data[1], data[2]);
+      break;
+    case &#39;StreamMessageError&#39;:
+      streamMessageError?.call(data[0], data[1],
+          ErrorCodeConverter.fromValue(data[2]).e, data[3], data[4]);
+      break;
+    case &#39;ChannelMediaRelayStateChanged&#39;:
+      channelMediaRelayStateChanged?.call(
+        ChannelMediaRelayStateConverter.fromValue(data[0]).e,
+        ChannelMediaRelayErrorConverter.fromValue(data[1]).e,
+      );
+      break;
+    case &#39;ChannelMediaRelayEvent&#39;:
+      channelMediaRelayEvent
+          ?.call(ChannelMediaRelayEventConverter.fromValue(data[0]).e);
+      break;
+    case &#39;MetadataReceived&#39;:
+      metadataReceived?.call(data[0], data[1], data[2]);
+      break;
+  }
+}</code></pre>
+    </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    agora_rtc_engine
+      3.0.1-dev.1
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../../static-assets/typeahead.bundle.min.js"></script>
+<script src="../../static-assets/highlight.pack.js"></script>
+<script src="../../static-assets/URI.js"></script>
+<script src="../../static-assets/script.js"></script>
+
+
+</body>
+
+</html>

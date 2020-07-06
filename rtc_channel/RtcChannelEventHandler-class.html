@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the RtcChannelEventHandler class from the rtc_channel library, for the Dart programming language.">
+  <title>RtcChannelEventHandler class - rtc_channel library - Dart API</title>
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../static-assets/github.css">
+  <link rel="stylesheet" href="../static-assets/styles.css">
+  <link rel="icon" href="../static-assets/favicon.png">
+
+</head>
+
+<body data-base-href="../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">agora_rtc_engine</a></li>
+    <li><a href="../rtc_channel/rtc_channel-library.html">rtc_channel</a></li>
+    <li class="self-crumb">RtcChannelEventHandler class</li>
+  </ol>
+  <div class="self-name">RtcChannelEventHandler</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div id="dartdoc-sidebar-left" class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+      <form class="search-sidebar" role="search">
+        <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+      </form>
+    </header>
+    
+    <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+      <li><a href="../index.html">agora_rtc_engine</a></li>
+      <li><a href="../rtc_channel/rtc_channel-library.html">rtc_channel</a></li>
+      <li class="self-crumb">RtcChannelEventHandler class</li>
+    </ol>
+    
+    <h5>rtc_channel library</h5>
+    <ol>
+      <li class="section-title"><a href="../rtc_channel/rtc_channel-library.html#classes">Classes</a></li>
+      <li><a href="../rtc_channel/RtcChannel-class.html">RtcChannel</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler-class.html">RtcChannelEventHandler</a></li>
+    
+    
+    
+    
+    
+    
+    
+    
+    </ol>
+  </div>
+
+  <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <div><h1><span class="kind-class">RtcChannelEventHandler</span> class  </h1></div>
+
+    <section class="desc markdown">
+      <p>The RtcChannelEvents interface.</p>
+    </section>
+    
+
+    <section class="summary offset-anchor" id="constructors">
+      <h2>Constructors</h2>
+
+      <dl class="constructor-summary-list">
+        <dt id="RtcChannelEventHandler" class="callable">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/RtcChannelEventHandler.html">RtcChannelEventHandler</a></span><span class="signature">(<span class="parameter" id="-param-warning">{<span class="type-annotation">WarningCallback</span> <span class="parameter-name">warning</span>, </span><wbr><span class="parameter" id="-param-error"><span class="type-annotation">ErrorCallback</span> <span class="parameter-name">error</span>, </span><wbr><span class="parameter" id="-param-joinChannelSuccess"><span class="type-annotation">UidWithElapsedCallback</span> <span class="parameter-name">joinChannelSuccess</span>, </span><wbr><span class="parameter" id="-param-rejoinChannelSuccess"><span class="type-annotation">UidWithElapsedCallback</span> <span class="parameter-name">rejoinChannelSuccess</span>, </span><wbr><span class="parameter" id="-param-leaveChannel"><span class="type-annotation">RtcStatsCallback</span> <span class="parameter-name">leaveChannel</span>, </span><wbr><span class="parameter" id="-param-clientRoleChanged"><span class="type-annotation">ClientRoleCallback</span> <span class="parameter-name">clientRoleChanged</span>, </span><wbr><span class="parameter" id="-param-userJoined"><span class="type-annotation">UidWithElapsedCallback</span> <span class="parameter-name">userJoined</span>, </span><wbr><span class="parameter" id="-param-userOffline"><span class="type-annotation">UserOfflineCallback</span> <span class="parameter-name">userOffline</span>, </span><wbr><span class="parameter" id="-param-connectionStateChanged"><span class="type-annotation">ConnectionStateCallback</span> <span class="parameter-name">connectionStateChanged</span>, </span><wbr><span class="parameter" id="-param-connectionLost"><span class="type-annotation">EmptyCallback</span> <span class="parameter-name">connectionLost</span>, </span><wbr><span class="parameter" id="-param-tokenPrivilegeWillExpire"><span class="type-annotation">TokenCallback</span> <span class="parameter-name">tokenPrivilegeWillExpire</span>, </span><wbr><span class="parameter" id="-param-requestToken"><span class="type-annotation">EmptyCallback</span> <span class="parameter-name">requestToken</span>, </span><wbr><span class="parameter" id="-param-activeSpeaker"><span class="type-annotation">UidCallback</span> <span class="parameter-name">activeSpeaker</span>, </span><wbr><span class="parameter" id="-param-videoSizeChanged"><span class="type-annotation">VideoSizeCallback</span> <span class="parameter-name">videoSizeChanged</span>, </span><wbr><span class="parameter" id="-param-remoteVideoStateChanged"><span class="type-annotation">RemoteVideoStateCallback</span> <span class="parameter-name">remoteVideoStateChanged</span>, </span><wbr><span class="parameter" id="-param-remoteAudioStateChanged"><span class="type-annotation">RemoteAudioStateCallback</span> <span class="parameter-name">remoteAudioStateChanged</span>, </span><wbr><span class="parameter" id="-param-localPublishFallbackToAudioOnly"><span class="type-annotation">FallbackCallback</span> <span class="parameter-name">localPublishFallbackToAudioOnly</span>, </span><wbr><span class="parameter" id="-param-remoteSubscribeFallbackToAudioOnly"><span class="type-annotation">FallbackWithUidCallback</span> <span class="parameter-name">remoteSubscribeFallbackToAudioOnly</span>, </span><wbr><span class="parameter" id="-param-rtcStats"><span class="type-annotation">RtcStatsCallback</span> <span class="parameter-name">rtcStats</span>, </span><wbr><span class="parameter" id="-param-networkQuality"><span class="type-annotation">NetworkQualityWithUidCallback</span> <span class="parameter-name">networkQuality</span>, </span><wbr><span class="parameter" id="-param-remoteVideoStats"><span class="type-annotation">RemoteVideoStatsCallback</span> <span class="parameter-name">remoteVideoStats</span>, </span><wbr><span class="parameter" id="-param-remoteAudioStats"><span class="type-annotation">RemoteAudioStatsCallback</span> <span class="parameter-name">remoteAudioStats</span>, </span><wbr><span class="parameter" id="-param-rtmpStreamingStateChanged"><span class="type-annotation">RtmpStreamingStateCallback</span> <span class="parameter-name">rtmpStreamingStateChanged</span>, </span><wbr><span class="parameter" id="-param-transcodingUpdated"><span class="type-annotation">EmptyCallback</span> <span class="parameter-name">transcodingUpdated</span>, </span><wbr><span class="parameter" id="-param-streamInjectedStatus"><span class="type-annotation">StreamInjectedStatusCallback</span> <span class="parameter-name">streamInjectedStatus</span>, </span><wbr><span class="parameter" id="-param-streamMessage"><span class="type-annotation">StreamMessageCallback</span> <span class="parameter-name">streamMessage</span>, </span><wbr><span class="parameter" id="-param-streamMessageError"><span class="type-annotation">StreamMessageErrorCallback</span> <span class="parameter-name">streamMessageError</span>, </span><wbr><span class="parameter" id="-param-channelMediaRelayStateChanged"><span class="type-annotation">MediaRelayStateCallback</span> <span class="parameter-name">channelMediaRelayStateChanged</span>, </span><wbr><span class="parameter" id="-param-channelMediaRelayEvent"><span class="type-annotation">MediaRelayEventCallback</span> <span class="parameter-name">channelMediaRelayEvent</span>, </span><wbr><span class="parameter" id="-param-metadataReceived"><span class="type-annotation">MetadataCallback</span> <span class="parameter-name">metadataReceived</span>}</span><wbr>)</span>
+        </dt>
+        <dd>
+          Constructs a <a href="../rtc_channel/RtcChannelEventHandler-class.html">RtcChannelEventHandler</a> 
+        </dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="instance-properties">
+      <h2>Properties</h2>
+
+      <dl class="properties">
+        <dt id="activeSpeaker" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/activeSpeaker.html">activeSpeaker</a></span>
+          <span class="signature">&#8596; UidCallback</span>         
+        </dt>
+        <dd>
+          Reports which user is the loudest speaker.
+This callback reports the speaker with the highest accumulative volume during a certain period. If the user enables the audio volume indication by calling enableAudioVolumeIndication, this callback returns the uid of the active speaker whose voice is detected by the audio volume detection module of the SDK.
+@see RtcChannel.enableAudioVolumeIndication
+Note <a href="../rtc_channel/RtcChannelEventHandler/activeSpeaker.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="channelMediaRelayEvent" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/channelMediaRelayEvent.html">channelMediaRelayEvent</a></span>
+          <span class="signature">&#8596; MediaRelayEventCallback</span>         
+        </dt>
+        <dd>
+          Reports events during the media stream relay. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="channelMediaRelayStateChanged" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/channelMediaRelayStateChanged.html">channelMediaRelayStateChanged</a></span>
+          <span class="signature">&#8596; MediaRelayStateCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the state of the media stream relay changes.
+The SDK reports the state of the current media relay and possible error messages in this callback. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="clientRoleChanged" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/clientRoleChanged.html">clientRoleChanged</a></span>
+          <span class="signature">&#8596; ClientRoleCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the user role switches in a Live-Broadcast channel. For example, from broadcaster to audience or vice versa.
+The SDK triggers this callback when the local user switches the user role by calling the setClientRole method after joining the channel.
+@see RtcChannel.setClientRole 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="connectionLost" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/connectionLost.html">connectionLost</a></span>
+          <span class="signature">&#8596; EmptyCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the SDK cannot reconnect to Agora's edge server 10 seconds after its connection to the server is interrupted.
+The SDK also triggers this callback when it cannot connect to the server 10 seconds after calling joinChannel, regardless of whether it is in the channel or not.
+@see RtcChannel.joinChannel
+If the SDK fails to rejoin the channel 20 minutes after being disconnected from Agora's edge server, the SDK stops rejoining the channel. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="connectionStateChanged" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/connectionStateChanged.html">connectionStateChanged</a></span>
+          <span class="signature">&#8596; ConnectionStateCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the network connection state changes.
+The Agora SDK triggers this callback to report on the current network connection state when it changes, and the reason to such change. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="error" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/error.html">error</a></span>
+          <span class="signature">&#8596; ErrorCallback</span>         
+        </dt>
+        <dd>
+          Reports the error code of the RtcChannel instance.
+@see RtcChannel 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="hashCode" class="property inherited">
+          <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
+          <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>         
+        </dt>
+        <dd class="inherited">
+          The hash code for this object. <a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">[...]</a>
+                  <div class="features">read-only, inherited</div>
+</dd>
+        <dt id="joinChannelSuccess" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/joinChannelSuccess.html">joinChannelSuccess</a></span>
+          <span class="signature">&#8596; UidWithElapsedCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the local user joins a specified channel.
+If the uid is not specified when calling joinChannel, the server automatically assigns a uid.
+@see RtcChannel.joinChannel 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="leaveChannel" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/leaveChannel.html">leaveChannel</a></span>
+          <span class="signature">&#8596; RtcStatsCallback</span>         
+        </dt>
+        <dd>
+          Occurs when a user leaves the channel.
+When a user leaves the channel by using the leaveChannel method, the SDK uses this callback to notify the app when the user leaves the channel.
+@see RtcChannel.leaveChannel
+With this callback, the app retrieves the channel information, such as the call duration and statistics. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="localPublishFallbackToAudioOnly" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/localPublishFallbackToAudioOnly.html">localPublishFallbackToAudioOnly</a></span>
+          <span class="signature">&#8596; FallbackCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the published media stream falls back to an audio-only stream due to poor network conditions or switches back to video stream after the network conditions improve.
+If you call setLocalPublishFallbackOption and set option as AudioOnly(2), this callback is triggered when the locally published stream falls back to audio-only mode due to poor uplink conditions, or when the audio stream switches back to the video after the uplink network condition improves.
+@see RtcEngine.setLocalPublishFallbackOption
+@see StreamFallbackOptions.AudioOnly 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="metadataReceived" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/metadataReceived.html">metadataReceived</a></span>
+          <span class="signature">&#8596; MetadataCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the local user receives the metadata. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="networkQuality" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/networkQuality.html">networkQuality</a></span>
+          <span class="signature">&#8596; NetworkQualityWithUidCallback</span>         
+        </dt>
+        <dd>
+          Reports the last mile network quality of each user in the channel once every two seconds.
+Last mile refers to the connection between the local device and Agora's edge server. This callback reports once every two seconds the last mile network conditions of each user in the channel. If a channel includes multiple users, then this callback will be triggered as many times. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="rejoinChannelSuccess" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/rejoinChannelSuccess.html">rejoinChannelSuccess</a></span>
+          <span class="signature">&#8596; UidWithElapsedCallback</span>         
+        </dt>
+        <dd>
+          Occurs when a user rejoins the channel after being disconnected due to network problems.
+When a user loses connection with the server because of network problems, the SDK automatically tries to reconnect and triggers this callback upon reconnection. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="remoteAudioStateChanged" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/remoteAudioStateChanged.html">remoteAudioStateChanged</a></span>
+          <span class="signature">&#8596; RemoteAudioStateCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the remote audio state changes.
+This callback indicates the state change of the remote audio stream. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="remoteAudioStats" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/remoteAudioStats.html">remoteAudioStats</a></span>
+          <span class="signature">&#8596; RemoteAudioStatsCallback</span>         
+        </dt>
+        <dd>
+          Reports the statistics of the audio stream from each remote user/broadcaster.
+The SDK triggers this callback once every two seconds for each remote user/broadcaster. If a channel includes multiple remote users, the SDK triggers this callback as many times.
+Schemes such as FEC (Forward Error Correction) or retransmission counter the frame loss rate. Hence, users may find the overall audio quality acceptable even when the packet loss rate is high. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="remoteSubscribeFallbackToAudioOnly" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/remoteSubscribeFallbackToAudioOnly.html">remoteSubscribeFallbackToAudioOnly</a></span>
+          <span class="signature">&#8596; FallbackWithUidCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the remote media stream falls back to audio-only stream due to poor network conditions or switches back to video stream after the network conditions improve.
+If you call setRemoteSubscribeFallbackOption and set option as AudioOnly(2), this callback is triggered when the remote media stream falls back to audio-only mode due to poor uplink conditions, or when the remote media stream switches back to the video after the uplink network condition improves.
+@see RtcEngine.setRemoteSubscribeFallbackOption
+@see StreamFallbackOptions.AudioOnly
+Note <a href="../rtc_channel/RtcChannelEventHandler/remoteSubscribeFallbackToAudioOnly.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="remoteVideoStateChanged" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/remoteVideoStateChanged.html">remoteVideoStateChanged</a></span>
+          <span class="signature">&#8596; RemoteVideoStateCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the remote video state changes. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="remoteVideoStats" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/remoteVideoStats.html">remoteVideoStats</a></span>
+          <span class="signature">&#8596; RemoteVideoStatsCallback</span>         
+        </dt>
+        <dd>
+          Reports the statistics of the video stream from each remote user/broadcaster. The SDK triggers this callback once every two seconds for each remote user/broadcaster. If a channel includes multiple remote users, the SDK triggers this callback as many times. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="requestToken" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/requestToken.html">requestToken</a></span>
+          <span class="signature">&#8596; EmptyCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the token has expired.
+After a token is specified when joining the channel, the token expires after a certain period of time, and a new token is required to reconnect to the server. This callback notifies the app to generate a new token and call renewToken to renew the token.
+@see RtcChannel.renewToken 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="rtcStats" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/rtcStats.html">rtcStats</a></span>
+          <span class="signature">&#8596; RtcStatsCallback</span>         
+        </dt>
+        <dd>
+          Reports the statistics of the RtcEngine once every two seconds.
+@see RtcEngine 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="rtmpStreamingStateChanged" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/rtmpStreamingStateChanged.html">rtmpStreamingStateChanged</a></span>
+          <span class="signature">&#8596; RtmpStreamingStateCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the state of the RTMP streaming changes.
+The SDK triggers this callback to report the result of the local user calling the addPublishStreamUrl or removePublishStreamUrl method. This callback returns the URL and its current streaming state. When the streaming state is Failure(4), see the errCode parameter for details.
+@see RtcChannel.addPublishStreamUrl
+@see RtcChannel.removePublishStreamUrl
+@see RtmpStreamingState.Failure
+This callback indicates the state of the RTMP streaming. When exceptions occur, you can troubleshoot issues by referring to the detailed error descriptions in the errCode parameter. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="runtimeType" class="property inherited">
+          <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></span>
+          <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Type-class.html">Type</a></span>         
+        </dt>
+        <dd class="inherited">
+          A representation of the runtime type of the object. 
+                  <div class="features">read-only, inherited</div>
+</dd>
+        <dt id="streamInjectedStatus" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/streamInjectedStatus.html">streamInjectedStatus</a></span>
+          <span class="signature">&#8596; StreamInjectedStatusCallback</span>         
+        </dt>
+        <dd>
+          Reports the status of injecting the online media stream. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="streamMessage" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/streamMessage.html">streamMessage</a></span>
+          <span class="signature">&#8596; StreamMessageCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the local user receives a remote data stream.
+The SDK triggers this callback when the local user receives the stream message that the remote user sends by calling the sendStreamMessage method.
+@see RtcChannel.sendStreamMessage 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="streamMessageError" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/streamMessageError.html">streamMessageError</a></span>
+          <span class="signature">&#8596; StreamMessageErrorCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the local user fails to receive a remote data stream.
+The SDK triggers this callback when the local user fails to receive the stream message that the remote user sends by calling the sendStreamMessage method.
+@see RtcChannel.sendStreamMessage 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="tokenPrivilegeWillExpire" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/tokenPrivilegeWillExpire.html">tokenPrivilegeWillExpire</a></span>
+          <span class="signature">&#8596; TokenCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the token expires in 30 seconds.
+The user becomes offline if the token used when joining the channel expires. This callback is triggered 30 seconds before the token expires, to remind the app to get a new token. Upon receiving this callback, you need to generate a new token on the server and call renewToken to pass the new token to the SDK.
+@see RtcChannel.renewToken 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="transcodingUpdated" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/transcodingUpdated.html">transcodingUpdated</a></span>
+          <span class="signature">&#8596; EmptyCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the publisher's transcoding settings are updated.
+When the LiveTranscoding class in the setLiveTranscoding method updates, the SDK triggers this callback to report the update information.
+@see RtcChannel.setLiveTranscoding
+Note <a href="../rtc_channel/RtcChannelEventHandler/transcodingUpdated.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="userJoined" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/userJoined.html">userJoined</a></span>
+          <span class="signature">&#8596; UidWithElapsedCallback</span>         
+        </dt>
+        <dd>
+          Occurs when a remote user (Communication) or a broadcaster (Live-Broadcast) joins the channel. <a href="../rtc_channel/RtcChannelEventHandler/userJoined.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="userOffline" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/userOffline.html">userOffline</a></span>
+          <span class="signature">&#8596; UserOfflineCallback</span>         
+        </dt>
+        <dd>
+          Occurs when a remote user (Communication) or a broadcaster (Live Broadcast) leaves the channel.
+There are two reasons for users to become offline: <a href="../rtc_channel/RtcChannelEventHandler/userOffline.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="videoSizeChanged" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/videoSizeChanged.html">videoSizeChanged</a></span>
+          <span class="signature">&#8596; VideoSizeCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the video size or rotation information of a remote user changes. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="warning" class="property">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/warning.html">warning</a></span>
+          <span class="signature">&#8596; WarningCallback</span>         
+        </dt>
+        <dd>
+          Reports the warning code of the RtcChannel instance.
+@see RtcChannel 
+                  <div class="features">read / write</div>
+</dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="instance-methods">
+      <h2>Methods</h2>
+      <dl class="callables">
+        <dt id="noSuchMethod" class="callable inherited">
+          <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span><wbr>)
+            <span class="returntype parameter">&#8594; dynamic</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Invoked when a non-existent method or property is accessed. <a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+        <dt id="process" class="callable">
+          <span class="name"><a href="../rtc_channel/RtcChannelEventHandler/process.html">process</a></span><span class="signature">(<wbr><span class="parameter" id="process-param-methodName"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">methodName</span>, </span><wbr><span class="parameter" id="process-param-data"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a></span> <span class="parameter-name">data</span></span><wbr>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+                  </dt>
+        <dd>
+           
+                  
+</dd>
+        <dt id="toString" class="callable inherited">
+          <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Returns a string representation of this object. 
+                  <div class="features">inherited</div>
+</dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor inherited" id="operators">
+      <h2>Operators</h2>
+      <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+          <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation">dynamic</span> <span class="parameter-name">other</span></span><wbr>)
+            <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          The equality operator. <a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+      </dl>
+    </section>
+
+
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+    <ol>
+    
+      <li class="section-title"><a href="../rtc_channel/RtcChannelEventHandler-class.html#constructors">Constructors</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/RtcChannelEventHandler.html">RtcChannelEventHandler</a></li>
+    
+      <li class="section-title">
+        <a href="../rtc_channel/RtcChannelEventHandler-class.html#instance-properties">Properties</a>
+      </li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/activeSpeaker.html">activeSpeaker</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/channelMediaRelayEvent.html">channelMediaRelayEvent</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/channelMediaRelayStateChanged.html">channelMediaRelayStateChanged</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/clientRoleChanged.html">clientRoleChanged</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/connectionLost.html">connectionLost</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/connectionStateChanged.html">connectionStateChanged</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/error.html">error</a></li>
+      <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/joinChannelSuccess.html">joinChannelSuccess</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/leaveChannel.html">leaveChannel</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/localPublishFallbackToAudioOnly.html">localPublishFallbackToAudioOnly</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/metadataReceived.html">metadataReceived</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/networkQuality.html">networkQuality</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/rejoinChannelSuccess.html">rejoinChannelSuccess</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/remoteAudioStateChanged.html">remoteAudioStateChanged</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/remoteAudioStats.html">remoteAudioStats</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/remoteSubscribeFallbackToAudioOnly.html">remoteSubscribeFallbackToAudioOnly</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/remoteVideoStateChanged.html">remoteVideoStateChanged</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/remoteVideoStats.html">remoteVideoStats</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/requestToken.html">requestToken</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/rtcStats.html">rtcStats</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/rtmpStreamingStateChanged.html">rtmpStreamingStateChanged</a></li>
+      <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/streamInjectedStatus.html">streamInjectedStatus</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/streamMessage.html">streamMessage</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/streamMessageError.html">streamMessageError</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/tokenPrivilegeWillExpire.html">tokenPrivilegeWillExpire</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/transcodingUpdated.html">transcodingUpdated</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/userJoined.html">userJoined</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/userOffline.html">userOffline</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/videoSizeChanged.html">videoSizeChanged</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/warning.html">warning</a></li>
+    
+      <li class="section-title"><a href="../rtc_channel/RtcChannelEventHandler-class.html#instance-methods">Methods</a></li>
+      <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+      <li><a href="../rtc_channel/RtcChannelEventHandler/process.html">process</a></li>
+      <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+    
+      <li class="section-title inherited"><a href="../rtc_channel/RtcChannelEventHandler-class.html#operators">Operators</a></li>
+      <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
+    
+    
+    
+    
+    </ol>
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    agora_rtc_engine
+      3.0.1-dev.1
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../static-assets/typeahead.bundle.min.js"></script>
+<script src="../static-assets/highlight.pack.js"></script>
+<script src="../static-assets/URI.js"></script>
+<script src="../static-assets/script.js"></script>
+
+
+</body>
+
+</html>

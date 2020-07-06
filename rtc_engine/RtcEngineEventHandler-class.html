@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the RtcEngineEventHandler class from the rtc_engine library, for the Dart programming language.">
+  <title>RtcEngineEventHandler class - rtc_engine library - Dart API</title>
+
+  
+  <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500,400i,400,300|Source+Sans+Pro:400,300,700" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="../static-assets/github.css">
+  <link rel="stylesheet" href="../static-assets/styles.css">
+  <link rel="icon" href="../static-assets/favicon.png">
+
+</head>
+
+<body data-base-href="../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">agora_rtc_engine</a></li>
+    <li><a href="../rtc_engine/rtc_engine-library.html">rtc_engine</a></li>
+    <li class="self-crumb">RtcEngineEventHandler class</li>
+  </ol>
+  <div class="self-name">RtcEngineEventHandler</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+  <div id="dartdoc-sidebar-left" class="col-xs-6 col-sm-3 col-md-2 sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+      <form class="search-sidebar" role="search">
+        <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+      </form>
+    </header>
+    
+    <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+      <li><a href="../index.html">agora_rtc_engine</a></li>
+      <li><a href="../rtc_engine/rtc_engine-library.html">rtc_engine</a></li>
+      <li class="self-crumb">RtcEngineEventHandler class</li>
+    </ol>
+    
+    <h5>rtc_engine library</h5>
+    <ol>
+      <li class="section-title"><a href="../rtc_engine/rtc_engine-library.html#classes">Classes</a></li>
+      <li><a href="../rtc_engine/AgoraImage-class.html">AgoraImage</a></li>
+      <li><a href="../rtc_engine/AudioVolumeInfo-class.html">AudioVolumeInfo</a></li>
+      <li><a href="../rtc_engine/BeautyOptions-class.html">BeautyOptions</a></li>
+      <li><a href="../rtc_engine/CameraCapturerConfiguration-class.html">CameraCapturerConfiguration</a></li>
+      <li><a href="../rtc_engine/ChannelMediaInfo-class.html">ChannelMediaInfo</a></li>
+      <li><a href="../rtc_engine/ChannelMediaOptions-class.html">ChannelMediaOptions</a></li>
+      <li><a href="../rtc_engine/ChannelMediaRelayConfiguration-class.html">ChannelMediaRelayConfiguration</a></li>
+      <li><a href="../rtc_engine/Color-class.html">Color</a></li>
+      <li><a href="../rtc_engine/FacePositionInfo-class.html">FacePositionInfo</a></li>
+      <li><a href="../rtc_engine/LastmileProbeConfig-class.html">LastmileProbeConfig</a></li>
+      <li><a href="../rtc_engine/LastmileProbeOneWayResult-class.html">LastmileProbeOneWayResult</a></li>
+      <li><a href="../rtc_engine/LastmileProbeResult-class.html">LastmileProbeResult</a></li>
+      <li><a href="../rtc_engine/LiveInjectStreamConfig-class.html">LiveInjectStreamConfig</a></li>
+      <li><a href="../rtc_engine/LiveTranscoding-class.html">LiveTranscoding</a></li>
+      <li><a href="../rtc_engine/LocalAudioStats-class.html">LocalAudioStats</a></li>
+      <li><a href="../rtc_engine/LocalVideoStats-class.html">LocalVideoStats</a></li>
+      <li><a href="../rtc_engine/Rect-class.html">Rect</a></li>
+      <li><a href="../rtc_engine/Rectangle-class.html">Rectangle</a></li>
+      <li><a href="../rtc_engine/RemoteAudioStats-class.html">RemoteAudioStats</a></li>
+      <li><a href="../rtc_engine/RemoteVideoStats-class.html">RemoteVideoStats</a></li>
+      <li><a href="../rtc_engine/RtcEngine-class.html">RtcEngine</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler-class.html">RtcEngineEventHandler</a></li>
+      <li><a href="../rtc_engine/RtcStats-class.html">RtcStats</a></li>
+      <li><a href="../rtc_engine/TranscodingUser-class.html">TranscodingUser</a></li>
+      <li><a href="../rtc_engine/UserInfo-class.html">UserInfo</a></li>
+      <li><a href="../rtc_engine/VideoDimensions-class.html">VideoDimensions</a></li>
+      <li><a href="../rtc_engine/VideoEncoderConfiguration-class.html">VideoEncoderConfiguration</a></li>
+      <li><a href="../rtc_engine/WatermarkOptions-class.html">WatermarkOptions</a></li>
+    
+    
+    
+    
+    
+    
+      <li class="section-title"><a href="../rtc_engine/rtc_engine-library.html#enums">Enums</a></li>
+      <li><a href="../rtc_engine/AudioChannel-class.html">AudioChannel</a></li>
+      <li><a href="../rtc_engine/AudioCodecProfileType-class.html">AudioCodecProfileType</a></li>
+      <li><a href="../rtc_engine/AudioEqualizationBandFrequency-class.html">AudioEqualizationBandFrequency</a></li>
+      <li><a href="../rtc_engine/AudioLocalError-class.html">AudioLocalError</a></li>
+      <li><a href="../rtc_engine/AudioLocalState-class.html">AudioLocalState</a></li>
+      <li><a href="../rtc_engine/AudioMixingErrorCode-class.html">AudioMixingErrorCode</a></li>
+      <li><a href="../rtc_engine/AudioMixingStateCode-class.html">AudioMixingStateCode</a></li>
+      <li><a href="../rtc_engine/AudioOutputRouting-class.html">AudioOutputRouting</a></li>
+      <li><a href="../rtc_engine/AudioProfile-class.html">AudioProfile</a></li>
+      <li><a href="../rtc_engine/AudioRawFrameOperationMode-class.html">AudioRawFrameOperationMode</a></li>
+      <li><a href="../rtc_engine/AudioRecordingQuality-class.html">AudioRecordingQuality</a></li>
+      <li><a href="../rtc_engine/AudioRemoteState-class.html">AudioRemoteState</a></li>
+      <li><a href="../rtc_engine/AudioRemoteStateReason-class.html">AudioRemoteStateReason</a></li>
+      <li><a href="../rtc_engine/AudioReverbPreset-class.html">AudioReverbPreset</a></li>
+      <li><a href="../rtc_engine/AudioReverbType-class.html">AudioReverbType</a></li>
+      <li><a href="../rtc_engine/AudioSampleRateType-class.html">AudioSampleRateType</a></li>
+      <li><a href="../rtc_engine/AudioScenario-class.html">AudioScenario</a></li>
+      <li><a href="../rtc_engine/AudioSessionOperationRestriction-class.html">AudioSessionOperationRestriction</a></li>
+      <li><a href="../rtc_engine/AudioVoiceChanger-class.html">AudioVoiceChanger</a></li>
+      <li><a href="../rtc_engine/BitRate-class.html">BitRate</a></li>
+      <li><a href="../rtc_engine/CameraCaptureOutputPreference-class.html">CameraCaptureOutputPreference</a></li>
+      <li><a href="../rtc_engine/CameraDirection-class.html">CameraDirection</a></li>
+      <li><a href="../rtc_engine/ChannelMediaRelayError-class.html">ChannelMediaRelayError</a></li>
+      <li><a href="../rtc_engine/ChannelMediaRelayEvent-class.html">ChannelMediaRelayEvent</a></li>
+      <li><a href="../rtc_engine/ChannelMediaRelayState-class.html">ChannelMediaRelayState</a></li>
+      <li><a href="../rtc_engine/ChannelProfile-class.html">ChannelProfile</a></li>
+      <li><a href="../rtc_engine/ClientRole-class.html">ClientRole</a></li>
+      <li><a href="../rtc_engine/ConnectionChangedReason-class.html">ConnectionChangedReason</a></li>
+      <li><a href="../rtc_engine/ConnectionStateType-class.html">ConnectionStateType</a></li>
+      <li><a href="../rtc_engine/DegradationPreference-class.html">DegradationPreference</a></li>
+      <li><a href="../rtc_engine/EncryptionMode-class.html">EncryptionMode</a></li>
+      <li><a href="../rtc_engine/ErrorCode-class.html">ErrorCode</a></li>
+      <li><a href="../rtc_engine/InjectStreamStatus-class.html">InjectStreamStatus</a></li>
+      <li><a href="../rtc_engine/IPAreaCode-class.html">IPAreaCode</a></li>
+      <li><a href="../rtc_engine/LastmileProbeResultState-class.html">LastmileProbeResultState</a></li>
+      <li><a href="../rtc_engine/LighteningContrastLevel-class.html">LighteningContrastLevel</a></li>
+      <li><a href="../rtc_engine/LocalVideoStreamError-class.html">LocalVideoStreamError</a></li>
+      <li><a href="../rtc_engine/LocalVideoStreamState-class.html">LocalVideoStreamState</a></li>
+      <li><a href="../rtc_engine/LogFilter-class.html">LogFilter</a></li>
+      <li><a href="../rtc_engine/MediaDeviceType-class.html">MediaDeviceType</a></li>
+      <li><a href="../rtc_engine/MediaType-class.html">MediaType</a></li>
+      <li><a href="../rtc_engine/MetadataType-class.html">MetadataType</a></li>
+      <li><a href="../rtc_engine/NetworkQuality-class.html">NetworkQuality</a></li>
+      <li><a href="../rtc_engine/NetworkType-class.html">NetworkType</a></li>
+      <li><a href="../rtc_engine/RtcDefaultCameraPosition-class.html">RtcDefaultCameraPosition</a></li>
+      <li><a href="../rtc_engine/RtmpStreamingErrorCode-class.html">RtmpStreamingErrorCode</a></li>
+      <li><a href="../rtc_engine/RtmpStreamingState-class.html">RtmpStreamingState</a></li>
+      <li><a href="../rtc_engine/RtmpStreamLifeCycle-class.html">RtmpStreamLifeCycle</a></li>
+      <li><a href="../rtc_engine/StreamFallbackOptions-class.html">StreamFallbackOptions</a></li>
+      <li><a href="../rtc_engine/UserOfflineReason-class.html">UserOfflineReason</a></li>
+      <li><a href="../rtc_engine/UserPriority-class.html">UserPriority</a></li>
+      <li><a href="../rtc_engine/VideoBufferType-class.html">VideoBufferType</a></li>
+      <li><a href="../rtc_engine/VideoCodecProfileType-class.html">VideoCodecProfileType</a></li>
+      <li><a href="../rtc_engine/VideoCodecType-class.html">VideoCodecType</a></li>
+      <li><a href="../rtc_engine/VideoContentHint-class.html">VideoContentHint</a></li>
+      <li><a href="../rtc_engine/VideoFrameRate-class.html">VideoFrameRate</a></li>
+      <li><a href="../rtc_engine/VideoMirrorMode-class.html">VideoMirrorMode</a></li>
+      <li><a href="../rtc_engine/VideoOutputOrientationMode-class.html">VideoOutputOrientationMode</a></li>
+      <li><a href="../rtc_engine/VideoPixelFormat-class.html">VideoPixelFormat</a></li>
+      <li><a href="../rtc_engine/VideoQualityAdaptIndication-class.html">VideoQualityAdaptIndication</a></li>
+      <li><a href="../rtc_engine/VideoRemoteState-class.html">VideoRemoteState</a></li>
+      <li><a href="../rtc_engine/VideoRemoteStateReason-class.html">VideoRemoteStateReason</a></li>
+      <li><a href="../rtc_engine/VideoRenderMode-class.html">VideoRenderMode</a></li>
+      <li><a href="../rtc_engine/VideoRotation-class.html">VideoRotation</a></li>
+      <li><a href="../rtc_engine/VideoStreamType-class.html">VideoStreamType</a></li>
+      <li><a href="../rtc_engine/WarningCode-class.html">WarningCode</a></li>
+    
+    
+    </ol>
+  </div>
+
+  <div id="dartdoc-main-content" class="col-xs-12 col-sm-9 col-md-8 main-content">
+      <div><h1><span class="kind-class">RtcEngineEventHandler</span> class  </h1></div>
+
+    <section class="desc markdown">
+      <p>The SDK uses the RtcEngineEventHandler interface class to send callbacks to the application, and the application inherits the methods of this interface class to retrieve these callbacks.
+All methods in this interface class have their (empty) default implementations, and the application can inherit only some of the required events instead of all of them.
+In the callbacks, the application should avoid time-consuming tasks or call blocking APIs (such as SendMessage), otherwise, the SDK may not work properly.</p>
+    </section>
+    
+
+    <section class="summary offset-anchor" id="constructors">
+      <h2>Constructors</h2>
+
+      <dl class="constructor-summary-list">
+        <dt id="RtcEngineEventHandler" class="callable">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/RtcEngineEventHandler.html">RtcEngineEventHandler</a></span><span class="signature">(<span class="parameter" id="-param-warning">{<span class="type-annotation">WarningCallback</span> <span class="parameter-name">warning</span>, </span><wbr><span class="parameter" id="-param-error"><span class="type-annotation">ErrorCallback</span> <span class="parameter-name">error</span>, </span><wbr><span class="parameter" id="-param-apiCallExecuted"><span class="type-annotation">ApiCallCallback</span> <span class="parameter-name">apiCallExecuted</span>, </span><wbr><span class="parameter" id="-param-joinChannelSuccess"><span class="type-annotation">UidWithElapsedAndChannelCallback</span> <span class="parameter-name">joinChannelSuccess</span>, </span><wbr><span class="parameter" id="-param-rejoinChannelSuccess"><span class="type-annotation">RtcStatsCallback</span> <span class="parameter-name">rejoinChannelSuccess</span>, </span><wbr><span class="parameter" id="-param-leaveChannel"><span class="type-annotation">RtcStatsCallback</span> <span class="parameter-name">leaveChannel</span>, </span><wbr><span class="parameter" id="-param-localUserRegistered"><span class="type-annotation">UserAccountCallback</span> <span class="parameter-name">localUserRegistered</span>, </span><wbr><span class="parameter" id="-param-userInfoUpdated"><span class="type-annotation">UserInfoCallback</span> <span class="parameter-name">userInfoUpdated</span>, </span><wbr><span class="parameter" id="-param-clientRoleChanged"><span class="type-annotation">ClientRoleCallback</span> <span class="parameter-name">clientRoleChanged</span>, </span><wbr><span class="parameter" id="-param-userJoined"><span class="type-annotation">UidWithElapsedCallback</span> <span class="parameter-name">userJoined</span>, </span><wbr><span class="parameter" id="-param-userOffline"><span class="type-annotation">UserOfflineCallback</span> <span class="parameter-name">userOffline</span>, </span><wbr><span class="parameter" id="-param-connectionStateChanged"><span class="type-annotation">ConnectionStateCallback</span> <span class="parameter-name">connectionStateChanged</span>, </span><wbr><span class="parameter" id="-param-networkTypeChanged"><span class="type-annotation">NetworkTypeCallback</span> <span class="parameter-name">networkTypeChanged</span>, </span><wbr><span class="parameter" id="-param-connectionLost"><span class="type-annotation">EmptyCallback</span> <span class="parameter-name">connectionLost</span>, </span><wbr><span class="parameter" id="-param-tokenPrivilegeWillExpire"><span class="type-annotation">TokenCallback</span> <span class="parameter-name">tokenPrivilegeWillExpire</span>, </span><wbr><span class="parameter" id="-param-requestToken"><span class="type-annotation">EmptyCallback</span> <span class="parameter-name">requestToken</span>, </span><wbr><span class="parameter" id="-param-audioVolumeIndication"><span class="type-annotation">AudioVolumeCallback</span> <span class="parameter-name">audioVolumeIndication</span>, </span><wbr><span class="parameter" id="-param-activeSpeaker"><span class="type-annotation">UidCallback</span> <span class="parameter-name">activeSpeaker</span>, </span><wbr><span class="parameter" id="-param-firstLocalAudioFrame"><span class="type-annotation">ElapsedCallback</span> <span class="parameter-name">firstLocalAudioFrame</span>, </span><wbr><span class="parameter" id="-param-firstLocalVideoFrame"><span class="type-annotation">VideoFrameCallback</span> <span class="parameter-name">firstLocalVideoFrame</span>, </span><wbr><span class="parameter" id="-param-userMuteVideo"><span class="type-annotation">UidWithMutedCallback</span> <span class="parameter-name">userMuteVideo</span>, </span><wbr><span class="parameter" id="-param-videoSizeChanged"><span class="type-annotation">VideoSizeCallback</span> <span class="parameter-name">videoSizeChanged</span>, </span><wbr><span class="parameter" id="-param-remoteVideoStateChanged"><span class="type-annotation">RemoteVideoStateCallback</span> <span class="parameter-name">remoteVideoStateChanged</span>, </span><wbr><span class="parameter" id="-param-localVideoStateChanged"><span class="type-annotation">LocalVideoStateCallback</span> <span class="parameter-name">localVideoStateChanged</span>, </span><wbr><span class="parameter" id="-param-remoteAudioStateChanged"><span class="type-annotation">RemoteAudioStateCallback</span> <span class="parameter-name">remoteAudioStateChanged</span>, </span><wbr><span class="parameter" id="-param-localAudioStateChanged"><span class="type-annotation">LocalAudioStateCallback</span> <span class="parameter-name">localAudioStateChanged</span>, </span><wbr><span class="parameter" id="-param-localPublishFallbackToAudioOnly"><span class="type-annotation">FallbackCallback</span> <span class="parameter-name">localPublishFallbackToAudioOnly</span>, </span><wbr><span class="parameter" id="-param-remoteSubscribeFallbackToAudioOnly"><span class="type-annotation">FallbackWithUidCallback</span> <span class="parameter-name">remoteSubscribeFallbackToAudioOnly</span>, </span><wbr><span class="parameter" id="-param-audioRouteChanged"><span class="type-annotation">AudioRouteCallback</span> <span class="parameter-name">audioRouteChanged</span>, </span><wbr><span class="parameter" id="-param-cameraFocusAreaChanged"><span class="type-annotation">RectCallback</span> <span class="parameter-name">cameraFocusAreaChanged</span>, </span><wbr><span class="parameter" id="-param-cameraExposureAreaChanged"><span class="type-annotation">RectCallback</span> <span class="parameter-name">cameraExposureAreaChanged</span>, </span><wbr><span class="parameter" id="-param-facePositionChanged"><span class="type-annotation">FacePositionCallback</span> <span class="parameter-name">facePositionChanged</span>, </span><wbr><span class="parameter" id="-param-rtcStats"><span class="type-annotation">RtcStatsCallback</span> <span class="parameter-name">rtcStats</span>, </span><wbr><span class="parameter" id="-param-lastmileQuality"><span class="type-annotation">NetworkQualityCallback</span> <span class="parameter-name">lastmileQuality</span>, </span><wbr><span class="parameter" id="-param-networkQuality"><span class="type-annotation">NetworkQualityWithUidCallback</span> <span class="parameter-name">networkQuality</span>, </span><wbr><span class="parameter" id="-param-lastmileProbeResult"><span class="type-annotation">LastmileProbeCallback</span> <span class="parameter-name">lastmileProbeResult</span>, </span><wbr><span class="parameter" id="-param-localVideoStats"><span class="type-annotation">LocalVideoStatsCallback</span> <span class="parameter-name">localVideoStats</span>, </span><wbr><span class="parameter" id="-param-localAudioStats"><span class="type-annotation">LocalAudioStatsCallback</span> <span class="parameter-name">localAudioStats</span>, </span><wbr><span class="parameter" id="-param-remoteVideoStats"><span class="type-annotation">RemoteVideoStatsCallback</span> <span class="parameter-name">remoteVideoStats</span>, </span><wbr><span class="parameter" id="-param-remoteAudioStats"><span class="type-annotation">RemoteAudioStatsCallback</span> <span class="parameter-name">remoteAudioStats</span>, </span><wbr><span class="parameter" id="-param-audioMixingFinished"><span class="type-annotation">EmptyCallback</span> <span class="parameter-name">audioMixingFinished</span>, </span><wbr><span class="parameter" id="-param-audioMixingStateChanged"><span class="type-annotation">AudioMixingStateCallback</span> <span class="parameter-name">audioMixingStateChanged</span>, </span><wbr><span class="parameter" id="-param-audioEffectFinished"><span class="type-annotation">SoundIdCallback</span> <span class="parameter-name">audioEffectFinished</span>, </span><wbr><span class="parameter" id="-param-rtmpStreamingStateChanged"><span class="type-annotation">RtmpStreamingStateCallback</span> <span class="parameter-name">rtmpStreamingStateChanged</span>, </span><wbr><span class="parameter" id="-param-transcodingUpdated"><span class="type-annotation">EmptyCallback</span> <span class="parameter-name">transcodingUpdated</span>, </span><wbr><span class="parameter" id="-param-streamInjectedStatus"><span class="type-annotation">StreamInjectedStatusCallback</span> <span class="parameter-name">streamInjectedStatus</span>, </span><wbr><span class="parameter" id="-param-streamMessage"><span class="type-annotation">StreamMessageCallback</span> <span class="parameter-name">streamMessage</span>, </span><wbr><span class="parameter" id="-param-streamMessageError"><span class="type-annotation">StreamMessageErrorCallback</span> <span class="parameter-name">streamMessageError</span>, </span><wbr><span class="parameter" id="-param-mediaEngineLoadSuccess"><span class="type-annotation">EmptyCallback</span> <span class="parameter-name">mediaEngineLoadSuccess</span>, </span><wbr><span class="parameter" id="-param-mediaEngineStartCallSuccess"><span class="type-annotation">EmptyCallback</span> <span class="parameter-name">mediaEngineStartCallSuccess</span>, </span><wbr><span class="parameter" id="-param-channelMediaRelayStateChanged"><span class="type-annotation">MediaRelayStateCallback</span> <span class="parameter-name">channelMediaRelayStateChanged</span>, </span><wbr><span class="parameter" id="-param-channelMediaRelayEvent"><span class="type-annotation">MediaRelayEventCallback</span> <span class="parameter-name">channelMediaRelayEvent</span>, </span><wbr><span class="parameter" id="-param-firstRemoteVideoFrame"><span class="type-annotation">VideoFrameWithUidCallback</span> <span class="parameter-name">firstRemoteVideoFrame</span>, </span><wbr><span class="parameter" id="-param-firstRemoteAudioFrame"><span class="type-annotation">UidWithElapsedCallback</span> <span class="parameter-name">firstRemoteAudioFrame</span>, </span><wbr><span class="parameter" id="-param-firstRemoteAudioDecoded"><span class="type-annotation">UidWithElapsedCallback</span> <span class="parameter-name">firstRemoteAudioDecoded</span>, </span><wbr><span class="parameter" id="-param-userMuteAudio"><span class="type-annotation">UidWithMutedCallback</span> <span class="parameter-name">userMuteAudio</span>, </span><wbr><span class="parameter" id="-param-streamPublished"><span class="type-annotation">UrlWithErrorCallback</span> <span class="parameter-name">streamPublished</span>, </span><wbr><span class="parameter" id="-param-streamUnpublished"><span class="type-annotation">UrlCallback</span> <span class="parameter-name">streamUnpublished</span>, </span><wbr><span class="parameter" id="-param-remoteAudioTransportStats"><span class="type-annotation">TransportStatsCallback</span> <span class="parameter-name">remoteAudioTransportStats</span>, </span><wbr><span class="parameter" id="-param-remoteVideoTransportStats"><span class="type-annotation">TransportStatsCallback</span> <span class="parameter-name">remoteVideoTransportStats</span>, </span><wbr><span class="parameter" id="-param-userEnableVideo"><span class="type-annotation">UidWithEnabledCallback</span> <span class="parameter-name">userEnableVideo</span>, </span><wbr><span class="parameter" id="-param-userEnableLocalVideo"><span class="type-annotation">UidWithEnabledCallback</span> <span class="parameter-name">userEnableLocalVideo</span>, </span><wbr><span class="parameter" id="-param-firstRemoteVideoDecoded"><span class="type-annotation">VideoFrameWithUidCallback</span> <span class="parameter-name">firstRemoteVideoDecoded</span>, </span><wbr><span class="parameter" id="-param-microphoneEnabled"><span class="type-annotation">EnabledCallback</span> <span class="parameter-name">microphoneEnabled</span>, </span><wbr><span class="parameter" id="-param-connectionInterrupted"><span class="type-annotation">EmptyCallback</span> <span class="parameter-name">connectionInterrupted</span>, </span><wbr><span class="parameter" id="-param-connectionBanned"><span class="type-annotation">EmptyCallback</span> <span class="parameter-name">connectionBanned</span>, </span><wbr><span class="parameter" id="-param-audioQuality"><span class="type-annotation">AudioQualityCallback</span> <span class="parameter-name">audioQuality</span>, </span><wbr><span class="parameter" id="-param-cameraReady"><span class="type-annotation">EmptyCallback</span> <span class="parameter-name">cameraReady</span>, </span><wbr><span class="parameter" id="-param-videoStopped"><span class="type-annotation">EmptyCallback</span> <span class="parameter-name">videoStopped</span>, </span><wbr><span class="parameter" id="-param-metadataReceived"><span class="type-annotation">MetadataCallback</span> <span class="parameter-name">metadataReceived</span>}</span><wbr>)</span>
+        </dt>
+        <dd>
+          Constructs a <a href="../rtc_engine/RtcEngineEventHandler-class.html">RtcEngineEventHandler</a> 
+        </dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="instance-properties">
+      <h2>Properties</h2>
+
+      <dl class="properties">
+        <dt id="activeSpeaker" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/activeSpeaker.html">activeSpeaker</a></span>
+          <span class="signature">&#8596; UidCallback</span>         
+        </dt>
+        <dd>
+          Reports which user is the loudest speaker.
+This callback reports the speaker with the highest accumulative volume during a certain period. If the user enables the audio volume indication by calling enableAudioVolumeIndication, this callback returns the uid of the active speaker whose voice is detected by the audio volume detection module of the SDK.
+@see RtcEngine.enableAudioVolumeIndication
+Note <a href="../rtc_engine/RtcEngineEventHandler/activeSpeaker.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="apiCallExecuted" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/apiCallExecuted.html">apiCallExecuted</a></span>
+          <span class="signature">&#8596; ApiCallCallback</span>         
+        </dt>
+        <dd>
+          Occurs when an API method is executed. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="audioEffectFinished" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/audioEffectFinished.html">audioEffectFinished</a></span>
+          <span class="signature">&#8596; SoundIdCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the audio effect file playback finishes.
+You can start a local audio effect playback by calling the playEffect method. This callback is triggered when the local audio effect file playback finishes.
+@see RtcEngine.playEffect 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="audioMixingFinished" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/audioMixingFinished.html">audioMixingFinished</a></span>
+          <span class="signature">&#8596; EmptyCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the audio mixing file playback finishes.
+@deprecated This callback is deprecated. Use onAudioMixingStateChanged instead.
+@see AudioMixingStateChanged
+You can start an audio mixing file playback by calling the startAudioMixing method. This callback is triggered when the audio mixing file playback finishes.
+@see RtcEngine.startAudioMixing
+If the startAudioMixing method call fails, an AudioMixingOpenError warning returns in the onWarning callback.
+@see RtcEngine.startAudioMixing
+@see WarningCode.AudioMixingOpenError
+@see Warning 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="audioMixingStateChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/audioMixingStateChanged.html">audioMixingStateChanged</a></span>
+          <span class="signature">&#8596; AudioMixingStateCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the state of the local user's audio mixing file changes.
+When you call the startAudioMixing method and the state of audio mixing file changes, the Agora SDK triggers this callback.
+@see RtcEngine.startAudioMixing <a href="../rtc_engine/RtcEngineEventHandler/audioMixingStateChanged.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="audioQuality" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/audioQuality.html">audioQuality</a></span>
+          <span class="signature">&#8596; AudioQualityCallback</span>         
+        </dt>
+        <dd>
+          Reports the statistics of the audio stream from each remote user/host.
+@deprecated Use onRemoteAudioStats instead.
+@see RemoteAudioStats
+The SDK triggers this callback once every two seconds to report the audio quality of each remote user/host sending an audio stream. If a channel has multiple remote users/hosts sending audio streams, the SDK trggers this callback as many times. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="audioRouteChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/audioRouteChanged.html">audioRouteChanged</a></span>
+          <span class="signature">&#8596; AudioRouteCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the local audio playback route changes.
+This callback returns that the audio route switched to an earpiece, speakerphone, headset, or Bluetooth device.
+The definition of the routing is listed as follows:
+@see AudioOutputRouting 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="audioVolumeIndication" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/audioVolumeIndication.html">audioVolumeIndication</a></span>
+          <span class="signature">&#8596; AudioVolumeCallback</span>         
+        </dt>
+        <dd>
+          Reports which users are speaking and the speakers' volume, and whether the local user is speaking.
+This callback reports the IDs and volumes of the loudest speakers (at most 3) at the moment in the channel, and whether the local user is speaking.
+By default, this callback is disabled. You can enable it by calling the enableAudioVolumeIndication method. Once enabled, this callback is triggered at the set interval, regardless of whether a user speaks or not.
+@see RtcEngine.enableAudioVolumeIndication
+The SDK triggers two independent onAudioVolumeIndication callbacks at one time, which separately report the volume information of the local user and all the remote speakers. For more information, see the detailed parameter descriptions.
+Note <a href="../rtc_engine/RtcEngineEventHandler/audioVolumeIndication.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="cameraExposureAreaChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/cameraExposureAreaChanged.html">cameraExposureAreaChanged</a></span>
+          <span class="signature">&#8596; RectCallback</span>         
+        </dt>
+        <dd>
+          The camera exposure area has changed.
+The SDK triggers this callback when the local user changes the camera exposure position by calling the setCameraExposurePosition method.
+@see RtcEngine.setCameraExposurePosition 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="cameraFocusAreaChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/cameraFocusAreaChanged.html">cameraFocusAreaChanged</a></span>
+          <span class="signature">&#8596; RectCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the camera focus area is changed.
+The SDK triggers this callback when the local user changes the camera focus position by calling the setCameraFocusPositionInPreview method.
+@see RtcEngine.setCameraFocusPositionInPreview 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="cameraReady" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/cameraReady.html">cameraReady</a></span>
+          <span class="signature">&#8596; EmptyCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the camera is turned on and ready to capture video.
+@deprecated Use Capturing(1) in the onLocalVideoStateChanged callback instead. If the camera fails to turn on, fix the error reported in the onError callback.
+@see LocalVideoStreamState.Capturing
+@see LocalVideoStateChanged
+@see Error 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="channelMediaRelayEvent" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/channelMediaRelayEvent.html">channelMediaRelayEvent</a></span>
+          <span class="signature">&#8596; MediaRelayEventCallback</span>         
+        </dt>
+        <dd>
+          Reports events during the media stream relay. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="channelMediaRelayStateChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/channelMediaRelayStateChanged.html">channelMediaRelayStateChanged</a></span>
+          <span class="signature">&#8596; MediaRelayStateCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the state of the media stream relay changes.
+The SDK reports the state of the current media relay and possible error messages in this callback. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="clientRoleChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/clientRoleChanged.html">clientRoleChanged</a></span>
+          <span class="signature">&#8596; ClientRoleCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the user role switches in a live broadcast. For example, from a host to an audience or vice versa.
+The SDK triggers this callback when the local user switches the user role by calling the setClientRole method after joining the channel.
+@see RtcEngine.setClientRole 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="connectionBanned" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/connectionBanned.html">connectionBanned</a></span>
+          <span class="signature">&#8596; EmptyCallback</span>         
+        </dt>
+        <dd>
+          Occurs when your connection is banned by the Agora Server.
+@deprecated Use onConnectionStateChanged instead.
+@see ConnectionStateChanged 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="connectionInterrupted" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/connectionInterrupted.html">connectionInterrupted</a></span>
+          <span class="signature">&#8596; EmptyCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the connection between the SDK and the server is interrupted.
+@deprecated Use onConnectionStateChanged instead.
+@see ConnectionStateChanged
+The SDK triggers this callback when it loses connection to the server for more than four seconds after the connection is established. After triggering this callback, the SDK tries to reconnect to the server. You can use this callback to implement pop-up reminders. This callback is different from onConnectionLost:
+@see ConnectionLost <a href="../rtc_engine/RtcEngineEventHandler/connectionInterrupted.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="connectionLost" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/connectionLost.html">connectionLost</a></span>
+          <span class="signature">&#8596; EmptyCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the SDK cannot reconnect to Agora's edge server 10 seconds after its connection to the server is interrupted.
+The SDK triggers this callback when it cannot connect to the server 10 seconds after calling joinChannel(), regardless of whether it is in the channel or not.
+@see RtcEngine.joinChannel
+If the SDK fails to rejoin the channel 20 minutes after being disconnected from Agora's edge server, the SDK stops rejoining the channel. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="connectionStateChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/connectionStateChanged.html">connectionStateChanged</a></span>
+          <span class="signature">&#8596; ConnectionStateCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the network connection state changes.
+The Agora SDK returns this callback to report on the current network connection state when it changes, and the reason to such change. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="error" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/error.html">error</a></span>
+          <span class="signature">&#8596; ErrorCallback</span>         
+        </dt>
+        <dd>
+          Reports an error during SDK runtime.
+In most cases, the SDK cannot fix the issue and resume running. The SDK requires the app to take action or informs the user about the issue.
+For example, the SDK reports an StartCall error when failing to initialize a call. The app informs the user that the call initialization failed and invokes the leaveChannel method to leave the channel. For detailed error codes, see Error Codes.
+@see ErrorCode.StartCall
+@see RtcEngine.leaveChannel
+@see ErrorCode 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="facePositionChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/facePositionChanged.html">facePositionChanged</a></span>
+          <span class="signature">&#8596; FacePositionCallback</span>         
+        </dt>
+        <dd>
+          Reports the face detection result of the local user.
+Once you enable face detection by calling enableFaceDetection, you can get the following information on the local user in real-time:
+@see RtcEngine#enableFaceDetection <a href="../rtc_engine/RtcEngineEventHandler/facePositionChanged.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="firstLocalAudioFrame" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/firstLocalAudioFrame.html">firstLocalAudioFrame</a></span>
+          <span class="signature">&#8596; ElapsedCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the first local audio frame is sent. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="firstLocalVideoFrame" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/firstLocalVideoFrame.html">firstLocalVideoFrame</a></span>
+          <span class="signature">&#8596; VideoFrameCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the first local video frame is rendered.
+This callback is triggered after the first local video frame is rendered on the local video window. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="firstRemoteAudioDecoded" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/firstRemoteAudioDecoded.html">firstRemoteAudioDecoded</a></span>
+          <span class="signature">&#8596; UidWithElapsedCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the engine receives the first audio frame from a specified remote user.
+@deprecated Use Decoding(2) in onRemoteAudioStateChanged instead.
+@see VideoRemoteState.Decoding
+@see RemoteAudioStateChanged
+This callback is triggered in either of the following scenarios： <a href="../rtc_engine/RtcEngineEventHandler/firstRemoteAudioDecoded.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="firstRemoteAudioFrame" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/firstRemoteAudioFrame.html">firstRemoteAudioFrame</a></span>
+          <span class="signature">&#8596; UidWithElapsedCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the first remote audio frame is received.
+@deprecated Use Starting(1) in onRemoteAudioStateChanged instead.
+@see AudioRemoteState.Starting
+@see RemoteAudioStateChanged 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="firstRemoteVideoDecoded" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/firstRemoteVideoDecoded.html">firstRemoteVideoDecoded</a></span>
+          <span class="signature">&#8596; VideoFrameWithUidCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the first remote video frame is received and decoded.
+@deprecated This callback is deprecated. Use Starting(1) or Decoding(2) in the onRemoteVideoStateChanged callback instead.
+@see VideoRemoteState.Starting
+@see VideoRemoteState.Decoding
+@see RemoteVideoStateChanged
+This callback is triggered in either of the following scenarios: <a href="../rtc_engine/RtcEngineEventHandler/firstRemoteVideoDecoded.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="firstRemoteVideoFrame" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/firstRemoteVideoFrame.html">firstRemoteVideoFrame</a></span>
+          <span class="signature">&#8596; VideoFrameWithUidCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the first remote video frame is rendered.
+@deprecated Use Starting(1) or Decoding(2) in the onRemoteVideoStateChanged callback instead.
+@see VideoRemoteState.Starting
+@see VideoRemoteState.Decoding
+@see RemoteVideoStateChanged
+This callback is triggered after the first frame of the remote video is rendered on the video window. The application can retrieve the data of the time elapsed from the user joining the channel until the first video frame is displayed. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="hashCode" class="property inherited">
+          <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></span>
+          <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span>         
+        </dt>
+        <dd class="inherited">
+          The hash code for this object. <a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">[...]</a>
+                  <div class="features">read-only, inherited</div>
+</dd>
+        <dt id="joinChannelSuccess" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/joinChannelSuccess.html">joinChannelSuccess</a></span>
+          <span class="signature">&#8596; UidWithElapsedAndChannelCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the local user joins a specified channel.
+The channel name assignment is based on channelName specified in the joinChannel method.
+If the uid is not specified when joinChannel is called, the server automatically assigns a uid.
+@see RtcEngine.joinChannel 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="lastmileProbeResult" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/lastmileProbeResult.html">lastmileProbeResult</a></span>
+          <span class="signature">&#8596; LastmileProbeCallback</span>         
+        </dt>
+        <dd>
+          Reports the last-mile network probe result.
+The SDK triggers this callback within 30 seconds after the app calls the startLastmileProbeTest method.
+@see RtcEngine.startLastmileProbeTest 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="lastmileQuality" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/lastmileQuality.html">lastmileQuality</a></span>
+          <span class="signature">&#8596; NetworkQualityCallback</span>         
+        </dt>
+        <dd>
+          Reports the last mile network quality of the local user once every two seconds before the user joins the channel. Last mile refers to the connection between the local device and Agora's edge server. After the application calls the enableLastmileTest method, this callback reports once every two seconds the uplink and downlink last mile network conditions of the local user before the user joins the channel.
+@see RtcEngine.enableLastmileTest 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="leaveChannel" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/leaveChannel.html">leaveChannel</a></span>
+          <span class="signature">&#8596; RtcStatsCallback</span>         
+        </dt>
+        <dd>
+          Occurs when a user leaves the channel.
+When the app calls the leaveChannel method, the SDK uses this callback to notify the app when the user leaves the channel.
+With this callback, the application retrieves the channel information, such as the call duration and statistics.
+@see RtcEngine.leaveChannel 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="localAudioStateChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/localAudioStateChanged.html">localAudioStateChanged</a></span>
+          <span class="signature">&#8596; LocalAudioStateCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the local audio stream state changes.
+This callback indicates the state change of the local audio stream, including the state of the audio recording and encoding, and allows you to troubleshoot issues when exceptions occur.
+Note <a href="../rtc_engine/RtcEngineEventHandler/localAudioStateChanged.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="localAudioStats" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/localAudioStats.html">localAudioStats</a></span>
+          <span class="signature">&#8596; LocalAudioStatsCallback</span>         
+        </dt>
+        <dd>
+          Reports the statistics of the local audio stream. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="localPublishFallbackToAudioOnly" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/localPublishFallbackToAudioOnly.html">localPublishFallbackToAudioOnly</a></span>
+          <span class="signature">&#8596; FallbackCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the published media stream falls back to an audio-only stream due to poor network conditions or switches back to video stream after the network conditions improve.
+If you call setLocalPublishFallbackOption and set option as AudioOnly(2), this callback is triggered when the locally published stream falls back to audio-only mode due to poor uplink conditions, or when the audio stream switches back to the video after the uplink network condition improves.
+@see RtcEngine.setLocalPublishFallbackOption
+@see StreamFallbackOptions.AudioOnly 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="localUserRegistered" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/localUserRegistered.html">localUserRegistered</a></span>
+          <span class="signature">&#8596; UserAccountCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the local user registers a user account.
+This callback is triggered when the local user successfully registers a user account by calling the registerLocalUserAccount method, or joins a channel by calling the joinChannelWithUserAccount method. This callback reports the user ID and user account of the local user.
+@see RtcEngine.joinChannelWithUserAccount 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="localVideoStateChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/localVideoStateChanged.html">localVideoStateChanged</a></span>
+          <span class="signature">&#8596; LocalVideoStateCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the local video state changes.
+The SDK returns the current video state in this callback. When the state is Failed(3), see the error parameter for details.
+@see LocalVideoStreamState.Failed
+@see LocalVideoStreamError
+Note <a href="../rtc_engine/RtcEngineEventHandler/localVideoStateChanged.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="localVideoStats" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/localVideoStats.html">localVideoStats</a></span>
+          <span class="signature">&#8596; LocalVideoStatsCallback</span>         
+        </dt>
+        <dd>
+          Reports the statistics of the local video streams.
+The SDK triggers this callback once every two seconds for each user/host. If there are multiple users/hosts in the channel, the SDK triggers this callback as many times. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="mediaEngineLoadSuccess" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/mediaEngineLoadSuccess.html">mediaEngineLoadSuccess</a></span>
+          <span class="signature">&#8596; EmptyCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the media engine is loaded. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="mediaEngineStartCallSuccess" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/mediaEngineStartCallSuccess.html">mediaEngineStartCallSuccess</a></span>
+          <span class="signature">&#8596; EmptyCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the media engine starts. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="metadataReceived" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/metadataReceived.html">metadataReceived</a></span>
+          <span class="signature">&#8596; MetadataCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the local user receives the metadata. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="microphoneEnabled" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/microphoneEnabled.html">microphoneEnabled</a></span>
+          <span class="signature">&#8596; EnabledCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the microphone is enabled/disabled.
+@deprecated This callback is deprecated. Use Stopped(0) or Recording(1) in the onLocalAudioStateChanged callback instead.
+@see AudioLocalState.Stopped
+@see AudioLocalState.Recording
+@see LocalAudioStateChanged
+The SDK triggers this callback when the local user resumes or stops capturing the local audio stream by calling the enableLocalAudio method.
+@see RtcEngine.enableLocalAudio 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="networkQuality" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/networkQuality.html">networkQuality</a></span>
+          <span class="signature">&#8596; NetworkQualityWithUidCallback</span>         
+        </dt>
+        <dd>
+          Reports the last mile network quality of each user in the channel once every two seconds.
+Last mile refers to the connection between the local device and Agora's edge server. This callback reports once every two seconds the last mile network conditions of each user in the channel. If a channel includes multiple users, then this callback will be triggered as many times. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="networkTypeChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/networkTypeChanged.html">networkTypeChanged</a></span>
+          <span class="signature">&#8596; NetworkTypeCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the network type changes.
+The SDK returns the current network type in this callback. When the network connection is interrupted, this callback indicates whether the interruption is caused by a network type change or poor network conditions. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="rejoinChannelSuccess" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/rejoinChannelSuccess.html">rejoinChannelSuccess</a></span>
+          <span class="signature">&#8596; RtcStatsCallback</span>         
+        </dt>
+        <dd>
+          Occurs when a user rejoins the channel after being disconnected due to network problems.
+When a user loses connection with the server because of network problems, the SDK automatically tries to reconnect and triggers this callback upon reconnection. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="remoteAudioStateChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/remoteAudioStateChanged.html">remoteAudioStateChanged</a></span>
+          <span class="signature">&#8596; RemoteAudioStateCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the remote audio state changes.
+This callback indicates the state change of the remote audio stream. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="remoteAudioStats" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/remoteAudioStats.html">remoteAudioStats</a></span>
+          <span class="signature">&#8596; RemoteAudioStatsCallback</span>         
+        </dt>
+        <dd>
+          Reports the statistics of the audio stream from each remote user/host.
+The SDK triggers this callback once every two seconds for each remote user/host. If a channel includes multiple remote users, the SDK triggers this callback as many times.
+Schemes such as FEC (Forward Error Correction) or retransmission counter the frame loss rate. Hence, users may find the overall audio quality acceptable even when the packet loss rate is high. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="remoteAudioTransportStats" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/remoteAudioTransportStats.html">remoteAudioTransportStats</a></span>
+          <span class="signature">&#8596; TransportStatsCallback</span>         
+        </dt>
+        <dd>
+          Reports the transport-layer statistics of each remote audio stream.
+@deprecated This callback is deprecated. Use onRemoteAudioStats instead.
+@see RemoteAudioStats
+This callback reports the transport-layer statistics, such as the packet loss rate and time delay, once every two seconds after the local user receives an audio packet from a remote user. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="remoteSubscribeFallbackToAudioOnly" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/remoteSubscribeFallbackToAudioOnly.html">remoteSubscribeFallbackToAudioOnly</a></span>
+          <span class="signature">&#8596; FallbackWithUidCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the remote media stream falls back to audio-only stream due to poor network conditions or switches back to video stream after the network conditions improve.
+If you call setRemoteSubscribeFallbackOption and set option as AudioOnly(2), this callback is triggered when the remotely subscribed media stream falls back to audio-only mode due to poor uplink conditions, or when the remotely subscribed media stream switches back to the video after the uplink network condition improves.
+@see RtcEngine.setRemoteSubscribeFallbackOption
+@see StreamFallbackOptions.AudioOnly 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="remoteVideoStateChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/remoteVideoStateChanged.html">remoteVideoStateChanged</a></span>
+          <span class="signature">&#8596; RemoteVideoStateCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the remote video state changes. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="remoteVideoStats" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/remoteVideoStats.html">remoteVideoStats</a></span>
+          <span class="signature">&#8596; RemoteVideoStatsCallback</span>         
+        </dt>
+        <dd>
+          Reports the statistics of the video stream from each remote user/host. The SDK triggers this callback once every two seconds for each remote user/host. If a channel includes multiple remote users, the SDK triggers this callback as many times. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="remoteVideoTransportStats" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/remoteVideoTransportStats.html">remoteVideoTransportStats</a></span>
+          <span class="signature">&#8596; TransportStatsCallback</span>         
+        </dt>
+        <dd>
+          Reports the transport-layer statistics of each remote video stream.
+@deprecated This callback is deprecated. Use onRemoteVideoStats instead.
+@see RemoteVideoStats
+This callback reports the transport-layer statistics, such as the packet loss rate and time delay, once every two seconds after the local user receives the video packet from a remote user. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="requestToken" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/requestToken.html">requestToken</a></span>
+          <span class="signature">&#8596; EmptyCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the token has expired.
+After a token is specified when joining the channel, the token expires after a certain period of time, and a new token is required to reconnect to the server. This callback notifies the app to generate a new token and call joinChannel to rejoin the channel with the new token.
+@see RtcEngine.joinChannel 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="rtcStats" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/rtcStats.html">rtcStats</a></span>
+          <span class="signature">&#8596; RtcStatsCallback</span>         
+        </dt>
+        <dd>
+          Reports the statistics of the RtcEngine once every two seconds.
+@see RtcEngine 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="rtmpStreamingStateChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/rtmpStreamingStateChanged.html">rtmpStreamingStateChanged</a></span>
+          <span class="signature">&#8596; RtmpStreamingStateCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the state of the RTMP streaming changes.
+The SDK triggers this callback to report the result of the local user calling the addPublishStreamUrl or removePublishStreamUrl method. This callback returns the URL and its current streaming state. When the streaming state is Failure(4), see the errCode parameter for details.
+@see RtcEngine.addPublishStreamUrl
+@see RtcEngine.removePublishStreamUrl
+@see RtmpStreamingState.Failure
+This callback indicates the state of the RTMP streaming. When exceptions occur, you can troubleshoot issues by referring to the detailed error descriptions in the errCode parameter. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="runtimeType" class="property inherited">
+          <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></span>
+          <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Type-class.html">Type</a></span>         
+        </dt>
+        <dd class="inherited">
+          A representation of the runtime type of the object. 
+                  <div class="features">read-only, inherited</div>
+</dd>
+        <dt id="streamInjectedStatus" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/streamInjectedStatus.html">streamInjectedStatus</a></span>
+          <span class="signature">&#8596; StreamInjectedStatusCallback</span>         
+        </dt>
+        <dd>
+          Reports the status of injecting the online media stream. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="streamMessage" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/streamMessage.html">streamMessage</a></span>
+          <span class="signature">&#8596; StreamMessageCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the local user receives a remote data stream.
+The SDK triggers this callback when the local user receives the stream message that the remote user sends by calling the sendStreamMessage method.
+@see RtcEngine.sendStreamMessage 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="streamMessageError" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/streamMessageError.html">streamMessageError</a></span>
+          <span class="signature">&#8596; StreamMessageErrorCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the local user fails to receive a remote data stream.
+The SDK triggers this callback when the local user fails to receive the stream message that the remote user sends by calling the sendStreamMessage method.
+@see RtcEngine.sendStreamMessage 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="streamPublished" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/streamPublished.html">streamPublished</a></span>
+          <span class="signature">&#8596; UrlWithErrorCallback</span>         
+        </dt>
+        <dd>
+          Reports the result of calling the addPublishStreamUrl method.
+@see RtcEngine.addPublishStreamUrl
+@deprecated Use onRtmpStreamingStateChanged instead.
+@see RtmpStreamingStateChanged
+This callback indicates whether you have successfully added an RTMP stream to the CDN. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="streamUnpublished" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/streamUnpublished.html">streamUnpublished</a></span>
+          <span class="signature">&#8596; UrlCallback</span>         
+        </dt>
+        <dd>
+          Reports the result of calling the removePublishStreamUrl method.
+@see RtcEngine.removePublishStreamUrl
+@deprecated Use onRtmpStreamingStateChanged instead.
+@see RtmpStreamingStateChanged
+This callback indicates whether you have successfully removed an RTMP stream from the CDN. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="tokenPrivilegeWillExpire" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/tokenPrivilegeWillExpire.html">tokenPrivilegeWillExpire</a></span>
+          <span class="signature">&#8596; TokenCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the token expires in 30 seconds.
+The user becomes offline if the token used when joining the channel expires. This callback is triggered 30 seconds before the token expires to remind the app to get a new token. Upon receiving this callback, you need to generate a new token on the server and call renewToken to pass the new token to the SDK.
+@see RtcEngine.renewToken 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="transcodingUpdated" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/transcodingUpdated.html">transcodingUpdated</a></span>
+          <span class="signature">&#8596; EmptyCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the publisher's transcoding settings are updated.
+When the LiveTranscoding class in the setLiveTranscoding method updates, the SDK triggers this callback to report the update information.
+@see RtcEngine.setLiveTranscoding
+Note <a href="../rtc_engine/RtcEngineEventHandler/transcodingUpdated.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="userEnableLocalVideo" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/userEnableLocalVideo.html">userEnableLocalVideo</a></span>
+          <span class="signature">&#8596; UidWithEnabledCallback</span>         
+        </dt>
+        <dd>
+          Occurs when a remote user enables/disables the local video capture function.
+@deprecated This callback is deprecated and replaced by the onRemoteVideoStateChanged callback with the following parameters:
+@see RemoteVideoStateChanged <a href="../rtc_engine/RtcEngineEventHandler/userEnableLocalVideo.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="userEnableVideo" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/userEnableVideo.html">userEnableVideo</a></span>
+          <span class="signature">&#8596; UidWithEnabledCallback</span>         
+        </dt>
+        <dd>
+          Occurs when a remote user enables/disables the video module.
+@deprecated This callback is deprecated and replaced by the onRemoteVideoStateChanged callback with the following parameters:
+@see RemoteVideoStateChanged <a href="../rtc_engine/RtcEngineEventHandler/userEnableVideo.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="userInfoUpdated" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/userInfoUpdated.html">userInfoUpdated</a></span>
+          <span class="signature">&#8596; UserInfoCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the SDK gets the user ID and user account of the remote user.
+After a remote user joins the channel, the SDK gets the UID and user account of the remote user, caches them in a mapping table object (UserInfo), and triggers this callback on the local client.
+@see UserInfo 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="userJoined" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/userJoined.html">userJoined</a></span>
+          <span class="signature">&#8596; UidWithElapsedCallback</span>         
+        </dt>
+        <dd>
+          Occurs when a remote user (Communication)/host (Live Broadcast) joins the channel. <a href="../rtc_engine/RtcEngineEventHandler/userJoined.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="userMuteAudio" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/userMuteAudio.html">userMuteAudio</a></span>
+          <span class="signature">&#8596; UidWithMutedCallback</span>         
+        </dt>
+        <dd>
+          Occurs when a remote user stops/resumes sending the audio stream.
+@deprecated Use the onRemoteAudioStateChanged callback with the following parameters instead:
+@see RemoteAudioStateChanged <a href="../rtc_engine/RtcEngineEventHandler/userMuteAudio.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="userMuteVideo" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/userMuteVideo.html">userMuteVideo</a></span>
+          <span class="signature">&#8596; UidWithMutedCallback</span>         
+        </dt>
+        <dd>
+          Occurs when a remote user stops/resumes sending the video stream.
+@deprecated This callback is deprecated. Use the onRemoteVideoStateChanged callback with the following parameters for the same function:
+@see RemoteVideoStateChanged <a href="../rtc_engine/RtcEngineEventHandler/userMuteVideo.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="userOffline" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/userOffline.html">userOffline</a></span>
+          <span class="signature">&#8596; UserOfflineCallback</span>         
+        </dt>
+        <dd>
+          Occurs when a remote user (Communication)/host (Live Broadcast) leaves the channel.
+There are two reasons for users to become offline: <a href="../rtc_engine/RtcEngineEventHandler/userOffline.html">[...]</a>
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="videoSizeChanged" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/videoSizeChanged.html">videoSizeChanged</a></span>
+          <span class="signature">&#8596; VideoSizeCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the video size or rotation information of a remote user changes. 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="videoStopped" class="property">
+          <span class="name"><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/videoStopped.html">videoStopped</a></span>
+          <span class="signature">&#8596; EmptyCallback</span>         
+        </dt>
+        <dd>
+          Occurs when the video stops playing.
+@deprecated Use Stopped(0) in the onLocalVideoStateChanged callback instead. The application can use this callback to change the configuration of the view (for example, displaying other pictures in the view) after the video stops playing.
+@see LocalVideoStreamState.Stopped
+@see LocalVideoStateChanged 
+                  <div class="features">read / write</div>
+</dd>
+        <dt id="warning" class="property">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/warning.html">warning</a></span>
+          <span class="signature">&#8596; WarningCallback</span>         
+        </dt>
+        <dd>
+          Reports a warning during SDK runtime.
+In most cases, the app can ignore the warning reported by the SDK because the SDK can usually fix the issue and resume running.
+For instance, the SDK may report a LookupChannelTimeout warning upon disconnection with the server and tries to reconnect. For detailed warning codes, see Warning Codes.
+@see WarningCode.LookupChannelTimeout
+@see WarningCode 
+                  <div class="features">read / write</div>
+</dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="instance-methods">
+      <h2>Methods</h2>
+      <dl class="callables">
+        <dt id="noSuchMethod" class="callable inherited">
+          <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></span><span class="signature">(<wbr><span class="parameter" id="noSuchMethod-param-invocation"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Invocation-class.html">Invocation</a></span> <span class="parameter-name">invocation</span></span><wbr>)
+            <span class="returntype parameter">&#8594; dynamic</span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Invoked when a non-existent method or property is accessed. <a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+        <dt id="process" class="callable">
+          <span class="name"><a href="../rtc_engine/RtcEngineEventHandler/process.html">process</a></span><span class="signature">(<wbr><span class="parameter" id="process-param-methodName"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">methodName</span>, </span><wbr><span class="parameter" id="process-param-data"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a></span> <span class="parameter-name">data</span></span><wbr>)
+            <span class="returntype parameter">&#8594; void</span>
+          </span>
+                  </dt>
+        <dd>
+           
+                  
+</dd>
+        <dt id="toString" class="callable inherited">
+          <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></span><span class="signature">(<wbr>)
+            <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          Returns a string representation of this object. 
+                  <div class="features">inherited</div>
+</dd>
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor inherited" id="operators">
+      <h2>Operators</h2>
+      <dl class="callables">
+        <dt id="operator ==" class="callable inherited">
+          <span class="name"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></span><span class="signature">(<wbr><span class="parameter" id="==-param-other"><span class="type-annotation">dynamic</span> <span class="parameter-name">other</span></span><wbr>)
+            <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>
+          </span>
+                  </dt>
+        <dd class="inherited">
+          The equality operator. <a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">[...]</a>
+                  <div class="features">inherited</div>
+</dd>
+      </dl>
+    </section>
+
+
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-right" class="col-xs-6 col-sm-6 col-md-2 sidebar sidebar-offcanvas-right">
+    <ol>
+    
+      <li class="section-title"><a href="../rtc_engine/RtcEngineEventHandler-class.html#constructors">Constructors</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/RtcEngineEventHandler.html">RtcEngineEventHandler</a></li>
+    
+      <li class="section-title">
+        <a href="../rtc_engine/RtcEngineEventHandler-class.html#instance-properties">Properties</a>
+      </li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/activeSpeaker.html">activeSpeaker</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/apiCallExecuted.html">apiCallExecuted</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/audioEffectFinished.html">audioEffectFinished</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/audioMixingFinished.html">audioMixingFinished</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/audioMixingStateChanged.html">audioMixingStateChanged</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/audioQuality.html">audioQuality</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/audioRouteChanged.html">audioRouteChanged</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/audioVolumeIndication.html">audioVolumeIndication</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/cameraExposureAreaChanged.html">cameraExposureAreaChanged</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/cameraFocusAreaChanged.html">cameraFocusAreaChanged</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/cameraReady.html">cameraReady</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/channelMediaRelayEvent.html">channelMediaRelayEvent</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/channelMediaRelayStateChanged.html">channelMediaRelayStateChanged</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/clientRoleChanged.html">clientRoleChanged</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/connectionBanned.html">connectionBanned</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/connectionInterrupted.html">connectionInterrupted</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/connectionLost.html">connectionLost</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/connectionStateChanged.html">connectionStateChanged</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/error.html">error</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/facePositionChanged.html">facePositionChanged</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/firstLocalAudioFrame.html">firstLocalAudioFrame</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/firstLocalVideoFrame.html">firstLocalVideoFrame</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/firstRemoteAudioDecoded.html">firstRemoteAudioDecoded</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/firstRemoteAudioFrame.html">firstRemoteAudioFrame</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/firstRemoteVideoDecoded.html">firstRemoteVideoDecoded</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/firstRemoteVideoFrame.html">firstRemoteVideoFrame</a></li>
+      <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/joinChannelSuccess.html">joinChannelSuccess</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/lastmileProbeResult.html">lastmileProbeResult</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/lastmileQuality.html">lastmileQuality</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/leaveChannel.html">leaveChannel</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/localAudioStateChanged.html">localAudioStateChanged</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/localAudioStats.html">localAudioStats</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/localPublishFallbackToAudioOnly.html">localPublishFallbackToAudioOnly</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/localUserRegistered.html">localUserRegistered</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/localVideoStateChanged.html">localVideoStateChanged</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/localVideoStats.html">localVideoStats</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/mediaEngineLoadSuccess.html">mediaEngineLoadSuccess</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/mediaEngineStartCallSuccess.html">mediaEngineStartCallSuccess</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/metadataReceived.html">metadataReceived</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/microphoneEnabled.html">microphoneEnabled</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/networkQuality.html">networkQuality</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/networkTypeChanged.html">networkTypeChanged</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/rejoinChannelSuccess.html">rejoinChannelSuccess</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/remoteAudioStateChanged.html">remoteAudioStateChanged</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/remoteAudioStats.html">remoteAudioStats</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/remoteAudioTransportStats.html">remoteAudioTransportStats</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/remoteSubscribeFallbackToAudioOnly.html">remoteSubscribeFallbackToAudioOnly</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/remoteVideoStateChanged.html">remoteVideoStateChanged</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/remoteVideoStats.html">remoteVideoStats</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/remoteVideoTransportStats.html">remoteVideoTransportStats</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/requestToken.html">requestToken</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/rtcStats.html">rtcStats</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/rtmpStreamingStateChanged.html">rtmpStreamingStateChanged</a></li>
+      <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/streamInjectedStatus.html">streamInjectedStatus</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/streamMessage.html">streamMessage</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/streamMessageError.html">streamMessageError</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/streamPublished.html">streamPublished</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/streamUnpublished.html">streamUnpublished</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/tokenPrivilegeWillExpire.html">tokenPrivilegeWillExpire</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/transcodingUpdated.html">transcodingUpdated</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/userEnableLocalVideo.html">userEnableLocalVideo</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/userEnableVideo.html">userEnableVideo</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/userInfoUpdated.html">userInfoUpdated</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/userJoined.html">userJoined</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/userMuteAudio.html">userMuteAudio</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/userMuteVideo.html">userMuteVideo</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/userOffline.html">userOffline</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/videoSizeChanged.html">videoSizeChanged</a></li>
+      <li><a class="deprecated" href="../rtc_engine/RtcEngineEventHandler/videoStopped.html">videoStopped</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/warning.html">warning</a></li>
+    
+      <li class="section-title"><a href="../rtc_engine/RtcEngineEventHandler-class.html#instance-methods">Methods</a></li>
+      <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+      <li><a href="../rtc_engine/RtcEngineEventHandler/process.html">process</a></li>
+      <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+    
+      <li class="section-title inherited"><a href="../rtc_engine/RtcEngineEventHandler-class.html#operators">Operators</a></li>
+      <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
+    
+    
+    
+    
+    </ol>
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    agora_rtc_engine
+      3.0.1-dev.1
+  </span>
+
+</footer>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="../static-assets/typeahead.bundle.min.js"></script>
+<script src="../static-assets/highlight.pack.js"></script>
+<script src="../static-assets/URI.js"></script>
+<script src="../static-assets/script.js"></script>
+
+
+</body>
+
+</html>
