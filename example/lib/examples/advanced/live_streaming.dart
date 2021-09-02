@@ -89,9 +89,6 @@ class _State extends State<LiveStreaming> {
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await this._updateClientRole(role);
 
-    // Set audio route to speaker
-    await _engine.setDefaultAudioRoutetoSpeakerphone(true);
-
     // start joining channel
     // 1. Users can only see each other after they join the
     // same channel successfully using the same app id.
@@ -102,26 +99,32 @@ class _State extends State<LiveStreaming> {
   }
 
   _addListener() {
-    _engine.setEventHandler(RtcEngineEventHandler(warning: (warningCode) {
-      log('Warning ${warningCode}');
-    }, error: (errorCode) {
-      log('Warning ${errorCode}');
-    }, joinChannelSuccess: (channel, uid, elapsed) {
-      log('joinChannelSuccess ${channel} ${uid} ${elapsed}');
-      setState(() {
-        isJoined = true;
-      });
-    }, userJoined: (uid, elapsed) {
-      log('userJoined $uid $elapsed');
-      this.setState(() {
-        remoteUid = uid;
-      });
-    }, userOffline: (uid, reason) {
-      log('userOffline $uid $reason');
-      this.setState(() {
-        remoteUid = null;
-      });
-    }));
+    _engine.setEventHandler(RtcEngineEventHandler(
+      warning: (warningCode) {
+        log('warning ${warningCode}');
+      },
+      error: (errorCode) {
+        log('error ${errorCode}');
+      },
+      joinChannelSuccess: (channel, uid, elapsed) {
+        log('joinChannelSuccess ${channel} ${uid} ${elapsed}');
+        setState(() {
+          isJoined = true;
+        });
+      },
+      userJoined: (uid, elapsed) {
+        log('userJoined $uid $elapsed');
+        this.setState(() {
+          remoteUid = uid;
+        });
+      },
+      userOffline: (uid, reason) {
+        log('userOffline $uid $reason');
+        this.setState(() {
+          remoteUid = null;
+        });
+      },
+    ));
   }
 
   _updateClientRole(ClientRole role) async {
@@ -224,11 +227,19 @@ class _State extends State<LiveStreaming> {
       child: Stack(
         children: [
           role == ClientRole.Broadcaster
-              ? RtcLocalView.SurfaceView()
+              ? (kIsWeb
+                  ? RtcLocalView.SurfaceView()
+                  : RtcLocalView.TextureView())
               : remoteUid != null
-                  ? RtcRemoteView.SurfaceView(
-                      uid: remoteUid!,
-                    )
+                  ? (kIsWeb
+                      ? RtcRemoteView.SurfaceView(
+                          uid: remoteUid!,
+                          channelId: config.channelId,
+                        )
+                      : RtcRemoteView.TextureView(
+                          uid: remoteUid!,
+                          channelId: config.channelId,
+                        ))
                   : Container()
         ],
       ),

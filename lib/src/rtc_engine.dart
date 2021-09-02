@@ -1,5 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'classes.dart';
@@ -7,6 +11,177 @@ import 'enum_converter.dart';
 import 'enums.dart';
 import 'events.dart';
 import 'rtc_channel.dart';
+import 'rtc_device_manager.dart';
+
+enum _ApiTypeEngine {
+  kEngineInitialize,
+  kEngineRelease,
+  kEngineSetChannelProfile,
+  kEngineSetClientRole,
+  kEngineJoinChannel,
+  kEngineSwitchChannel,
+  kEngineLeaveChannel,
+  kEngineRenewToken,
+  kEngineRegisterLocalUserAccount,
+  kEngineJoinChannelWithUserAccount,
+  kEngineGetUserInfoByUserAccount,
+  kEngineGetUserInfoByUid,
+  kEngineStartEchoTest,
+  kEngineStopEchoTest,
+  kEngineSetCloudProxy,
+  kEngineEnableVideo,
+  kEngineDisableVideo,
+  kEngineSetVideoProfile,
+  kEngineSetVideoEncoderConfiguration,
+  kEngineSetCameraCapturerConfiguration,
+  kEngineSetupLocalVideo,
+  kEngineSetupRemoteVideo,
+  kEngineStartPreview,
+  kEngineSetRemoteUserPriority,
+  kEngineStopPreview,
+  kEngineEnableAudio,
+  kEngineEnableLocalAudio,
+  kEngineDisableAudio,
+  kEngineSetAudioProfile,
+  kEngineMuteLocalAudioStream,
+  kEngineMuteAllRemoteAudioStreams,
+  kEngineSetDefaultMuteAllRemoteAudioStreams,
+  kEngineAdjustUserPlaybackSignalVolume,
+  kEngineMuteRemoteAudioStream,
+  kEngineMuteLocalVideoStream,
+  kEngineEnableLocalVideo,
+  kEngineMuteAllRemoteVideoStreams,
+  kEngineSetDefaultMuteAllRemoteVideoStreams,
+  kEngineMuteRemoteVideoStream,
+  kEngineSetRemoteVideoStreamType,
+  kEngineSetRemoteDefaultVideoStreamType,
+  kEngineEnableAudioVolumeIndication,
+  kEngineStartAudioRecording,
+  kEngineStopAudioRecording,
+  kEngineStartAudioMixing,
+  kEngineStopAudioMixing,
+  kEnginePauseAudioMixing,
+  kEngineResumeAudioMixing,
+  kEngineSetHighQualityAudioParameters,
+  kEngineAdjustAudioMixingVolume,
+  kEngineAdjustAudioMixingPlayoutVolume,
+  kEngineGetAudioMixingPlayoutVolume,
+  kEngineAdjustAudioMixingPublishVolume,
+  kEngineGetAudioMixingPublishVolume,
+  kEngineGetAudioMixingDuration,
+  kEngineGetAudioMixingCurrentPosition,
+  kEngineSetAudioMixingPosition,
+  kEngineSetAudioMixingPitch,
+  kEngineGetEffectsVolume,
+  kEngineSetEffectsVolume,
+  kEngineSetVolumeOfEffect,
+  kEngineEnableFaceDetection,
+  kEnginePlayEffect,
+  kEngineStopEffect,
+  kEngineStopAllEffects,
+  kEnginePreloadEffect,
+  kEngineUnloadEffect,
+  kEnginePauseEffect,
+  kEnginePauseAllEffects,
+  kEngineResumeEffect,
+  kEngineResumeAllEffects,
+  kEngineGetEffectDuration,
+  kEngineSetEffectPosition,
+  kEngineGetEffectCurrentPosition,
+  kEngineEnableDeepLearningDenoise,
+  kEngineEnableSoundPositionIndication,
+  kEngineSetRemoteVoicePosition,
+  kEngineSetLocalVoicePitch,
+  kEngineSetLocalVoiceEqualization,
+  kEngineSetLocalVoiceReverb,
+  kEngineSetLocalVoiceChanger,
+  kEngineSetLocalVoiceReverbPreset,
+  kEngineSetVoiceBeautifierPreset,
+  kEngineSetAudioEffectPreset,
+  kEngineSetVoiceConversionPreset,
+  kEngineSetAudioEffectParameters,
+  kEngineSetVoiceBeautifierParameters,
+  kEngineSetLogFile,
+  kEngineSetLogFilter,
+  kEngineSetLogFileSize,
+  kEngineUploadLogFile,
+  kEngineSetLocalRenderMode,
+  kEngineSetRemoteRenderMode,
+  kEngineSetLocalVideoMirrorMode,
+  kEngineEnableDualStreamMode,
+  kEngineSetExternalAudioSource,
+  kEngineSetExternalAudioSink,
+  kEngineSetRecordingAudioFrameParameters,
+  kEngineSetPlaybackAudioFrameParameters,
+  kEngineSetMixedAudioFrameParameters,
+  kEngineAdjustRecordingSignalVolume,
+  kEngineAdjustPlaybackSignalVolume,
+  kEngineAdjustLoopBackRecordingSignalVolume,
+  kEngineEnableWebSdkInteroperability,
+  kEngineSetVideoQualityParameters,
+  kEngineSetLocalPublishFallbackOption,
+  kEngineSetRemoteSubscribeFallbackOption,
+  kEngineSwitchCamera,
+  kEngineSetDefaultAudioRouteToSpeakerPhone,
+  kEngineSetEnableSpeakerPhone,
+  kEngineEnableInEarMonitoring,
+  kEngineSetInEarMonitoringVolume,
+  kEngineIsSpeakerPhoneEnabled,
+  kEngineSetAudioSessionOperationRestriction,
+  kEngineEnableLoopBackRecording,
+  kEngineStartScreenCaptureByDisplayId,
+  kEngineStartScreenCaptureByScreenRect,
+  kEngineStartScreenCaptureByWindowId,
+  kEngineSetScreenCaptureContentHint,
+  kEngineUpdateScreenCaptureParameters,
+  kEngineUpdateScreenCaptureRegion,
+  kEngineStopScreenCapture,
+  kEngineStartScreenCapture,
+  kEngineSetVideoSource,
+  kEngineGetCallId,
+  kEngineRate,
+  kEngineComplain,
+  kEngineGetVersion,
+  kEngineEnableLastMileTest,
+  kEngineDisableLastMileTest,
+  kEngineStartLastMileProbeTest,
+  kEngineStopLastMileProbeTest,
+  kEngineGetErrorDescription,
+  kEngineSetEncryptionSecret,
+  kEngineSetEncryptionMode,
+  kEngineEnableEncryption,
+  kEngineRegisterPacketObserver,
+  kEngineCreateDataStream,
+  kEngineSendStreamMessage,
+  kEngineAddPublishStreamUrl,
+  kEngineRemovePublishStreamUrl,
+  kEngineSetLiveTranscoding,
+  kEngineAddVideoWaterMark,
+  kEngineClearVideoWaterMarks,
+  kEngineSetBeautyEffectOptions,
+  kEngineEnableVirtualBackground,
+  kEngineAddInjectStreamUrl,
+  kEngineStartChannelMediaRelay,
+  kEngineUpdateChannelMediaRelay,
+  kEnginePauseAllChannelMediaRelay,
+  kEngineResumeAllChannelMediaRelay,
+  kEngineStopChannelMediaRelay,
+  kEngineRemoveInjectStreamUrl,
+  kEngineSendCustomReportMessage,
+  kEngineGetConnectionState,
+  kEngineEnableRemoteSuperResolution,
+  kEngineRegisterMediaMetadataObserver,
+  kEngineSetParameters,
+  kEngineSetLocalAccessPoint,
+  kEngineUnRegisterMediaMetadataObserver,
+  kEngineSetMaxMetadataSize,
+  kEngineSendMetadata,
+  kEngineSetAppType,
+  kMediaPushAudioFrame,
+  kMediaPullAudioFrame,
+  kMediaSetExternalVideoSource,
+  kMediaPushVideoFrame,
+}
 
 /// RtcEngine is the main class of the Agora SDK.
 class RtcEngine with RtcEngineInterface {
@@ -24,12 +199,40 @@ class RtcEngine with RtcEngineInterface {
   /// Get the singleton of [RtcEngine].
   static RtcEngine? get instance => _instance;
 
+  final bool _subProcess;
+  RtcEngine? _screenShareHelper;
+
+  /// TODO(doc)
+  RtcEngine getScreenShareHelper() {
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
+    if (_subProcess) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
+    _screenShareHelper ??= RtcEngine._(true);
+    return _screenShareHelper!;
+  }
+
+  final RtcDeviceManager _deviceManager = RtcDeviceManager();
+
+  /// TODO(doc)
+  RtcDeviceManager get deviceManager {
+    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
+    return _deviceManager;
+  }
+
   RtcEngineEventHandler? _handler;
 
-  RtcEngine._();
+  RtcEngine._(this._subProcess);
 
   Future<T?> _invokeMethod<T>(String method,
       [Map<String, dynamic>? arguments]) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      arguments?['subProcess'] = _subProcess;
+    }
     return _methodChannel.invokeMethod(method, arguments);
   }
 
@@ -47,6 +250,12 @@ class RtcEngine with RtcEngineInterface {
   ///
   /// The version of the current SDK in the string format. For example, 2.3.0.
   static Future<String?> getSdkVersion() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return RtcEngine.methodChannel.invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineGetVersion.index,
+        'params': jsonEncode({}),
+      });
+    }
     return RtcEngine.methodChannel.invokeMethod('getSdkVersion');
   }
 
@@ -60,6 +269,14 @@ class RtcEngine with RtcEngineInterface {
   ///
   /// [WarningCode] or [ErrorCode].
   static Future<String?> getErrorDescription(int error) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return RtcEngine.methodChannel.invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineGetErrorDescription.index,
+        'params': jsonEncode({
+          'code': error,
+        }),
+      });
+    }
     return RtcEngine.methodChannel.invokeMethod('getErrorDescription', {
       'error': error,
     });
@@ -155,21 +372,51 @@ class RtcEngine with RtcEngineInterface {
   /// - An [RtcEngine] instance if the method call succeeds.
   /// - The error code, if this method call fails:
   ///   - [ErrorCode.InvalidAppId]
-  static Future<RtcEngine> createWithContext(RtcEngineContext context) async {
+  static Future<RtcEngine> createWithContext(RtcEngineContext config) async {
     if (_instance != null) return _instance!;
-    _instance = RtcEngine._();
-    await _instance!._invokeMethod('create', {
-      'config': context.toJson(),
-      'appType': 4,
-    });
+    _instance = RtcEngine._(false);
+    await _instance!.initialize(config);
     return _instance!;
   }
 
   @override
+  Future<void> initialize(RtcEngineContext context) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineInitialize.index,
+        'params': jsonEncode({
+          'context': context.toJson(),
+        }),
+      }).then((value) => _invokeMethod('callApi', {
+            'apiType': _ApiTypeEngine.kEngineSetAppType.index,
+            'params': jsonEncode({
+              'appType': 4,
+            }),
+          }));
+    } else {
+      return _invokeMethod('create', {
+        'config': context.toJson(),
+        'appType': 4,
+      });
+    }
+  }
+
+  @override
   Future<void> destroy() {
-    RtcChannel.destroyAll();
-    _instance?._handler = null;
-    _instance = null;
+    if (_subProcess) {
+      instance?._screenShareHelper = null;
+    } else {
+      _screenShareHelper?.destroy();
+      RtcChannel.destroyAll();
+      _instance?._handler = null;
+      _instance = null;
+    }
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineRelease.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('destroy');
   }
 
@@ -184,12 +431,27 @@ class RtcEngine with RtcEngineInterface {
       final eventMap = Map<dynamic, dynamic>.from(event);
       final methodName = eventMap['methodName'] as String;
       final data = eventMap['data'];
-      _instance?._handler?.process(methodName, data);
+      final buffer = eventMap['buffer'];
+      final subProcess = (eventMap['subProcess'] as bool?) ?? false;
+      if (subProcess) {
+        _instance?._screenShareHelper?._handler
+            ?.process(methodName, data, buffer);
+      } else {
+        _instance?._handler?.process(methodName, data, buffer);
+      }
     });
   }
 
   @override
   Future<void> setChannelProfile(ChannelProfile profile) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetChannelProfile.index,
+        'params': jsonEncode({
+          'profile': ChannelProfileConverter(profile).value(),
+        }),
+      });
+    }
     return _invokeMethod('setChannelProfile', {
       'profile': ChannelProfileConverter(profile).value(),
     });
@@ -197,6 +459,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setClientRole(ClientRole role, [ClientRoleOptions? options]) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetClientRole.index,
+        'params': jsonEncode({
+          'role': ClientRoleConverter(role).value(),
+          'options': options?.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('setClientRole', {
       'role': ClientRoleConverter(role).value(),
       'options': options?.toJson(),
@@ -207,6 +478,18 @@ class RtcEngine with RtcEngineInterface {
   Future<void> joinChannel(
       String? token, String channelName, String? optionalInfo, int optionalUid,
       [ChannelMediaOptions? options]) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineJoinChannel.index,
+        'params': jsonEncode({
+          'token': token,
+          'channelId': channelName,
+          'info': optionalInfo,
+          'uid': optionalUid,
+          'options': options?.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('joinChannel', {
       'token': token,
       'channelName': channelName,
@@ -219,6 +502,16 @@ class RtcEngine with RtcEngineInterface {
   @override
   Future<void> switchChannel(String? token, String channelName,
       [ChannelMediaOptions? options]) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSwitchChannel.index,
+        'params': jsonEncode({
+          'token': token,
+          'channelId': channelName,
+          'options': options?.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('switchChannel', {
       'token': token,
       'channelName': channelName,
@@ -228,11 +521,25 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> leaveChannel() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineLeaveChannel.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('leaveChannel');
   }
 
   @override
   Future<void> renewToken(String token) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineRenewToken.index,
+        'params': jsonEncode({
+          'token': token,
+        }),
+      });
+    }
     return _invokeMethod('renewToken', {
       'token': token,
     });
@@ -241,6 +548,14 @@ class RtcEngine with RtcEngineInterface {
   @override
   @deprecated
   Future<void> enableWebSdkInteroperability(bool enabled) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableWebSdkInteroperability.index,
+        'params': jsonEncode({
+          'enabled': enabled,
+        }),
+      });
+    }
     return _invokeMethod('enableWebSdkInteroperability', {
       'enabled': enabled,
     });
@@ -248,6 +563,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<ConnectionStateType> getConnectionState() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineGetConnectionState.index,
+        'params': jsonEncode({}),
+      }).then((value) {
+        return ConnectionStateTypeConverter.fromValue(value).e;
+      });
+    }
     return _invokeMethod('getConnectionState').then((value) {
       return ConnectionStateTypeConverter.fromValue(value).e;
     });
@@ -255,11 +578,27 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<String?> getCallId() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineGetCallId.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('getCallId');
   }
 
   @override
   Future<void> rate(String callId, int rating, {String? description}) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineRate.index,
+        'params': jsonEncode({
+          'callId': callId,
+          'rating': rating,
+          'description': description,
+        }),
+      });
+    }
     return _invokeMethod('rate', {
       'callId': callId,
       'rating': rating,
@@ -269,6 +608,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> complain(String callId, String description) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineComplain.index,
+        'params': jsonEncode({
+          'callId': callId,
+          'description': description,
+        }),
+      });
+    }
     return _invokeMethod('complain', {
       'callId': callId,
       'description': description,
@@ -278,6 +626,14 @@ class RtcEngine with RtcEngineInterface {
   @override
   @deprecated
   Future<void> setLogFile(String filePath) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetLogFile.index,
+        'params': jsonEncode({
+          'filePath': filePath,
+        }),
+      });
+    }
     return _invokeMethod('setLogFile', {
       'filePath': filePath,
     });
@@ -286,6 +642,14 @@ class RtcEngine with RtcEngineInterface {
   @override
   @deprecated
   Future<void> setLogFilter(LogFilter filter) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetLogFilter.index,
+        'params': jsonEncode({
+          'filter': LogFilterConverter(filter).value(),
+        }),
+      });
+    }
     return _invokeMethod('setLogFilter', {
       'filter': LogFilterConverter(filter).value(),
     });
@@ -294,6 +658,14 @@ class RtcEngine with RtcEngineInterface {
   @override
   @deprecated
   Future<void> setLogFileSize(int fileSizeInKBytes) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetLogFileSize.index,
+        'params': jsonEncode({
+          'fileSizeInKBytes': fileSizeInKBytes,
+        }),
+      });
+    }
     return _invokeMethod('setLogFileSize', {
       'fileSizeInKBytes': fileSizeInKBytes,
     });
@@ -301,6 +673,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setParameters(String parameters) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetParameters.index,
+        'params': jsonEncode({
+          'parameters': parameters,
+        }),
+      });
+    }
     return _invokeMethod('setParameters', {
       'parameters': parameters,
     });
@@ -308,6 +688,16 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<UserInfo> getUserInfoByUid(int uid) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineGetUserInfoByUid.index,
+        'params': jsonEncode({
+          'uid': uid,
+        }),
+      }).then((value) {
+        return UserInfo.fromJson(Map<String, dynamic>.from(jsonDecode(value)));
+      });
+    }
     return _invokeMethod('getUserInfoByUid', {
       'uid': uid,
     }).then((value) {
@@ -317,6 +707,16 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<UserInfo> getUserInfoByUserAccount(String userAccount) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineGetUserInfoByUserAccount.index,
+        'params': jsonEncode({
+          'userAccount': userAccount,
+        }),
+      }).then((value) {
+        return UserInfo.fromJson(Map<String, dynamic>.from(jsonDecode(value)));
+      });
+    }
     return _invokeMethod('getUserInfoByUserAccount', {
       'userAccount': userAccount,
     }).then((value) {
@@ -328,6 +728,17 @@ class RtcEngine with RtcEngineInterface {
   Future<void> joinChannelWithUserAccount(
       String? token, String channelName, String userAccount,
       [ChannelMediaOptions? options]) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineJoinChannelWithUserAccount.index,
+        'params': jsonEncode({
+          'token': token,
+          'channelId': channelName,
+          'userAccount': userAccount,
+          'options': options?.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('joinChannelWithUserAccount', {
       'token': token,
       'channelName': channelName,
@@ -338,6 +749,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> registerLocalUserAccount(String appId, String userAccount) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineRegisterLocalUserAccount.index,
+        'params': jsonEncode({
+          'appId': appId,
+          'userAccount': userAccount,
+        }),
+      });
+    }
     return _invokeMethod('registerLocalUserAccount', {
       'appId': appId,
       'userAccount': userAccount,
@@ -346,6 +766,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> adjustPlaybackSignalVolume(int volume) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineAdjustPlaybackSignalVolume.index,
+        'params': jsonEncode({
+          'volume': volume,
+        }),
+      });
+    }
     return _invokeMethod('adjustPlaybackSignalVolume', {
       'volume': volume,
     });
@@ -353,6 +781,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> adjustRecordingSignalVolume(int volume) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineAdjustRecordingSignalVolume.index,
+        'params': jsonEncode({
+          'volume': volume,
+        }),
+      });
+    }
     return _invokeMethod('adjustRecordingSignalVolume', {
       'volume': volume,
     });
@@ -360,6 +796,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> adjustUserPlaybackSignalVolume(int uid, int volume) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineAdjustUserPlaybackSignalVolume.index,
+        'params': jsonEncode({
+          'uid': uid,
+          'volume': volume,
+        }),
+      });
+    }
     return _invokeMethod('adjustUserPlaybackSignalVolume', {
       'uid': uid,
       'volume': volume,
@@ -368,17 +813,39 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> disableAudio() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineDisableAudio.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('disableAudio');
   }
 
   @override
   Future<void> enableAudio() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableAudio.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('enableAudio');
   }
 
   @override
   Future<void> enableAudioVolumeIndication(
       int interval, int smooth, bool report_vad) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableAudioVolumeIndication.index,
+        'params': jsonEncode({
+          'interval': interval,
+          'smooth': smooth,
+          'report_vad': report_vad,
+        }),
+      });
+    }
     return _invokeMethod('enableAudioVolumeIndication', {
       'interval': interval,
       'smooth': smooth,
@@ -388,6 +855,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> enableLocalAudio(bool enabled) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableLocalAudio.index,
+        'params': jsonEncode({
+          'enabled': enabled,
+        }),
+      });
+    }
     return _invokeMethod('enableLocalAudio', {
       'enabled': enabled,
     });
@@ -395,6 +870,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> muteAllRemoteAudioStreams(bool muted) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineMuteAllRemoteAudioStreams.index,
+        'params': jsonEncode({
+          'mute': muted,
+        }),
+      });
+    }
     return _invokeMethod('muteAllRemoteAudioStreams', {
       'muted': muted,
     });
@@ -402,6 +885,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> muteLocalAudioStream(bool muted) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineMuteLocalAudioStream.index,
+        'params': jsonEncode({
+          'mute': muted,
+        }),
+      });
+    }
     return _invokeMethod('muteLocalAudioStream', {
       'muted': muted,
     });
@@ -409,6 +900,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> muteRemoteAudioStream(int uid, bool muted) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineMuteRemoteAudioStream.index,
+        'params': jsonEncode({
+          'userId': uid,
+          'mute': muted,
+        }),
+      });
+    }
     return _invokeMethod('muteRemoteAudioStream', {
       'uid': uid,
       'muted': muted,
@@ -417,6 +917,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setAudioProfile(AudioProfile profile, AudioScenario scenario) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetAudioProfile.index,
+        'params': jsonEncode({
+          'profile': AudioProfileConverter(profile).value(),
+          'scenario': AudioScenarioConverter(scenario).value(),
+        }),
+      });
+    }
     return _invokeMethod('setAudioProfile', {
       'profile': AudioProfileConverter(profile).value(),
       'scenario': AudioScenarioConverter(scenario).value(),
@@ -426,6 +935,15 @@ class RtcEngine with RtcEngineInterface {
   @override
   @deprecated
   Future<void> setDefaultMuteAllRemoteAudioStreams(bool muted) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType':
+            _ApiTypeEngine.kEngineSetDefaultMuteAllRemoteAudioStreams.index,
+        'params': jsonEncode({
+          'mute': muted,
+        }),
+      });
+    }
     return _invokeMethod('setDefaultMuteAllRemoteAudioStreams', {
       'muted': muted,
     });
@@ -433,11 +951,25 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> disableVideo() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineDisableVideo.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('disableVideo');
   }
 
   @override
   Future<void> enableLocalVideo(bool enabled) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableLocalVideo.index,
+        'params': jsonEncode({
+          'enabled': enabled,
+        }),
+      });
+    }
     return _invokeMethod('enableLocalVideo', {
       'enabled': enabled,
     });
@@ -445,11 +977,25 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> enableVideo() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableVideo.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('enableVideo');
   }
 
   @override
   Future<void> muteAllRemoteVideoStreams(bool muted) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineMuteAllRemoteVideoStreams.index,
+        'params': jsonEncode({
+          'mute': muted,
+        }),
+      });
+    }
     return _invokeMethod('muteAllRemoteVideoStreams', {
       'muted': muted,
     });
@@ -457,6 +1003,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> muteLocalVideoStream(bool muted) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineMuteLocalVideoStream.index,
+        'params': jsonEncode({
+          'mute': muted,
+        }),
+      });
+    }
     return _invokeMethod('muteLocalVideoStream', {
       'muted': muted,
     });
@@ -464,6 +1018,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> muteRemoteVideoStream(int uid, bool muted) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineMuteRemoteVideoStream.index,
+        'params': jsonEncode({
+          'userId': uid,
+          'mute': muted,
+        }),
+      });
+    }
     return _invokeMethod('muteRemoteVideoStream', {
       'uid': uid,
       'muted': muted,
@@ -472,6 +1035,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setBeautyEffectOptions(bool enabled, BeautyOptions options) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetBeautyEffectOptions.index,
+        'params': jsonEncode({
+          'enabled': enabled,
+          'options': options.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('setBeautyEffectOptions', {
       'enabled': enabled,
       'options': options.toJson(),
@@ -481,6 +1053,15 @@ class RtcEngine with RtcEngineInterface {
   @override
   @deprecated
   Future<void> setDefaultMuteAllRemoteVideoStreams(bool muted) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType':
+            _ApiTypeEngine.kEngineSetDefaultMuteAllRemoteVideoStreams.index,
+        'params': jsonEncode({
+          'mute': muted,
+        }),
+      });
+    }
     return _invokeMethod('setDefaultMuteAllRemoteVideoStreams', {
       'muted': muted,
     });
@@ -488,6 +1069,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setVideoEncoderConfiguration(VideoEncoderConfiguration config) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetVideoEncoderConfiguration.index,
+        'params': jsonEncode({
+          'config': config.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('setVideoEncoderConfiguration', {
       'config': config.toJson(),
     });
@@ -495,16 +1084,36 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> startPreview() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStartPreview.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('startPreview');
   }
 
   @override
   Future<void> stopPreview() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStopPreview.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('stopPreview');
   }
 
   @override
   Future<void> adjustAudioMixingPlayoutVolume(int volume) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineAdjustAudioMixingPlayoutVolume.index,
+        'params': jsonEncode({
+          'volume': volume,
+        }),
+      });
+    }
     return _invokeMethod('adjustAudioMixingPlayoutVolume', {
       'volume': volume,
     });
@@ -512,6 +1121,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> adjustAudioMixingPublishVolume(int volume) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineAdjustAudioMixingPublishVolume.index,
+        'params': jsonEncode({
+          'volume': volume,
+        }),
+      });
+    }
     return _invokeMethod('adjustAudioMixingPublishVolume', {
       'volume': volume,
     });
@@ -519,6 +1136,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> adjustAudioMixingVolume(int volume) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineAdjustAudioMixingVolume.index,
+        'params': jsonEncode({
+          'volume': volume,
+        }),
+      });
+    }
     return _invokeMethod('adjustAudioMixingVolume', {
       'volume': volume,
     });
@@ -526,11 +1151,23 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<int?> getAudioMixingCurrentPosition() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineGetAudioMixingCurrentPosition.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('getAudioMixingCurrentPosition');
   }
 
   @override
   Future<int?> getAudioMixingDuration([String? filePath]) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineGetAudioMixingDuration.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('getAudioMixingDuration', {
       'filePath': filePath,
     });
@@ -538,26 +1175,58 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<int?> getAudioMixingPlayoutVolume() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineGetAudioMixingPlayoutVolume.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('getAudioMixingPlayoutVolume');
   }
 
   @override
   Future<int?> getAudioMixingPublishVolume() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineGetAudioMixingPublishVolume.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('getAudioMixingPublishVolume');
   }
 
   @override
   Future<void> pauseAudioMixing() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEnginePauseAudioMixing.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('pauseAudioMixing');
   }
 
   @override
   Future<void> resumeAudioMixing() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineResumeAudioMixing.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('resumeAudioMixing');
   }
 
   @override
   Future<void> setAudioMixingPosition(int pos) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetAudioMixingPosition.index,
+        'params': jsonEncode({
+          'pos': pos,
+        }),
+      });
+    }
     return _invokeMethod('setAudioMixingPosition', {
       'pos': pos,
     });
@@ -567,6 +1236,17 @@ class RtcEngine with RtcEngineInterface {
   Future<void> startAudioMixing(
       String filePath, bool loopback, bool replace, int cycle,
       [int? startPos]) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStartAudioMixing.index,
+        'params': jsonEncode({
+          'filePath': filePath,
+          'loopback': loopback,
+          'replace': replace,
+          'cycle': cycle,
+        }),
+      });
+    }
     return _invokeMethod('startAudioMixing', {
       'filePath': filePath,
       'loopback': loopback,
@@ -578,11 +1258,26 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> stopAudioMixing() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStopAudioMixing.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('stopAudioMixing');
   }
 
   @override
   Future<void> addInjectStreamUrl(String url, LiveInjectStreamConfig config) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineAddInjectStreamUrl.index,
+        'params': jsonEncode({
+          'url': url,
+          'config': config.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('addInjectStreamUrl', {
       'url': url,
       'config': config.toJson(),
@@ -591,6 +1286,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> addPublishStreamUrl(String url, bool transcodingEnabled) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineAddPublishStreamUrl.index,
+        'params': jsonEncode({
+          'url': url,
+          'transcodingEnabled': transcodingEnabled,
+        }),
+      });
+    }
     return _invokeMethod('addPublishStreamUrl', {
       'url': url,
       'transcodingEnabled': transcodingEnabled,
@@ -600,6 +1304,15 @@ class RtcEngine with RtcEngineInterface {
   @override
   Future<void> addVideoWatermark(
       String watermarkUrl, WatermarkOptions options) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineAddVideoWaterMark.index,
+        'params': jsonEncode({
+          'watermarkUrl': watermarkUrl,
+          'options': options.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('addVideoWatermark', {
       'watermarkUrl': watermarkUrl,
       'options': options.toJson(),
@@ -608,11 +1321,26 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> clearVideoWatermarks() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineClearVideoWaterMarks.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('clearVideoWatermarks');
   }
 
   @override
   Future<int?> createDataStream(bool reliable, bool ordered) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineCreateDataStream.index,
+        'params': jsonEncode({
+          'reliable': reliable,
+          'ordered': ordered,
+        }),
+      });
+    }
     return _invokeMethod('createDataStream', {
       'reliable': reliable,
       'ordered': ordered,
@@ -621,11 +1349,25 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> disableLastmileTest() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineDisableLastMileTest.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('disableLastmileTest');
   }
 
   @override
   Future<void> enableDualStreamMode(bool enabled) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableDualStreamMode.index,
+        'params': jsonEncode({
+          'enabled': enabled,
+        }),
+      });
+    }
     return _invokeMethod('enableDualStreamMode', {
       'enabled': enabled,
     });
@@ -633,6 +1375,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> enableInEarMonitoring(bool enabled) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableInEarMonitoring.index,
+        'params': jsonEncode({
+          'enabled': enabled,
+        }),
+      });
+    }
     return _invokeMethod('enableInEarMonitoring', {
       'enabled': enabled,
     });
@@ -640,11 +1390,25 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> enableLastmileTest() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableLastMileTest.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('enableLastmileTest');
   }
 
   @override
   Future<void> enableSoundPositionIndication(bool enabled) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableSoundPositionIndication.index,
+        'params': jsonEncode({
+          'enabled': enabled,
+        }),
+      });
+    }
     return _invokeMethod('enableSoundPositionIndication', {
       'enabled': enabled,
     });
@@ -652,51 +1416,95 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<double?> getCameraMaxZoomFactor() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('getCameraMaxZoomFactor');
   }
 
   @override
   Future<double?> getEffectsVolume() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineGetEffectsVolume.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('getEffectsVolume');
   }
 
   @override
   Future<bool?> isCameraAutoFocusFaceModeSupported() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('isCameraAutoFocusFaceModeSupported');
   }
 
   @override
   Future<bool?> isCameraExposurePositionSupported() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('isCameraExposurePositionSupported');
   }
 
   @override
   Future<bool?> isCameraFocusSupported() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('isCameraFocusSupported');
   }
 
   @override
   Future<bool?> isCameraTorchSupported() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('isCameraTorchSupported');
   }
 
   @override
   Future<bool?> isCameraZoomSupported() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('isCameraZoomSupported');
   }
 
   @override
   Future<bool?> isSpeakerphoneEnabled() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineIsSpeakerPhoneEnabled.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('isSpeakerphoneEnabled');
   }
 
   @override
   Future<void> pauseAllEffects() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEnginePauseAllEffects.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('pauseAllEffects');
   }
 
   @override
   Future<void> pauseEffect(int soundId) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEnginePauseEffect.index,
+        'params': jsonEncode({
+          'soundId': soundId,
+        }),
+      });
+    }
     return _invokeMethod('pauseEffect', {
       'soundId': soundId,
     });
@@ -706,6 +1514,20 @@ class RtcEngine with RtcEngineInterface {
   Future<void> playEffect(int soundId, String filePath, int loopCount,
       double pitch, double pan, double gain, bool publish,
       [int? startPos]) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEnginePlayEffect.index,
+        'params': jsonEncode({
+          'soundId': soundId,
+          'filePath': filePath,
+          'loopCount': loopCount,
+          'pitch': pitch,
+          'pan': pan,
+          'gain': gain,
+          'publish': publish,
+        }),
+      });
+    }
     return _invokeMethod('playEffect', {
       'soundId': soundId,
       'filePath': filePath,
@@ -720,6 +1542,18 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setEffectPosition(int soundId, int pos) {
+    if (kIsWeb) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
+    if (Platform.isWindows || Platform.isMacOS) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetEffectPosition.index,
+        'params': jsonEncode({
+          'soundId': soundId,
+          'pos': pos,
+        }),
+      });
+    }
     return _invokeMethod('setEffectPosition', {
       'soundId': soundId,
       'pos': pos,
@@ -728,6 +1562,17 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<int?> getEffectDuration(String filePath) {
+    if (kIsWeb) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
+    if (Platform.isWindows || Platform.isMacOS) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineGetEffectDuration.index,
+        'params': jsonEncode({
+          'filePath': filePath,
+        }),
+      });
+    }
     return _invokeMethod('getEffectDuration', {
       'filePath': filePath,
     });
@@ -735,6 +1580,17 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<int?> getEffectCurrentPosition(int soundId) {
+    if (kIsWeb) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
+    if (Platform.isWindows || Platform.isMacOS) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineGetEffectCurrentPosition.index,
+        'params': jsonEncode({
+          'soundId': soundId,
+        }),
+      });
+    }
     return _invokeMethod('getEffectCurrentPosition', {
       'soundId': soundId,
     });
@@ -742,6 +1598,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> preloadEffect(int soundId, String filePath) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEnginePreloadEffect.index,
+        'params': jsonEncode({
+          'soundId': soundId,
+          'filePath': filePath,
+        }),
+      });
+    }
     return _invokeMethod('preloadEffect', {
       'soundId': soundId,
       'filePath': filePath,
@@ -750,11 +1615,25 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> registerMediaMetadataObserver() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineRegisterMediaMetadataObserver.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('registerMediaMetadataObserver');
   }
 
   @override
   Future<void> removeInjectStreamUrl(String url) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineRemoveInjectStreamUrl.index,
+        'params': jsonEncode({
+          'url': url,
+        }),
+      });
+    }
     return _invokeMethod('removeInjectStreamUrl', {
       'url': url,
     });
@@ -762,6 +1641,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> removePublishStreamUrl(String url) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineRemovePublishStreamUrl.index,
+        'params': jsonEncode({
+          'url': url,
+        }),
+      });
+    }
     return _invokeMethod('removePublishStreamUrl', {
       'url': url,
     });
@@ -769,33 +1656,71 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> resumeAllEffects() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineResumeAllEffects.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('resumeAllEffects');
   }
 
   @override
   Future<void> resumeEffect(int soundId) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineResumeEffect.index,
+        'params': jsonEncode({
+          'soundId': soundId,
+        }),
+      });
+    }
     return _invokeMethod('resumeEffect', {
       'soundId': soundId,
     });
   }
 
   @override
-  Future<void> sendMetadata(String metadata) {
+  Future<void> sendMetadata(Uint8List metadata) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApiWithBuffer', {
+        'apiType': _ApiTypeEngine.kEngineSendMetadata.index,
+        'params': jsonEncode({
+          'metadata': {
+            'size': metadata.length,
+          },
+        }),
+        'buffer': metadata,
+      });
+    }
     return _invokeMethod('sendMetadata', {
-      'metadata': metadata,
+      'metadata': String.fromCharCodes(metadata),
     });
   }
 
   @override
-  Future<void> sendStreamMessage(int streamId, String message) {
+  Future<void> sendStreamMessage(int streamId, Uint8List message) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApiWithBuffer', {
+        'apiType': _ApiTypeEngine.kEngineSendStreamMessage.index,
+        'params': jsonEncode({
+          'streamId': streamId,
+          'length': message.length,
+        }),
+        'buffer': message,
+      });
+    }
     return _invokeMethod('sendStreamMessage', {
       'streamId': streamId,
-      'message': message,
+      'message': String.fromCharCodes(message),
     });
   }
 
   @override
   Future<void> setCameraAutoFocusFaceModeEnabled(bool enabled) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('setCameraAutoFocusFaceModeEnabled', {
       'enabled': enabled,
     });
@@ -804,6 +1729,14 @@ class RtcEngine with RtcEngineInterface {
   @override
   Future<void> setCameraCapturerConfiguration(
       CameraCapturerConfiguration config) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetCameraCapturerConfiguration.index,
+        'params': jsonEncode({
+          'config': config.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('setCameraCapturerConfiguration', {
       'config': config.toJson(),
     });
@@ -812,6 +1745,9 @@ class RtcEngine with RtcEngineInterface {
   @override
   Future<void> setCameraExposurePosition(
       double positionXinView, double positionYinView) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('setCameraExposurePosition', {
       'positionXinView': positionXinView,
       'positionYinView': positionYinView,
@@ -821,6 +1757,9 @@ class RtcEngine with RtcEngineInterface {
   @override
   Future<void> setCameraFocusPositionInPreview(
       double positionX, double positionY) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('setCameraFocusPositionInPreview', {
       'positionX': positionX,
       'positionY': positionY,
@@ -829,6 +1768,9 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setCameraTorchOn(bool isOn) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('setCameraTorchOn', {
       'isOn': isOn,
     });
@@ -836,6 +1778,9 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setCameraZoomFactor(double factor) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('setCameraZoomFactor', {
       'factor': factor,
     });
@@ -843,6 +1788,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setDefaultAudioRoutetoSpeakerphone(bool defaultToSpeaker) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType':
+            _ApiTypeEngine.kEngineSetDefaultAudioRouteToSpeakerPhone.index,
+        'params': jsonEncode({
+          'defaultToSpeaker': defaultToSpeaker,
+        }),
+      });
+    }
     return _invokeMethod('setDefaultAudioRoutetoSpeakerphone', {
       'defaultToSpeaker': defaultToSpeaker,
     });
@@ -850,6 +1804,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setEffectsVolume(double volume) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetEffectsVolume.index,
+        'params': jsonEncode({
+          'volume': volume,
+        }),
+      });
+    }
     return _invokeMethod('setEffectsVolume', {
       'volume': volume,
     });
@@ -857,6 +1819,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setEnableSpeakerphone(bool enabled) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetEnableSpeakerPhone.index,
+        'params': jsonEncode({
+          'enabled': enabled,
+        }),
+      });
+    }
     return _invokeMethod('setEnableSpeakerphone', {
       'enabled': enabled,
     });
@@ -865,6 +1835,14 @@ class RtcEngine with RtcEngineInterface {
   @override
   @deprecated
   Future<void> setEncryptionMode(EncryptionMode encryptionMode) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetEncryptionMode.index,
+        'params': jsonEncode({
+          'encryptionMode': encryptionMode,
+        }),
+      });
+    }
     return _invokeMethod('setEncryptionMode', {
       'encryptionMode': EncryptionModeConverter(encryptionMode).value(),
     });
@@ -873,6 +1851,14 @@ class RtcEngine with RtcEngineInterface {
   @override
   @deprecated
   Future<void> setEncryptionSecret(String secret) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetEncryptionSecret.index,
+        'params': jsonEncode({
+          'secret': secret,
+        }),
+      });
+    }
     return _invokeMethod('setEncryptionSecret', {
       'secret': secret,
     });
@@ -880,6 +1866,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setInEarMonitoringVolume(int volume) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetInEarMonitoringVolume.index,
+        'params': jsonEncode({
+          'volume': volume,
+        }),
+      });
+    }
     return _invokeMethod('setInEarMonitoringVolume', {
       'volume': volume,
     });
@@ -887,6 +1881,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setLiveTranscoding(LiveTranscoding transcoding) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetLiveTranscoding.index,
+        'params': jsonEncode({
+          'transcoding': transcoding.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('setLiveTranscoding', {
       'transcoding': transcoding.toJson(),
     });
@@ -894,6 +1896,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setLocalPublishFallbackOption(StreamFallbackOptions option) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetLocalPublishFallbackOption.index,
+        'params': jsonEncode({
+          'option': StreamFallbackOptionsConverter(option).value(),
+        }),
+      });
+    }
     return _invokeMethod('setLocalPublishFallbackOption', {
       'option': StreamFallbackOptionsConverter(option).value(),
     });
@@ -902,6 +1912,14 @@ class RtcEngine with RtcEngineInterface {
   @override
   @deprecated
   Future<void> setLocalVoiceChanger(AudioVoiceChanger voiceChanger) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetLocalVoiceChanger.index,
+        'params': jsonEncode({
+          'voiceChanger': AudioVoiceChangerConverter(voiceChanger).value(),
+        }),
+      });
+    }
     return _invokeMethod('setLocalVoiceChanger', {
       'voiceChanger': AudioVoiceChangerConverter(voiceChanger).value(),
     });
@@ -910,6 +1928,16 @@ class RtcEngine with RtcEngineInterface {
   @override
   Future<void> setLocalVoiceEqualization(
       AudioEqualizationBandFrequency bandFrequency, int bandGain) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetLocalVoiceEqualization.index,
+        'params': jsonEncode({
+          'bandFrequency':
+              AudioEqualizationBandFrequencyConverter(bandFrequency).value(),
+          'bandGain': bandGain,
+        }),
+      });
+    }
     return _invokeMethod('setLocalVoiceEqualization', {
       'bandFrequency':
           AudioEqualizationBandFrequencyConverter(bandFrequency).value(),
@@ -919,6 +1947,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setLocalVoicePitch(double pitch) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetLocalVoicePitch.index,
+        'params': jsonEncode({
+          'pitch': pitch,
+        }),
+      });
+    }
     return _invokeMethod('setLocalVoicePitch', {
       'pitch': pitch,
     });
@@ -926,6 +1962,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setLocalVoiceReverb(AudioReverbType reverbKey, int value) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetLocalVoiceReverb.index,
+        'params': jsonEncode({
+          'reverbKey': AudioReverbTypeConverter(reverbKey).value(),
+          'value': value,
+        }),
+      });
+    }
     return _invokeMethod('setLocalVoiceReverb', {
       'reverbKey': AudioReverbTypeConverter(reverbKey).value(),
       'value': value,
@@ -935,6 +1980,14 @@ class RtcEngine with RtcEngineInterface {
   @override
   @deprecated
   Future<void> setLocalVoiceReverbPreset(AudioReverbPreset preset) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetLocalVoiceReverbPreset.index,
+        'params': jsonEncode({
+          'preset': AudioReverbPresetConverter(preset).value(),
+        }),
+      });
+    }
     return _invokeMethod('setLocalVoiceReverbPreset', {
       'preset': AudioReverbPresetConverter(preset).value(),
     });
@@ -942,6 +1995,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setMaxMetadataSize(int size) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetMaxMetadataSize.index,
+        'params': jsonEncode({
+          'size': size,
+        }),
+      });
+    }
     return _invokeMethod('setMaxMetadataSize', {
       'size': size,
     });
@@ -949,6 +2010,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setRemoteDefaultVideoStreamType(VideoStreamType streamType) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetRemoteDefaultVideoStreamType.index,
+        'params': jsonEncode({
+          'streamType': VideoStreamTypeConverter(streamType).value(),
+        }),
+      });
+    }
     return _invokeMethod('setRemoteDefaultVideoStreamType', {
       'streamType': VideoStreamTypeConverter(streamType).value(),
     });
@@ -956,6 +2025,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setRemoteSubscribeFallbackOption(StreamFallbackOptions option) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetRemoteSubscribeFallbackOption.index,
+        'params': jsonEncode({
+          'option': StreamFallbackOptionsConverter(option).value(),
+        }),
+      });
+    }
     return _invokeMethod('setRemoteSubscribeFallbackOption', {
       'option': StreamFallbackOptionsConverter(option).value(),
     });
@@ -963,6 +2040,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setRemoteUserPriority(int uid, UserPriority userPriority) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetRemoteUserPriority.index,
+        'params': jsonEncode({
+          'uid': uid,
+          'userPriority': UserPriorityConverter(userPriority).value(),
+        }),
+      });
+    }
     return _invokeMethod('setRemoteUserPriority', {
       'uid': uid,
       'userPriority': UserPriorityConverter(userPriority).value(),
@@ -971,6 +2057,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setRemoteVideoStreamType(int uid, VideoStreamType streamType) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetRemoteVideoStreamType.index,
+        'params': jsonEncode({
+          'uid': uid,
+          'streamType': VideoStreamTypeConverter(streamType).value(),
+        }),
+      });
+    }
     return _invokeMethod('setRemoteVideoStreamType', {
       'uid': uid,
       'streamType': VideoStreamTypeConverter(streamType).value(),
@@ -979,6 +2074,16 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setRemoteVoicePosition(int uid, double pan, double gain) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetRemoteVoicePosition.index,
+        'params': jsonEncode({
+          'uid': uid,
+          'pan': pan,
+          'gain': gain,
+        }),
+      });
+    }
     return _invokeMethod('setRemoteVoicePosition', {
       'uid': uid,
       'pan': pan,
@@ -988,6 +2093,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setVolumeOfEffect(int soundId, double volume) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetVolumeOfEffect.index,
+        'params': jsonEncode({
+          'soundId': soundId,
+          'volume': volume,
+        }),
+      });
+    }
     return _invokeMethod('setVolumeOfEffect', {
       'soundId': soundId,
       'volume': volume,
@@ -998,6 +2112,16 @@ class RtcEngine with RtcEngineInterface {
   @deprecated
   Future<void> startAudioRecording(String filePath,
       AudioSampleRateType sampleRate, AudioRecordingQuality quality) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStartAudioRecording.index,
+        'params': jsonEncode({
+          'filePath': filePath,
+          'sampleRate': AudioSampleRateTypeConverter(sampleRate).value(),
+          'quality': AudioRecordingQualityConverter(quality).value(),
+        }),
+      });
+    }
     return _invokeMethod('startAudioRecording', {
       'filePath': filePath,
       'sampleRate': AudioSampleRateTypeConverter(sampleRate).value(),
@@ -1008,6 +2132,14 @@ class RtcEngine with RtcEngineInterface {
   @override
   Future<void> startAudioRecordingWithConfig(
       AudioRecordingConfiguration config) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStartAudioRecording.index,
+        'params': jsonEncode({
+          'config': config.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('startAudioRecording', {
       'config': config.toJson(),
     });
@@ -1016,6 +2148,14 @@ class RtcEngine with RtcEngineInterface {
   @override
   Future<void> startChannelMediaRelay(
       ChannelMediaRelayConfiguration channelMediaRelayConfiguration) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStartChannelMediaRelay.index,
+        'params': jsonEncode({
+          'configuration': channelMediaRelayConfiguration.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('startChannelMediaRelay', {
       'channelMediaRelayConfiguration': channelMediaRelayConfiguration.toJson(),
     });
@@ -1024,6 +2164,9 @@ class RtcEngine with RtcEngineInterface {
   @override
   Future<void> startRhythmPlayer(
       String sound1, String sound2, RhythmPlayerConfig config) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('startRhythmPlayer', {
       'sound1': sound1,
       'sound2': sound2,
@@ -1033,11 +2176,17 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> stopRhythmPlayer() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('stopRhythmPlayer');
   }
 
   @override
   Future<void> configRhythmPlayer(RhythmPlayerConfig config) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('configRhythmPlayer', {
       'config': config.toJson(),
     });
@@ -1045,6 +2194,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> startEchoTest(int intervalInSeconds) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStartEchoTest.index,
+        'params': jsonEncode({
+          'intervalInSeconds': intervalInSeconds,
+        }),
+      });
+    }
     return _invokeMethod('startEchoTest', {
       'intervalInSeconds': intervalInSeconds,
     });
@@ -1052,6 +2209,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> startLastmileProbeTest(LastmileProbeConfig config) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStartLastMileProbeTest.index,
+        'params': jsonEncode({
+          'config': config.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('startLastmileProbeTest', {
       'config': config.toJson(),
     });
@@ -1059,26 +2224,58 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> stopAllEffects() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStopAllEffects.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('stopAllEffects');
   }
 
   @override
   Future<void> stopAudioRecording() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStopAudioRecording.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('stopAudioRecording');
   }
 
   @override
   Future<void> stopChannelMediaRelay() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStopChannelMediaRelay.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('stopChannelMediaRelay');
   }
 
   @override
   Future<void> stopEchoTest() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStopEchoTest.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('stopEchoTest');
   }
 
   @override
   Future<void> stopEffect(int soundId) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStopEffect.index,
+        'params': jsonEncode({
+          'soundId': soundId,
+        }),
+      });
+    }
     return _invokeMethod('stopEffect', {
       'soundId': soundId,
     });
@@ -1086,16 +2283,36 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> stopLastmileProbeTest() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStopLastMileProbeTest.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('stopLastmileProbeTest');
   }
 
   @override
   Future<void> switchCamera() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSwitchCamera.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('switchCamera');
   }
 
   @override
   Future<void> unloadEffect(int soundId) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineUnloadEffect.index,
+        'params': jsonEncode({
+          'soundId': soundId,
+        }),
+      });
+    }
     return _invokeMethod('unloadEffect', {
       'soundId': soundId,
     });
@@ -1103,12 +2320,26 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> unregisterMediaMetadataObserver() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineUnRegisterMediaMetadataObserver.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('unregisterMediaMetadataObserver');
   }
 
   @override
   Future<void> updateChannelMediaRelay(
       ChannelMediaRelayConfiguration channelMediaRelayConfiguration) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineUpdateChannelMediaRelay.index,
+        'params': jsonEncode({
+          'configuration': channelMediaRelayConfiguration.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('updateChannelMediaRelay', {
       'channelMediaRelayConfiguration': channelMediaRelayConfiguration.toJson(),
     });
@@ -1116,6 +2347,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> enableFaceDetection(bool enable) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableFaceDetection.index,
+        'params': jsonEncode({
+          'enable': enable,
+        }),
+      });
+    }
     return _invokeMethod('enableFaceDetection', {
       'enable': enable,
     });
@@ -1123,6 +2362,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setAudioMixingPitch(int pitch) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetAudioMixingPitch.index,
+        'params': jsonEncode({
+          'pitch': pitch,
+        }),
+      });
+    }
     return _invokeMethod('setAudioMixingPitch', {
       'pitch': pitch,
     });
@@ -1130,6 +2377,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> enableEncryption(bool enabled, EncryptionConfig config) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableEncryption.index,
+        'params': jsonEncode({
+          'enabled': enabled,
+          'config': config.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('enableEncryption', {
       'enabled': enabled,
       'config': config.toJson(),
@@ -1139,6 +2395,18 @@ class RtcEngine with RtcEngineInterface {
   @override
   Future<void> sendCustomReportMessage(
       String id, String category, String event, String label, int value) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSendCustomReportMessage.index,
+        'params': jsonEncode({
+          'id': id,
+          'category': category,
+          'event': event,
+          'label': label,
+          'value': value,
+        }),
+      });
+    }
     return _invokeMethod('sendCustomReportMessage', {
       'id': id,
       'category': category,
@@ -1151,6 +2419,16 @@ class RtcEngine with RtcEngineInterface {
   @override
   Future<void> setAudioSessionOperationRestriction(
       AudioSessionOperationRestriction restriction) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType':
+            _ApiTypeEngine.kEngineSetAudioSessionOperationRestriction.index,
+        'params': jsonEncode({
+          'restriction':
+              AudioSessionOperationRestrictionConverter(restriction).value(),
+        }),
+      });
+    }
     return _invokeMethod('setAudioSessionOperationRestriction', {
       'restriction':
           AudioSessionOperationRestrictionConverter(restriction).value(),
@@ -1159,12 +2437,25 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<int?> getNativeHandle() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      throw PlatformException(code: ErrorCode.NotSupported.toString());
+    }
     return _invokeMethod('getNativeHandle');
   }
 
   @override
   Future<void> setAudioEffectParameters(
       AudioEffectPreset preset, int param1, int param2) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetAudioEffectParameters.index,
+        'params': jsonEncode({
+          'preset': AudioEffectPresetConverter(preset).value(),
+          'param1': param1,
+          'param2': param2,
+        }),
+      });
+    }
     return _invokeMethod('setAudioEffectParameters', {
       'preset': AudioEffectPresetConverter(preset).value(),
       'param1': param1,
@@ -1174,6 +2465,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setAudioEffectPreset(AudioEffectPreset preset) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetAudioEffectPreset.index,
+        'params': jsonEncode({
+          'preset': AudioEffectPresetConverter(preset).value(),
+        }),
+      });
+    }
     return _invokeMethod('setAudioEffectPreset', {
       'preset': AudioEffectPresetConverter(preset).value(),
     });
@@ -1181,6 +2480,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setVoiceBeautifierPreset(VoiceBeautifierPreset preset) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetVoiceBeautifierPreset.index,
+        'params': jsonEncode({
+          'preset': VoiceBeautifierPresetConverter(preset).value(),
+        }),
+      });
+    }
     return _invokeMethod('setVoiceBeautifierPreset', {
       'preset': VoiceBeautifierPresetConverter(preset).value(),
     });
@@ -1188,6 +2495,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<int?> createDataStreamWithConfig(DataStreamConfig config) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineCreateDataStream.index,
+        'params': jsonEncode({
+          'config': config.toJson(),
+        }),
+      });
+    }
     return _invokeMethod('createDataStream', {
       'config': config.toJson(),
     });
@@ -1195,6 +2510,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> enableDeepLearningDenoise(bool enabled) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableDeepLearningDenoise.index,
+        'params': jsonEncode({
+          'enabled': enabled,
+        }),
+      });
+    }
     return _invokeMethod('enableDeepLearningDenoise', {
       'enabled': enabled,
     });
@@ -1202,6 +2525,15 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> enableRemoteSuperResolution(int uid, bool enable) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineEnableRemoteSuperResolution.index,
+        'params': jsonEncode({
+          'uid': uid,
+          'enable': enable,
+        }),
+      });
+    }
     return _invokeMethod('enableRemoteSuperResolution', {
       'uid': uid,
       'enable': enable,
@@ -1210,6 +2542,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setCloudProxy(CloudProxyType proxyType) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetCloudProxy.index,
+        'params': jsonEncode({
+          'proxyType': CloudProxyTypeConverter(proxyType).value(),
+        }),
+      });
+    }
     return _invokeMethod('setCloudProxy', {
       'proxyType': CloudProxyTypeConverter(proxyType).value(),
     });
@@ -1217,12 +2557,28 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<String?> uploadLogFile() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineUploadLogFile.index,
+        'params': jsonEncode({}),
+      });
+    }
     return _invokeMethod('uploadLogFile');
   }
 
   @override
   Future<void> setVoiceBeautifierParameters(
       VoiceBeautifierPreset preset, int param1, int param2) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetVoiceBeautifierParameters.index,
+        'params': jsonEncode({
+          'preset': VoiceBeautifierPresetConverter(preset).value(),
+          'param1': param1,
+          'param2': param2,
+        }),
+      });
+    }
     return _invokeMethod('setVoiceBeautifierParameters', {
       'preset': VoiceBeautifierPresetConverter(preset).value(),
       'param1': param1,
@@ -1232,6 +2588,14 @@ class RtcEngine with RtcEngineInterface {
 
   @override
   Future<void> setVoiceConversionPreset(VoiceConversionPreset preset) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetVoiceConversionPreset.index,
+        'params': jsonEncode({
+          'preset': VoiceConversionPresetConverter(preset).value(),
+        }),
+      });
+    }
     return _invokeMethod('setVoiceConversionPreset', {
       'preset': VoiceConversionPresetConverter(preset).value(),
     });
@@ -1253,6 +2617,122 @@ class RtcEngine with RtcEngineInterface {
       'ips': ips,
       'domain': domain,
     });
+  }
+
+  @override
+  Future<void> setScreenCaptureContentHint(VideoContentHint contentHint) {
+    if (!kIsWeb && (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineSetScreenCaptureContentHint.index,
+        'params': jsonEncode({
+          'contentHint': VideoContentHintConverter(contentHint).value(),
+        }),
+      });
+    }
+    throw PlatformException(code: ErrorCode.NotSupported.toString());
+  }
+
+  @override
+  Future<void> startScreenCaptureByDisplayId(int displayId,
+      [Rectangle? regionRect, ScreenCaptureParameters? captureParams]) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStartScreenCaptureByDisplayId.index,
+        'params': jsonEncode({
+          'displayId': displayId,
+          'regionRect': regionRect?.toJson(),
+          'captureParams': captureParams?.toJson(),
+        }),
+      });
+    }
+    throw PlatformException(code: ErrorCode.NotSupported.toString());
+  }
+
+  @override
+  Future<void> startScreenCaptureByScreenRect(Rectangle screenRect,
+      [Rectangle? regionRect, ScreenCaptureParameters? captureParams]) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStartScreenCaptureByScreenRect.index,
+        'params': jsonEncode({
+          'screenRect': screenRect.toJson(),
+          'regionRect': regionRect?.toJson(),
+          'captureParams': captureParams?.toJson(),
+        }),
+      });
+    }
+    throw PlatformException(code: ErrorCode.NotSupported.toString());
+  }
+
+  @override
+  Future<void> startScreenCaptureByWindowId(int windowId,
+      [Rectangle? regionRect, ScreenCaptureParameters? captureParams]) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStartScreenCaptureByWindowId.index,
+        'params': jsonEncode({
+          'windowId': windowId,
+          'regionRect': regionRect?.toJson(),
+          'captureParams': captureParams?.toJson(),
+        }),
+      });
+    }
+    throw PlatformException(code: ErrorCode.NotSupported.toString());
+  }
+
+  @override
+  Future<void> stopScreenCapture() {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStopScreenCapture.index,
+        'params': jsonEncode({}),
+      });
+    }
+    throw PlatformException(code: ErrorCode.NotSupported.toString());
+  }
+
+  @override
+  Future<void> updateScreenCaptureParameters(
+      ScreenCaptureParameters captureParams) {
+    if (!kIsWeb && (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineUpdateScreenCaptureParameters.index,
+        'params': jsonEncode({
+          'captureParams': captureParams.toJson(),
+        }),
+      });
+    }
+    throw PlatformException(code: ErrorCode.NotSupported.toString());
+  }
+
+  @override
+  Future<void> updateScreenCaptureRegion(Rectangle regionRect) {
+    if (!kIsWeb && (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineUpdateScreenCaptureRegion.index,
+        'params': jsonEncode({
+          'regionRect': regionRect.toJson(),
+        }),
+      });
+    }
+    throw PlatformException(code: ErrorCode.NotSupported.toString());
+  }
+
+  @override
+  Future<void> startScreenCapture(int windowId,
+      [int? captureFreq, Rect? rect, int? bitrate]) {
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      return _invokeMethod('callApi', {
+        'apiType': _ApiTypeEngine.kEngineStartScreenCapture.index,
+        'params': jsonEncode({
+          'windowId': windowId,
+          'captureFreq': captureFreq,
+          'rect': rect?.toJson(),
+          'bitrate': bitrate,
+        }),
+      });
+    }
+    throw PlatformException(code: ErrorCode.NotSupported.toString());
   }
 }
 
@@ -1279,7 +2759,11 @@ mixin RtcEngineInterface
         RtcAudioRecorderInterface,
         RtcInjectStreamInterface,
         RtcCameraInterface,
-        RtcStreamMessageInterface {
+        RtcStreamMessageInterface,
+        RtcScreenSharingInterface {
+  /// TODO(doc)
+  Future<void> initialize(RtcEngineContext config);
+
   /// Destroys the [RtcEngine] instance and releases all resources used by the Agora SDK.
   ///
   /// This method is useful for apps that occasionally make voice or video calls, to free up resources for other operations when not making calls.
@@ -2847,7 +4331,7 @@ mixin RtcMediaMetadataInterface {
   /// **Note**
   ///
   /// Ensure that the size of the metadata does not exceed the value set in the [setMaxMetadataSize] method.
-  Future<void> sendMetadata(String metadata);
+  Future<void> sendMetadata(Uint8List metadata);
 }
 
 /// @nodoc
@@ -3267,5 +4751,29 @@ mixin RtcStreamMessageInterface {
   /// **Parameter** [streamId] ID of the sent data stream returned by the [RtcEngine.createDataStream] method.
   ///
   /// **Parameter** [message] Sent data.
-  Future<void> sendStreamMessage(int streamId, String message);
+  Future<void> sendStreamMessage(int streamId, Uint8List message);
+}
+
+/// TODO(doc)
+mixin RtcScreenSharingInterface {
+  Future<void> startScreenCaptureByDisplayId(int displayId,
+      [Rectangle? regionRect, ScreenCaptureParameters? captureParams]);
+
+  Future<void> startScreenCaptureByScreenRect(Rectangle screenRect,
+      [Rectangle? regionRect, ScreenCaptureParameters? captureParams]);
+
+  Future<void> startScreenCaptureByWindowId(int windowId,
+      [Rectangle? regionRect, ScreenCaptureParameters? captureParams]);
+
+  Future<void> setScreenCaptureContentHint(VideoContentHint contentHint);
+
+  Future<void> updateScreenCaptureParameters(
+      ScreenCaptureParameters captureParams);
+
+  Future<void> updateScreenCaptureRegion(Rectangle regionRect);
+
+  Future<void> stopScreenCapture();
+
+  Future<void> startScreenCapture(int windowId,
+      [int? captureFreq, Rect? rect, int? bitrate]);
 }

@@ -46,9 +46,6 @@ class _State extends State<MediaChannelRelay> {
     await _engine.setChannelProfile(ChannelProfile.LiveBroadcasting);
     await _engine.setClientRole(ClientRole.Broadcaster);
 
-    // Set audio route to speaker
-    await _engine.setDefaultAudioRoutetoSpeakerphone(true);
-
     // start joining channel
     // 1. Users can only see each other after they join the
     // same channel successfully using the same app id.
@@ -59,55 +56,61 @@ class _State extends State<MediaChannelRelay> {
   }
 
   _addListener() {
-    _engine.setEventHandler(RtcEngineEventHandler(warning: (warningCode) {
-      log('Warning ${warningCode}');
-    }, error: (errorCode) {
-      log('Warning ${errorCode}');
-    }, joinChannelSuccess: (channel, uid, elapsed) {
-      log('joinChannelSuccess ${channel} ${uid} ${elapsed}');
-      ;
-      setState(() {
-        isJoined = true;
-      });
-    }, userJoined: (uid, elapsed) {
-      log('userJoined $uid $elapsed');
-      this.setState(() {
-        remoteUid = uid;
-      });
-    }, userOffline: (uid, reason) {
-      log('userOffline $uid $reason');
-      this.setState(() {
-        remoteUid = null;
-      });
-    }, channelMediaRelayStateChanged:
-        (ChannelMediaRelayState state, ChannelMediaRelayError code) {
-      switch (state) {
-        case ChannelMediaRelayState.Idle:
-          log('ChannelMediaRelayState.Idle $code');
-          this.setState(() {
-            isRelaying = false;
-          });
-          break;
-        case ChannelMediaRelayState.Connecting:
-          log('ChannelMediaRelayState.Connecting $code)');
-          break;
-        case ChannelMediaRelayState.Running:
-          log('ChannelMediaRelayState.Running $code)');
-          this.setState(() {
-            isRelaying = true;
-          });
-          break;
-        case ChannelMediaRelayState.Failure:
-          log('ChannelMediaRelayState.Failure $code)');
-          this.setState(() {
-            isRelaying = false;
-          });
-          break;
-        default:
-          log('default $code)');
-          break;
-      }
-    }));
+    _engine.setEventHandler(RtcEngineEventHandler(
+      warning: (warningCode) {
+        log('warning ${warningCode}');
+      },
+      error: (errorCode) {
+        log('error ${errorCode}');
+      },
+      joinChannelSuccess: (channel, uid, elapsed) {
+        log('joinChannelSuccess ${channel} ${uid} ${elapsed}');
+        setState(() {
+          isJoined = true;
+        });
+      },
+      userJoined: (uid, elapsed) {
+        log('userJoined $uid $elapsed');
+        this.setState(() {
+          remoteUid = uid;
+        });
+      },
+      userOffline: (uid, reason) {
+        log('userOffline $uid $reason');
+        this.setState(() {
+          remoteUid = null;
+        });
+      },
+      channelMediaRelayStateChanged:
+          (ChannelMediaRelayState state, ChannelMediaRelayError code) {
+        switch (state) {
+          case ChannelMediaRelayState.Idle:
+            log('ChannelMediaRelayState.Idle $code');
+            this.setState(() {
+              isRelaying = false;
+            });
+            break;
+          case ChannelMediaRelayState.Connecting:
+            log('ChannelMediaRelayState.Connecting $code)');
+            break;
+          case ChannelMediaRelayState.Running:
+            log('ChannelMediaRelayState.Running $code)');
+            this.setState(() {
+              isRelaying = true;
+            });
+            break;
+          case ChannelMediaRelayState.Failure:
+            log('ChannelMediaRelayState.Failure $code)');
+            this.setState(() {
+              isRelaying = false;
+            });
+            break;
+          default:
+            log('default $code)');
+            break;
+        }
+      },
+    ));
   }
 
   _onPressRelayOrStop() async {
@@ -172,17 +175,25 @@ class _State extends State<MediaChannelRelay> {
   _renderVideo() {
     return Row(children: [
       Expanded(
-          child: AspectRatio(
-        aspectRatio: 1,
-        child: RtcLocalView.SurfaceView(),
-      )),
+        child: AspectRatio(
+          aspectRatio: 1,
+          child:
+              kIsWeb ? RtcLocalView.SurfaceView() : RtcLocalView.TextureView(),
+        ),
+      ),
       Expanded(
         child: AspectRatio(
           aspectRatio: 1,
           child: remoteUid != null
-              ? RtcRemoteView.SurfaceView(
-                  uid: remoteUid!,
-                )
+              ? (kIsWeb
+                  ? RtcRemoteView.SurfaceView(
+                      uid: remoteUid!,
+                      channelId: config.channelId,
+                    )
+                  : RtcRemoteView.TextureView(
+                      uid: remoteUid!,
+                      channelId: config.channelId,
+                    ))
               : Container(
                   color: Colors.grey[200],
                 ),

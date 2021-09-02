@@ -29,6 +29,15 @@ class SurfaceView extends RtcSurfaceView {
           onPlatformViewCreated: onPlatformViewCreated,
           gestureRecognizers: gestureRecognizers,
         );
+
+  /// TODO(doc)
+  SurfaceView.screenShare({
+    Key? key,
+  }) : super(
+          key: key,
+          uid: 0,
+          subProcess: true,
+        );
 }
 
 /// TextureView.
@@ -37,10 +46,11 @@ class TextureView extends RtcTextureView {
   TextureView({
     Key? key,
     String? channelId,
-    renderMode = VideoRenderMode.Hidden,
-    mirrorMode = VideoMirrorMode.Auto,
+    renderMode = VideoRenderMode.FILL,
+    mirrorMode = VideoMirrorMode.Disabled,
     PlatformViewCreatedCallback? onPlatformViewCreated,
     Set<Factory<OneSequenceGestureRecognizer>>? gestureRecognizers,
+    useFlutterTexture = true,
   }) : super(
           key: key,
           uid: 0,
@@ -49,5 +59,15 @@ class TextureView extends RtcTextureView {
           mirrorMode: mirrorMode,
           onPlatformViewCreated: onPlatformViewCreated,
           gestureRecognizers: gestureRecognizers,
+          useFlutterTexture: useFlutterTexture,
+        );
+
+  /// TODO(doc)
+  TextureView.screenShare({
+    Key? key,
+  }) : super(
+          key: key,
+          uid: 0,
+          subProcess: true,
         );
 }

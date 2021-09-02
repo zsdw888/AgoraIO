@@ -1,3 +1,9 @@
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+
+import 'package:flutter/foundation.dart';
+
 import 'classes.dart';
 import 'enum_converter.dart';
 import 'enums.dart';
@@ -97,7 +103,7 @@ typedef StreamInjectedStatusCallback = void Function(
     String url, int uid, InjectStreamStatus status);
 // ignore: public_member_api_docs
 typedef StreamMessageCallback = void Function(
-    int uid, int streamId, String data);
+    int uid, int streamId, Uint8List data);
 // ignore: public_member_api_docs
 typedef StreamMessageErrorCallback = void Function(
     int uid, int streamId, ErrorCode error, int missed, int cached);
@@ -124,8 +130,7 @@ typedef EnabledCallback = void Function(bool enabled);
 typedef AudioQualityCallback = void Function(
     int uid, int quality, int delay, int lost);
 // ignore: public_member_api_docs
-typedef MetadataCallback = void Function(
-    String buffer, int uid, int timeStampMs);
+typedef MetadataCallback = void Function(Metadata metadata);
 // ignore: public_member_api_docs
 typedef FacePositionCallback = void Function(
     int imageWidth, int imageHeight, List<FacePositionInfo> faces);
@@ -1097,203 +1102,227 @@ class RtcEngineEventHandler {
   });
 
   // ignore: public_member_api_docs
-  void process(String methodName, List<dynamic> data) {
+  void process(String methodName, dynamic data, [Uint8List? buffer]) {
+    List<dynamic> newData;
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      if (methodName.startsWith('on')) {
+        methodName = methodName.substring(2);
+      }
+      newData = List<dynamic>.from(
+          Map<String, dynamic>.from(jsonDecode(data as String)).values);
+    } else {
+      newData = List<dynamic>.from(data);
+    }
     switch (methodName) {
       case 'Warning':
-        warning?.call(WarningCodeConverter.fromValue(data[0]).e);
+        warning?.call(WarningCodeConverter.fromValue(newData[0]).e);
         break;
       case 'Error':
-        error?.call(ErrorCodeConverter.fromValue(data[0]).e);
+        error?.call(ErrorCodeConverter.fromValue(newData[0]).e);
         break;
       case 'ApiCallExecuted':
         apiCallExecuted?.call(
-            ErrorCodeConverter.fromValue(data[0]).e, data[1], data[2]);
+            ErrorCodeConverter.fromValue(newData[0]).e, newData[1], newData[2]);
         break;
       case 'JoinChannelSuccess':
-        joinChannelSuccess?.call(data[0], data[1], data[2]);
+        joinChannelSuccess?.call(newData[0], newData[1], newData[2]);
         break;
       case 'RejoinChannelSuccess':
-        rejoinChannelSuccess?.call(data[0], data[1], data[2]);
+        rejoinChannelSuccess?.call(newData[0], newData[1], newData[2]);
         break;
       case 'LeaveChannel':
         leaveChannel
-            ?.call(RtcStats.fromJson(Map<String, dynamic>.from(data[0])));
+            ?.call(RtcStats.fromJson(Map<String, dynamic>.from(newData[0])));
         break;
       case 'LocalUserRegistered':
-        localUserRegistered?.call(data[0], data[1]);
+        localUserRegistered?.call(newData[0], newData[1]);
         break;
       case 'UserInfoUpdated':
-        userInfoUpdated?.call(
-            data[0], UserInfo.fromJson(Map<String, dynamic>.from(data[1])));
+        userInfoUpdated?.call(newData[0],
+            UserInfo.fromJson(Map<String, dynamic>.from(newData[1])));
         break;
       case 'ClientRoleChanged':
-        clientRoleChanged?.call(ClientRoleConverter.fromValue(data[0]).e,
-            ClientRoleConverter.fromValue(data[1]).e);
+        clientRoleChanged?.call(ClientRoleConverter.fromValue(newData[0]).e,
+            ClientRoleConverter.fromValue(newData[1]).e);
         break;
       case 'UserJoined':
-        userJoined?.call(data[0], data[1]);
+        userJoined?.call(newData[0], newData[1]);
         break;
       case 'UserOffline':
         userOffline?.call(
-            data[0], UserOfflineReasonConverter.fromValue(data[1]).e);
+            newData[0], UserOfflineReasonConverter.fromValue(newData[1]).e);
         break;
       case 'ConnectionStateChanged':
         connectionStateChanged?.call(
-            ConnectionStateTypeConverter.fromValue(data[0]).e,
-            ConnectionChangedReasonConverter.fromValue(data[1]).e);
+            ConnectionStateTypeConverter.fromValue(newData[0]).e,
+            ConnectionChangedReasonConverter.fromValue(newData[1]).e);
         break;
       case 'NetworkTypeChanged':
-        networkTypeChanged?.call(NetworkTypeConverter.fromValue(data[0]).e);
+        networkTypeChanged?.call(NetworkTypeConverter.fromValue(newData[0]).e);
         break;
       case 'ConnectionLost':
         connectionLost?.call();
         break;
       case 'TokenPrivilegeWillExpire':
-        tokenPrivilegeWillExpire?.call(data[0]);
+        tokenPrivilegeWillExpire?.call(newData[0]);
         break;
       case 'RequestToken':
         requestToken?.call();
         break;
       case 'AudioVolumeIndication':
-        final list = List<Map>.from(data[0]);
+        final list = List<Map>.from(newData[0]);
+        var totalVolume;
+        if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+          totalVolume = newData[1];
+        } else {
+          totalVolume = newData[2];
+        }
         audioVolumeIndication?.call(
             List.generate(
                 list.length,
                 (index) => AudioVolumeInfo.fromJson(
                     Map<String, dynamic>.from(list[index]))),
-            data[1]);
+            totalVolume);
         break;
       case 'ActiveSpeaker':
-        activeSpeaker?.call(data[0]);
+        activeSpeaker?.call(newData[0]);
         break;
       case 'FirstLocalAudioFrame':
-        firstLocalAudioFrame?.call(data[0]);
+        firstLocalAudioFrame?.call(newData[0]);
         break;
       case 'FirstLocalVideoFrame':
-        firstLocalVideoFrame?.call(data[0], data[1], data[2]);
+        firstLocalVideoFrame?.call(newData[0], newData[1], newData[2]);
         break;
       case 'UserMuteVideo':
-        userMuteVideo?.call(data[0], data[1]);
+        userMuteVideo?.call(newData[0], newData[1]);
         break;
       case 'VideoSizeChanged':
-        videoSizeChanged?.call(data[0], data[1], data[2], data[3]);
+        videoSizeChanged?.call(newData[0], newData[1], newData[2], newData[3]);
         break;
       case 'RemoteVideoStateChanged':
         remoteVideoStateChanged?.call(
-            data[0],
-            VideoRemoteStateConverter.fromValue(data[1]).e,
-            VideoRemoteStateReasonConverter.fromValue(data[2]).e,
-            data[3]);
+            newData[0],
+            VideoRemoteStateConverter.fromValue(newData[1]).e,
+            VideoRemoteStateReasonConverter.fromValue(newData[2]).e,
+            newData[3]);
         break;
       case 'LocalVideoStateChanged':
         localVideoStateChanged?.call(
-            LocalVideoStreamStateConverter.fromValue(data[0]).e,
-            LocalVideoStreamErrorConverter.fromValue(data[1]).e);
+            LocalVideoStreamStateConverter.fromValue(newData[0]).e,
+            LocalVideoStreamErrorConverter.fromValue(newData[1]).e);
         break;
       case 'RemoteAudioStateChanged':
         remoteAudioStateChanged?.call(
-            data[0],
-            AudioRemoteStateConverter.fromValue(data[1]).e,
-            AudioRemoteStateReasonConverter.fromValue(data[2]).e,
-            data[3]);
+            newData[0],
+            AudioRemoteStateConverter.fromValue(newData[1]).e,
+            AudioRemoteStateReasonConverter.fromValue(newData[2]).e,
+            newData[3]);
         break;
       case 'LocalAudioStateChanged':
         localAudioStateChanged?.call(
-            AudioLocalStateConverter.fromValue(data[0]).e,
-            AudioLocalErrorConverter.fromValue(data[1]).e);
+            AudioLocalStateConverter.fromValue(newData[0]).e,
+            AudioLocalErrorConverter.fromValue(newData[1]).e);
         break;
       case 'LocalPublishFallbackToAudioOnly':
-        localPublishFallbackToAudioOnly?.call(data[0]);
+        localPublishFallbackToAudioOnly?.call(newData[0]);
         break;
       case 'RemoteSubscribeFallbackToAudioOnly':
-        remoteSubscribeFallbackToAudioOnly?.call(data[0], data[1]);
+        remoteSubscribeFallbackToAudioOnly?.call(newData[0], newData[1]);
         break;
       case 'AudioRouteChanged':
         audioRouteChanged
-            ?.call(AudioOutputRoutingConverter.fromValue(data[0]).e);
+            ?.call(AudioOutputRoutingConverter.fromValue(newData[0]).e);
         break;
       case 'CameraFocusAreaChanged':
         cameraFocusAreaChanged
-            ?.call(Rect.fromJson(Map<String, dynamic>.from(data[0])));
+            ?.call(Rect.fromJson(Map<String, dynamic>.from(newData[0])));
         break;
       case 'CameraExposureAreaChanged':
         cameraExposureAreaChanged
-            ?.call(Rect.fromJson(Map<String, dynamic>.from(data[0])));
+            ?.call(Rect.fromJson(Map<String, dynamic>.from(newData[0])));
         break;
       case 'FacePositionChanged':
-        final list = List<Map>.from(data[2]);
+        final list = List<Map>.from(newData[2]);
         facePositionChanged?.call(
-            data[0],
-            data[1],
+            newData[0],
+            newData[1],
             List.generate(
                 list.length,
                 (index) => FacePositionInfo.fromJson(
                     Map<String, dynamic>.from(list[index]))));
         break;
       case 'RtcStats':
-        rtcStats?.call(RtcStats.fromJson(Map<String, dynamic>.from(data[0])));
+        rtcStats
+            ?.call(RtcStats.fromJson(Map<String, dynamic>.from(newData[0])));
         break;
       case 'LastmileQuality':
-        lastmileQuality?.call(NetworkQualityConverter.fromValue(data[0]).e);
+        lastmileQuality?.call(NetworkQualityConverter.fromValue(newData[0]).e);
         break;
       case 'NetworkQuality':
         networkQuality?.call(
-            data[0],
-            NetworkQualityConverter.fromValue(data[1]).e,
-            NetworkQualityConverter.fromValue(data[2]).e);
+            newData[0],
+            NetworkQualityConverter.fromValue(newData[1]).e,
+            NetworkQualityConverter.fromValue(newData[2]).e);
         break;
       case 'LastmileProbeResult':
-        lastmileProbeResult?.call(
-            LastmileProbeResult.fromJson(Map<String, dynamic>.from(data[0])));
+        lastmileProbeResult?.call(LastmileProbeResult.fromJson(
+            Map<String, dynamic>.from(newData[0])));
         break;
       case 'LocalVideoStats':
         localVideoStats?.call(
-            LocalVideoStats.fromJson(Map<String, dynamic>.from(data[0])));
+            LocalVideoStats.fromJson(Map<String, dynamic>.from(newData[0])));
         break;
       case 'LocalAudioStats':
         localAudioStats?.call(
-            LocalAudioStats.fromJson(Map<String, dynamic>.from(data[0])));
+            LocalAudioStats.fromJson(Map<String, dynamic>.from(newData[0])));
         break;
       case 'RemoteVideoStats':
         remoteVideoStats?.call(
-            RemoteVideoStats.fromJson(Map<String, dynamic>.from(data[0])));
+            RemoteVideoStats.fromJson(Map<String, dynamic>.from(newData[0])));
         break;
       case 'RemoteAudioStats':
         remoteAudioStats?.call(
-            RemoteAudioStats.fromJson(Map<String, dynamic>.from(data[0])));
+            RemoteAudioStats.fromJson(Map<String, dynamic>.from(newData[0])));
         break;
       case 'AudioMixingFinished':
         audioMixingFinished?.call();
         break;
       case 'AudioMixingStateChanged':
         audioMixingStateChanged?.call(
-          AudioMixingStateCodeConverter.fromValue(data[0]).e,
-          AudioMixingReasonConverter.fromValue(data[1]).e,
+          AudioMixingStateCodeConverter.fromValue(newData[0]).e,
+          AudioMixingReasonConverter.fromValue(newData[1]).e,
         );
         break;
       case 'AudioEffectFinished':
-        audioEffectFinished?.call(data[0]);
+        audioEffectFinished?.call(newData[0]);
         break;
       case 'RtmpStreamingStateChanged':
         rtmpStreamingStateChanged?.call(
-          data[0],
-          RtmpStreamingStateConverter.fromValue(data[1]).e,
-          RtmpStreamingErrorCodeConverter.fromValue(data[2]).e,
+          newData[0],
+          RtmpStreamingStateConverter.fromValue(newData[1]).e,
+          RtmpStreamingErrorCodeConverter.fromValue(newData[2]).e,
         );
         break;
       case 'TranscodingUpdated':
         transcodingUpdated?.call();
         break;
       case 'StreamInjectedStatus':
-        streamInjectedStatus?.call(
-            data[0], data[1], InjectStreamStatusConverter.fromValue(data[2]).e);
+        streamInjectedStatus?.call(newData[0], newData[1],
+            InjectStreamStatusConverter.fromValue(newData[2]).e);
         break;
       case 'StreamMessage':
-        streamMessage?.call(data[0], data[1], data[2]);
+        if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+          if (buffer == null) return;
+          streamMessage?.call(newData[0], newData[1], buffer);
+        } else {
+          String data = newData[2];
+          streamMessage?.call(
+              newData[0], newData[1], Uint8List.fromList(data.codeUnits));
+        }
         break;
       case 'StreamMessageError':
-        streamMessageError?.call(data[0], data[1],
-            ErrorCodeConverter.fromValue(data[2]).e, data[3], data[4]);
+        streamMessageError?.call(newData[0], newData[1],
+            ErrorCodeConverter.fromValue(newData[2]).e, newData[3], newData[4]);
         break;
       case 'MediaEngineLoadSuccess':
         mediaEngineLoadSuccess?.call();
@@ -1303,49 +1332,54 @@ class RtcEngineEventHandler {
         break;
       case 'ChannelMediaRelayStateChanged':
         channelMediaRelayStateChanged?.call(
-          ChannelMediaRelayStateConverter.fromValue(data[0]).e,
-          ChannelMediaRelayErrorConverter.fromValue(data[1]).e,
+          ChannelMediaRelayStateConverter.fromValue(newData[0]).e,
+          ChannelMediaRelayErrorConverter.fromValue(newData[1]).e,
         );
         break;
       case 'ChannelMediaRelayEvent':
         channelMediaRelayEvent
-            ?.call(ChannelMediaRelayEventConverter.fromValue(data[0]).e);
+            ?.call(ChannelMediaRelayEventConverter.fromValue(newData[0]).e);
         break;
       case 'FirstRemoteVideoFrame':
-        firstRemoteVideoFrame?.call(data[0], data[1], data[2], data[3]);
+        firstRemoteVideoFrame?.call(
+            newData[0], newData[1], newData[2], newData[3]);
         break;
       case 'FirstRemoteAudioFrame':
-        firstRemoteAudioFrame?.call(data[0], data[1]);
+        firstRemoteAudioFrame?.call(newData[0], newData[1]);
         break;
       case 'FirstRemoteAudioDecoded':
-        firstRemoteAudioDecoded?.call(data[0], data[1]);
+        firstRemoteAudioDecoded?.call(newData[0], newData[1]);
         break;
       case 'UserMuteAudio':
-        userMuteAudio?.call(data[0], data[1]);
+        userMuteAudio?.call(newData[0], newData[1]);
         break;
       case 'StreamPublished':
-        streamPublished?.call(data[0], ErrorCodeConverter.fromValue(data[1]).e);
+        streamPublished?.call(
+            newData[0], ErrorCodeConverter.fromValue(newData[1]).e);
         break;
       case 'StreamUnpublished':
-        streamUnpublished?.call(data[0]);
+        streamUnpublished?.call(newData[0]);
         break;
       case 'RemoteAudioTransportStats':
-        remoteAudioTransportStats?.call(data[0], data[1], data[2], data[3]);
+        remoteAudioTransportStats?.call(
+            newData[0], newData[1], newData[2], newData[3]);
         break;
       case 'RemoteVideoTransportStats':
-        remoteVideoTransportStats?.call(data[0], data[1], data[2], data[3]);
+        remoteVideoTransportStats?.call(
+            newData[0], newData[1], newData[2], newData[3]);
         break;
       case 'UserEnableVideo':
-        userEnableVideo?.call(data[0], data[1]);
+        userEnableVideo?.call(newData[0], newData[1]);
         break;
       case 'UserEnableLocalVideo':
-        userEnableLocalVideo?.call(data[0], data[1]);
+        userEnableLocalVideo?.call(newData[0], newData[1]);
         break;
       case 'FirstRemoteVideoDecoded':
-        firstRemoteVideoDecoded?.call(data[0], data[1], data[2], data[3]);
+        firstRemoteVideoDecoded?.call(
+            newData[0], newData[1], newData[2], newData[3]);
         break;
       case 'MicrophoneEnabled':
-        microphoneEnabled?.call(data[0]);
+        microphoneEnabled?.call(newData[0]);
         break;
       case 'ConnectionInterrupted':
         connectionInterrupted?.call();
@@ -1354,7 +1388,7 @@ class RtcEngineEventHandler {
         connectionBanned?.call();
         break;
       case 'AudioQuality':
-        audioQuality?.call(data[0], data[1], data[2], data[3]);
+        audioQuality?.call(newData[0], newData[1], newData[2], newData[3]);
         break;
       case 'CameraReady':
         cameraReady?.call();
@@ -1363,54 +1397,64 @@ class RtcEngineEventHandler {
         videoStopped?.call();
         break;
       case 'MetadataReceived':
-        metadataReceived?.call(data[0], data[1], data[2]);
+        Metadata metadata;
+        if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+          if (buffer == null) return;
+          metadata = Metadata.fromJson(Map<String, dynamic>.from(newData[0]));
+          metadata.buffer = buffer;
+        } else {
+          metadata = Metadata(newData[1], newData[2]);
+          String buffer = newData[0];
+          metadata.buffer = Uint8List.fromList(buffer.codeUnits);
+        }
+        metadataReceived?.call(metadata);
         break;
       case 'FirstLocalAudioFramePublished':
-        firstLocalAudioFramePublished?.call(data[0]);
+        firstLocalAudioFramePublished?.call(newData[0]);
         break;
       case 'FirstLocalVideoFramePublished':
-        firstLocalVideoFramePublished?.call(data[0]);
+        firstLocalVideoFramePublished?.call(newData[0]);
         break;
       case 'AudioPublishStateChanged':
         audioPublishStateChanged?.call(
-            data[0],
-            StreamPublishStateConverter.fromValue(data[1]).e,
-            StreamPublishStateConverter.fromValue(data[2]).e,
-            data[3]);
+            newData[0],
+            StreamPublishStateConverter.fromValue(newData[1]).e,
+            StreamPublishStateConverter.fromValue(newData[2]).e,
+            newData[3]);
         break;
       case 'VideoPublishStateChanged':
         videoPublishStateChanged?.call(
-            data[0],
-            StreamPublishStateConverter.fromValue(data[1]).e,
-            StreamPublishStateConverter.fromValue(data[2]).e,
-            data[3]);
+            newData[0],
+            StreamPublishStateConverter.fromValue(newData[1]).e,
+            StreamPublishStateConverter.fromValue(newData[2]).e,
+            newData[3]);
         break;
       case 'AudioSubscribeStateChanged':
         audioSubscribeStateChanged?.call(
-            data[0],
-            data[1],
-            StreamSubscribeStateConverter.fromValue(data[2]).e,
-            StreamSubscribeStateConverter.fromValue(data[3]).e,
-            data[4]);
+            newData[0],
+            newData[1],
+            StreamSubscribeStateConverter.fromValue(newData[2]).e,
+            StreamSubscribeStateConverter.fromValue(newData[3]).e,
+            newData[4]);
         break;
       case 'VideoSubscribeStateChanged':
         videoSubscribeStateChanged?.call(
-            data[0],
-            data[1],
-            StreamSubscribeStateConverter.fromValue(data[2]).e,
-            StreamSubscribeStateConverter.fromValue(data[3]).e,
-            data[4]);
+            newData[0],
+            newData[1],
+            StreamSubscribeStateConverter.fromValue(newData[2]).e,
+            StreamSubscribeStateConverter.fromValue(newData[3]).e,
+            newData[4]);
         break;
       case 'RtmpStreamingEvent':
-        rtmpStreamingEvent?.call(data[0], data[1]);
+        rtmpStreamingEvent?.call(newData[0], newData[1]);
         break;
       case 'UserSuperResolutionEnabled':
-        userSuperResolutionEnabled?.call(data[0], data[1],
-            SuperResolutionStateReasonConverter.fromValue(data[2]).e);
+        userSuperResolutionEnabled?.call(newData[0], newData[1],
+            SuperResolutionStateReasonConverter.fromValue(newData[2]).e);
         break;
       case 'UploadLogResult':
-        uploadLogResult?.call(
-            data[0], data[1], UploadErrorReasonConverter.fromValue(data[2]).e);
+        uploadLogResult?.call(newData[0], newData[1],
+            UploadErrorReasonConverter.fromValue(newData[2]).e);
         break;
     }
   }
@@ -1823,162 +1867,190 @@ class RtcChannelEventHandler {
   });
 
   // ignore: public_member_api_docs
-  void process(String methodName, List<dynamic> data) {
+  void process(String methodName, dynamic data, [Uint8List? buffer]) {
+    List<dynamic> newData;
+    if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+      if (methodName.startsWith('on')) {
+        methodName = methodName.substring(2);
+      }
+      newData = List<dynamic>.from(
+          Map<String, dynamic>.from(jsonDecode(data as String)).values);
+    } else {
+      newData = List<dynamic>.from(data);
+    }
     switch (methodName) {
       case 'Warning':
-        warning?.call(WarningCodeConverter.fromValue(data[0]).e);
+        warning?.call(WarningCodeConverter.fromValue(newData[0]).e);
         break;
       case 'Error':
-        error?.call(ErrorCodeConverter.fromValue(data[0]).e);
+        error?.call(ErrorCodeConverter.fromValue(newData[0]).e);
         break;
       case 'JoinChannelSuccess':
-        joinChannelSuccess?.call(data[0], data[1], data[2]);
+        joinChannelSuccess?.call(newData[0], newData[1], newData[2]);
         break;
       case 'RejoinChannelSuccess':
-        rejoinChannelSuccess?.call(data[0], data[1], data[2]);
+        rejoinChannelSuccess?.call(newData[0], newData[1], newData[2]);
         break;
       case 'LeaveChannel':
         leaveChannel
-            ?.call(RtcStats.fromJson(Map<String, dynamic>.from(data[0])));
+            ?.call(RtcStats.fromJson(Map<String, dynamic>.from(newData[0])));
         break;
       case 'ClientRoleChanged':
-        clientRoleChanged?.call(ClientRoleConverter.fromValue(data[0]).e,
-            ClientRoleConverter.fromValue(data[1]).e);
+        clientRoleChanged?.call(ClientRoleConverter.fromValue(newData[0]).e,
+            ClientRoleConverter.fromValue(newData[1]).e);
         break;
       case 'UserJoined':
-        userJoined?.call(data[0], data[1]);
+        userJoined?.call(newData[0], newData[1]);
         break;
       case 'UserOffline':
         userOffline?.call(
-            data[0], UserOfflineReasonConverter.fromValue(data[1]).e);
+            newData[0], UserOfflineReasonConverter.fromValue(newData[1]).e);
         break;
       case 'ConnectionStateChanged':
         connectionStateChanged?.call(
-            ConnectionStateTypeConverter.fromValue(data[0]).e,
-            ConnectionChangedReasonConverter.fromValue(data[1]).e);
+            ConnectionStateTypeConverter.fromValue(newData[0]).e,
+            ConnectionChangedReasonConverter.fromValue(newData[1]).e);
         break;
       case 'ConnectionLost':
         connectionLost?.call();
         break;
       case 'TokenPrivilegeWillExpire':
-        tokenPrivilegeWillExpire?.call(data[0]);
+        tokenPrivilegeWillExpire?.call(newData[0]);
         break;
       case 'RequestToken':
         requestToken?.call();
         break;
       case 'ActiveSpeaker':
-        activeSpeaker?.call(data[0]);
+        activeSpeaker?.call(newData[0]);
         break;
       case 'VideoSizeChanged':
-        videoSizeChanged?.call(data[0], data[1], data[2], data[3]);
+        videoSizeChanged?.call(newData[0], newData[1], newData[2], newData[3]);
         break;
       case 'RemoteVideoStateChanged':
         remoteVideoStateChanged?.call(
-            data[0],
-            VideoRemoteStateConverter.fromValue(data[1]).e,
-            VideoRemoteStateReasonConverter.fromValue(data[2]).e,
-            data[3]);
+            newData[0],
+            VideoRemoteStateConverter.fromValue(newData[1]).e,
+            VideoRemoteStateReasonConverter.fromValue(newData[2]).e,
+            newData[3]);
         break;
       case 'RemoteAudioStateChanged':
         remoteAudioStateChanged?.call(
-            data[0],
-            AudioRemoteStateConverter.fromValue(data[1]).e,
-            AudioRemoteStateReasonConverter.fromValue(data[2]).e,
-            data[3]);
+            newData[0],
+            AudioRemoteStateConverter.fromValue(newData[1]).e,
+            AudioRemoteStateReasonConverter.fromValue(newData[2]).e,
+            newData[3]);
         break;
       case 'LocalPublishFallbackToAudioOnly':
-        localPublishFallbackToAudioOnly?.call(data[0]);
+        localPublishFallbackToAudioOnly?.call(newData[0]);
         break;
       case 'RemoteSubscribeFallbackToAudioOnly':
-        remoteSubscribeFallbackToAudioOnly?.call(data[0], data[1]);
+        remoteSubscribeFallbackToAudioOnly?.call(newData[0], newData[1]);
         break;
       case 'RtcStats':
-        rtcStats?.call(RtcStats.fromJson(Map<String, dynamic>.from(data[0])));
+        rtcStats
+            ?.call(RtcStats.fromJson(Map<String, dynamic>.from(newData[0])));
         break;
       case 'NetworkQuality':
         networkQuality?.call(
-            data[0],
-            NetworkQualityConverter.fromValue(data[1]).e,
-            NetworkQualityConverter.fromValue(data[2]).e);
+            newData[0],
+            NetworkQualityConverter.fromValue(newData[1]).e,
+            NetworkQualityConverter.fromValue(newData[2]).e);
         break;
       case 'RemoteVideoStats':
         remoteVideoStats?.call(
-            RemoteVideoStats.fromJson(Map<String, dynamic>.from(data[0])));
+            RemoteVideoStats.fromJson(Map<String, dynamic>.from(newData[0])));
         break;
       case 'RemoteAudioStats':
         remoteAudioStats?.call(
-            RemoteAudioStats.fromJson(Map<String, dynamic>.from(data[0])));
+            RemoteAudioStats.fromJson(Map<String, dynamic>.from(newData[0])));
         break;
       case 'RtmpStreamingStateChanged':
         rtmpStreamingStateChanged?.call(
-          data[0],
-          RtmpStreamingStateConverter.fromValue(data[1]).e,
-          RtmpStreamingErrorCodeConverter.fromValue(data[2]).e,
+          newData[0],
+          RtmpStreamingStateConverter.fromValue(newData[1]).e,
+          RtmpStreamingErrorCodeConverter.fromValue(newData[2]).e,
         );
         break;
       case 'TranscodingUpdated':
         transcodingUpdated?.call();
         break;
       case 'StreamInjectedStatus':
-        streamInjectedStatus?.call(
-            data[0], data[1], InjectStreamStatusConverter.fromValue(data[2]).e);
+        streamInjectedStatus?.call(newData[0], newData[1],
+            InjectStreamStatusConverter.fromValue(newData[2]).e);
         break;
       case 'StreamMessage':
-        streamMessage?.call(data[0], data[1], data[2]);
+        if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+          if (buffer == null) return;
+          streamMessage?.call(newData[0], newData[1], buffer);
+        } else {
+          String data = newData[2];
+          streamMessage?.call(
+              newData[0], newData[1], Uint8List.fromList(data.codeUnits));
+        }
         break;
       case 'StreamMessageError':
-        streamMessageError?.call(data[0], data[1],
-            ErrorCodeConverter.fromValue(data[2]).e, data[3], data[4]);
+        streamMessageError?.call(newData[0], newData[1],
+            ErrorCodeConverter.fromValue(newData[2]).e, newData[3], newData[4]);
         break;
       case 'ChannelMediaRelayStateChanged':
         channelMediaRelayStateChanged?.call(
-          ChannelMediaRelayStateConverter.fromValue(data[0]).e,
-          ChannelMediaRelayErrorConverter.fromValue(data[1]).e,
+          ChannelMediaRelayStateConverter.fromValue(newData[0]).e,
+          ChannelMediaRelayErrorConverter.fromValue(newData[1]).e,
         );
         break;
       case 'ChannelMediaRelayEvent':
         channelMediaRelayEvent
-            ?.call(ChannelMediaRelayEventConverter.fromValue(data[0]).e);
+            ?.call(ChannelMediaRelayEventConverter.fromValue(newData[0]).e);
         break;
       case 'MetadataReceived':
-        metadataReceived?.call(data[0], data[1], data[2]);
+        Metadata metadata;
+        if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+          if (buffer == null) return;
+          metadata = Metadata.fromJson(Map<String, dynamic>.from(newData[0]));
+          metadata.buffer = buffer;
+        } else {
+          metadata = Metadata(newData[1], newData[2]);
+          String buffer = newData[0];
+          metadata.buffer = Uint8List.fromList(buffer.codeUnits);
+        }
+        metadataReceived?.call(metadata);
         break;
       case 'AudioPublishStateChanged':
         audioPublishStateChanged?.call(
-            data[0],
-            StreamPublishStateConverter.fromValue(data[1]).e,
-            StreamPublishStateConverter.fromValue(data[2]).e,
-            data[3]);
+            newData[0],
+            StreamPublishStateConverter.fromValue(newData[1]).e,
+            StreamPublishStateConverter.fromValue(newData[2]).e,
+            newData[3]);
         break;
       case 'VideoPublishStateChanged':
         videoPublishStateChanged?.call(
-            data[0],
-            StreamPublishStateConverter.fromValue(data[1]).e,
-            StreamPublishStateConverter.fromValue(data[2]).e,
-            data[3]);
+            newData[0],
+            StreamPublishStateConverter.fromValue(newData[1]).e,
+            StreamPublishStateConverter.fromValue(newData[2]).e,
+            newData[3]);
         break;
       case 'AudioSubscribeStateChanged':
         audioSubscribeStateChanged?.call(
-            data[0],
-            data[1],
-            StreamSubscribeStateConverter.fromValue(data[2]).e,
-            StreamSubscribeStateConverter.fromValue(data[3]).e,
-            data[4]);
+            newData[0],
+            newData[1],
+            StreamSubscribeStateConverter.fromValue(newData[2]).e,
+            StreamSubscribeStateConverter.fromValue(newData[3]).e,
+            newData[4]);
         break;
       case 'VideoSubscribeStateChanged':
         videoSubscribeStateChanged?.call(
-            data[0],
-            data[1],
-            StreamSubscribeStateConverter.fromValue(data[2]).e,
-            StreamSubscribeStateConverter.fromValue(data[3]).e,
-            data[4]);
+            newData[0],
+            newData[1],
+            StreamSubscribeStateConverter.fromValue(newData[2]).e,
+            StreamSubscribeStateConverter.fromValue(newData[3]).e,
+            newData[4]);
         break;
       case 'RtmpStreamingEvent':
-        rtmpStreamingEvent?.call(data[0], data[1]);
+        rtmpStreamingEvent?.call(newData[0], newData[1]);
         break;
       case 'UserSuperResolutionEnabled':
-        userSuperResolutionEnabled?.call(data[0], data[1],
-            SuperResolutionStateReasonConverter.fromValue(data[2]).e);
+        userSuperResolutionEnabled?.call(newData[0], newData[1],
+            SuperResolutionStateReasonConverter.fromValue(newData[2]).e);
         break;
     }
   }
