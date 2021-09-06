@@ -167,7 +167,7 @@ class AgoraRtcEngineWeb {
       int apiType = args['apiType'];
       String param = args['params'];
       return promiseToFuture(
-          _engine(args).deviceManager.callApiAudio(apiType, param));
+          _engine_main.deviceManager.callApiAudio(apiType, param));
     } else {
       throw PlatformException(code: ErrorCode.NotSupported.toString());
     }
@@ -183,7 +183,7 @@ class AgoraRtcEngineWeb {
       int apiType = args['apiType'];
       String param = args['params'];
       return promiseToFuture(
-          _engine(args).deviceManager.callApiVideo(apiType, param));
+          _engine_main.deviceManager.callApiVideo(apiType, param));
     } else {
       throw PlatformException(code: ErrorCode.NotSupported.toString());
     }
