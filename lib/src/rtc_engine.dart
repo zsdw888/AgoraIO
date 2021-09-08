@@ -414,7 +414,9 @@ class RtcEngine with RtcEngineInterface {
     if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
       return _invokeMethod('callApi', {
         'apiType': _ApiTypeEngine.kEngineRelease.index,
-        'params': jsonEncode({}),
+        'params': jsonEncode({
+          'sync': true,
+        }),
       });
     }
     return _invokeMethod('destroy');
