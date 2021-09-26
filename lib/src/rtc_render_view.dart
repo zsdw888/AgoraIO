@@ -165,10 +165,18 @@ class _RtcSurfaceViewState extends State<RtcSurfaceView> {
       setData();
     }
     if (oldWidget.renderMode != widget.renderMode) {
-      setRenderMode();
+      if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+        setData();
+      } else {
+        setRenderMode();
+      }
     }
     if (oldWidget.mirrorMode != widget.mirrorMode) {
-      setMirrorMode();
+      if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
+        setData();
+      } else {
+        setMirrorMode();
+      }
     }
     if (defaultTargetPlatform == TargetPlatform.android) {
       if (oldWidget.zOrderOnTop != widget.zOrderOnTop) {
@@ -195,6 +203,12 @@ class _RtcSurfaceViewState extends State<RtcSurfaceView> {
     };
     if (kIsWeb || (Platform.isWindows || Platform.isMacOS)) {
       params['subProcess'] = widget.subProcess;
+
+      _renderMode = VideoRenderModeConverter(widget.renderMode).value();
+      params['data']['renderMode'] = _renderMode;
+
+      _mirrorMode = VideoMirrorModeConverter(widget.mirrorMode).value();
+      params['data']['mirrorMode'] = _mirrorMode;
     }
     _channels[_id]?.invokeMethod('setData', params);
   }

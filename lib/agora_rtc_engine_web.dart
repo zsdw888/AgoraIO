@@ -205,6 +205,8 @@ class AgoraRtcEngineWeb {
               'canvas': {
                 'uid': 0,
                 'channelId': data['channelId'],
+                'renderMode': data['renderMode'],
+                'mirrorMode': data['mirrorMode'],
               },
             }),
             element));
@@ -216,6 +218,8 @@ class AgoraRtcEngineWeb {
               'canvas': {
                 'uid': data['uid'],
                 'channelId': data['channelId'],
+                'renderMode': data['renderMode'],
+                'mirrorMode': data['mirrorMode'],
               }
             }),
             element));
