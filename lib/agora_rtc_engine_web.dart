@@ -211,9 +211,9 @@ class AgoraRtcEngineWeb {
             }),
             element));
       } else {
-        final kEngineSetupLocalVideo = 21;
+        final kEngineSetupRemoteVideo = 21;
         return promiseToFuture(_engine(args).callApi(
-            kEngineSetupLocalVideo,
+            kEngineSetupRemoteVideo,
             jsonEncode({
               'canvas': {
                 'uid': data['uid'],
