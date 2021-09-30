@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
@@ -48,31 +46,31 @@ class _State extends State<JoinChannelVideo> {
   _addListeners() {
     _engine.setEventHandler(RtcEngineEventHandler(
       warning: (warningCode) {
-        log('warning ${warningCode}');
+        print('warning ${warningCode}');
       },
       error: (errorCode) {
-        log('error ${errorCode}');
+        print('error ${errorCode}');
       },
       joinChannelSuccess: (channel, uid, elapsed) {
-        log('joinChannelSuccess ${channel} ${uid} ${elapsed}');
+        print('joinChannelSuccess ${channel} ${uid} ${elapsed}');
         setState(() {
           isJoined = true;
         });
       },
       userJoined: (uid, elapsed) {
-        log('userJoined  ${uid} ${elapsed}');
+        print('userJoined  ${uid} ${elapsed}');
         setState(() {
           remoteUid.add(uid);
         });
       },
       userOffline: (uid, reason) {
-        log('userOffline  ${uid} ${reason}');
+        print('userOffline  ${uid} ${reason}');
         setState(() {
           remoteUid.removeWhere((element) => element == uid);
         });
       },
       leaveChannel: (stats) {
-        log('leaveChannel ${stats.toJson()}');
+        print('leaveChannel ${stats.toJson()}');
         setState(() {
           isJoined = false;
           remoteUid.clear();
@@ -98,7 +96,7 @@ class _State extends State<JoinChannelVideo> {
         switchCamera = !switchCamera;
       });
     }).catchError((err) {
-      log('switchCamera $err');
+      print('switchCamera $err');
     });
   }
 

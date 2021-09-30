@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:agora_rtc_engine/rtc_channel.dart';
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
@@ -89,13 +87,13 @@ class _State extends State<MultiChannel> {
     String channelId = channel.channelId;
     channel.setEventHandler(RtcChannelEventHandler(
       warning: (warningCode) {
-        log('warning ${warningCode}');
+        print('warning ${warningCode}');
       },
       error: (errorCode) {
-        log('error ${errorCode}');
+        print('error ${errorCode}');
       },
       joinChannelSuccess: (channel, uid, elapsed) {
-        log('joinChannelSuccess ${channel} ${uid} ${elapsed}');
+        print('joinChannelSuccess ${channel} ${uid} ${elapsed}');
         if (channelId == _channelId0) {
           setState(() {
             isJoined0 = true;
@@ -107,7 +105,7 @@ class _State extends State<MultiChannel> {
         }
       },
       userJoined: (uid, elapsed) {
-        log('userJoined ${channel.channelId} $uid $elapsed');
+        print('userJoined ${channel.channelId} $uid $elapsed');
         if (channelId == _channelId0) {
           this.setState(() {
             remoteUid0.add(uid);
@@ -119,7 +117,7 @@ class _State extends State<MultiChannel> {
         }
       },
       userOffline: (uid, reason) {
-        log('userOffline ${channel.channelId} $uid $reason');
+        print('userOffline ${channel.channelId} $uid $reason');
         if (channelId == _channelId0) {
           this.setState(() {
             remoteUid0.removeWhere((element) => element == uid);
@@ -131,7 +129,7 @@ class _State extends State<MultiChannel> {
         }
       },
       leaveChannel: (stats) {
-        log('leaveChannel ${channel.channelId} ${stats.toJson()}');
+        print('leaveChannel ${channel.channelId} ${stats.toJson()}');
         if (channelId == _channelId0) {
           this.setState(() {
             isJoined0 = false;

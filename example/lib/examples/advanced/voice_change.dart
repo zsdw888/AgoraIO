@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine_example/config/agora.config.dart' as config;
 import 'package:agora_rtc_engine_example/examples/config/voice_changer.config.dart';
@@ -70,26 +68,26 @@ class _State extends State<VoiceChange> {
   _addListener() {
     _engine.setEventHandler(RtcEngineEventHandler(
       warning: (warningCode) {
-        log('warning ${warningCode}');
+        print('warning ${warningCode}');
       },
       error: (errorCode) {
-        log('error ${errorCode}');
+        print('error ${errorCode}');
       },
       joinChannelSuccess: (channel, uid, elapsed) {
-        log('joinChannelSuccess ${channel} ${uid} ${elapsed}');
+        print('joinChannelSuccess ${channel} ${uid} ${elapsed}');
         setState(() {
           isJoined = true;
           uidMySelf = uid;
         });
       },
       userJoined: (uid, elapsed) {
-        log('userJoined $uid $elapsed');
+        print('userJoined $uid $elapsed');
         this.setState(() {
           remoteUids.add(uid);
         });
       },
       userOffline: (uid, reason) {
-        log('userOffline $uid $reason');
+        print('userOffline $uid $reason');
         this.setState(() {
           remoteUids.remove(uid);
         });

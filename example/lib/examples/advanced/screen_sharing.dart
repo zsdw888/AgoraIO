@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:agora_rtc_engine/rtc_engine.dart';
@@ -49,19 +48,19 @@ class _State extends State<ScreenSharing> {
   _addListeners() {
     _engine.setEventHandler(RtcEngineEventHandler(
       warning: (warningCode) {
-        log('warning ${warningCode}');
+        print('warning ${warningCode}');
       },
       error: (errorCode) {
-        log('error ${errorCode}');
+        print('error ${errorCode}');
       },
       joinChannelSuccess: (channel, uid, elapsed) {
-        log('joinChannelSuccess ${channel} ${uid} ${elapsed}');
+        print('joinChannelSuccess ${channel} ${uid} ${elapsed}');
         setState(() {
           isJoined = true;
         });
       },
       userJoined: (uid, elapsed) {
-        log('userJoined  ${uid} ${elapsed}');
+        print('userJoined  ${uid} ${elapsed}');
         if (uid == config.screenSharingUid) {
           return;
         }
@@ -70,13 +69,13 @@ class _State extends State<ScreenSharing> {
         });
       },
       userOffline: (uid, reason) {
-        log('userOffline  ${uid} ${reason}');
+        print('userOffline  ${uid} ${reason}');
         setState(() {
           remoteUid.removeWhere((element) => element == uid);
         });
       },
       leaveChannel: (stats) {
-        log('leaveChannel ${stats.toJson()}');
+        print('leaveChannel ${stats.toJson()}');
         setState(() {
           isJoined = false;
           remoteUid.clear();
@@ -99,13 +98,22 @@ class _State extends State<ScreenSharing> {
   _startScreenShare() async {
     final helper = _engine.getScreenShareHelper();
     helper.setEventHandler(RtcEngineEventHandler(
-        joinChannelSuccess: (String channel, int uid, int elapsed) {
-      log('ScreenSharing joinChannelSuccess ${channel} ${uid} ${elapsed}');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(
-            'ScreenSharing joinChannelSuccess ${channel} ${uid} ${elapsed}'),
-      ));
-    }));
+      joinChannelSuccess: (String channel, int uid, int elapsed) {
+        print('ScreenSharing joinChannelSuccess ${channel} ${uid} ${elapsed}');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(
+              'ScreenSharing joinChannelSuccess ${channel} ${uid} ${elapsed}'),
+        ));
+      },
+      localVideoStateChanged:
+          (LocalVideoStreamState localVideoState, LocalVideoStreamError error) {
+        print(
+            'ScreenSharing localVideoStateChanged ${localVideoState} ${error}');
+        if (localVideoState == LocalVideoStreamState.Failed) {
+          _stopScreenShare();
+        }
+      },
+    ));
     await helper.initialize(RtcEngineContext(config.appId));
     await helper.disableAudio();
     await helper.enableVideo();
@@ -133,7 +141,7 @@ class _State extends State<ScreenSharing> {
         screenSharing = false;
       });
     }).catchError((err) {
-      log('_stopScreenShare $err');
+      print('_stopScreenShare $err');
     });
   }
 

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine/rtc_local_view.dart' as RtcLocalView;
 import 'package:agora_rtc_engine/rtc_remote_view.dart' as RtcRemoteView;
@@ -101,25 +99,25 @@ class _State extends State<LiveStreaming> {
   _addListener() {
     _engine.setEventHandler(RtcEngineEventHandler(
       warning: (warningCode) {
-        log('warning ${warningCode}');
+        print('warning ${warningCode}');
       },
       error: (errorCode) {
-        log('error ${errorCode}');
+        print('error ${errorCode}');
       },
       joinChannelSuccess: (channel, uid, elapsed) {
-        log('joinChannelSuccess ${channel} ${uid} ${elapsed}');
+        print('joinChannelSuccess ${channel} ${uid} ${elapsed}');
         setState(() {
           isJoined = true;
         });
       },
       userJoined: (uid, elapsed) {
-        log('userJoined $uid $elapsed');
+        print('userJoined $uid $elapsed');
         this.setState(() {
           remoteUid = uid;
         });
       },
       userOffline: (uid, reason) {
-        log('userOffline $uid $reason');
+        print('userOffline $uid $reason');
         this.setState(() {
           remoteUid = null;
         });

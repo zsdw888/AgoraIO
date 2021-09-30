@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:agora_rtc_engine/rtc_engine.dart';
 import 'package:agora_rtc_engine_example/config/agora.config.dart' as config;
@@ -50,19 +49,19 @@ class _State extends State<JoinChannelAudio> {
   _addListeners() {
     _engine.setEventHandler(RtcEngineEventHandler(
       warning: (warningCode) {
-        log('warning ${warningCode}');
+        print('warning ${warningCode}');
       },
       error: (errorCode) {
-        log('error ${errorCode}');
+        print('error ${errorCode}');
       },
       joinChannelSuccess: (channel, uid, elapsed) {
-        log('joinChannelSuccess ${channel} ${uid} ${elapsed}');
+        print('joinChannelSuccess ${channel} ${uid} ${elapsed}');
         setState(() {
           isJoined = true;
         });
       },
       leaveChannel: (stats) async {
-        log('leaveChannel ${stats.toJson()}');
+        print('leaveChannel ${stats.toJson()}');
         setState(() {
           isJoined = false;
         });
@@ -92,7 +91,7 @@ class _State extends State<JoinChannelAudio> {
         openMicrophone = !openMicrophone;
       });
     }).catchError((err) {
-      log('enableLocalAudio $err');
+      print('enableLocalAudio $err');
     });
   }
 
@@ -102,7 +101,7 @@ class _State extends State<JoinChannelAudio> {
         enableSpeakerphone = !enableSpeakerphone;
       });
     }).catchError((err) {
-      log('setEnableSpeakerphone $err');
+      print('setEnableSpeakerphone $err');
     });
   }
 
@@ -113,7 +112,7 @@ class _State extends State<JoinChannelAudio> {
           playEffect = false;
         });
       }).catchError((err) {
-        log('stopEffect $err');
+        print('stopEffect $err');
       });
     } else {
       _engine
@@ -131,7 +130,7 @@ class _State extends State<JoinChannelAudio> {
           playEffect = true;
         });
       }).catchError((err) {
-        log('playEffect $err');
+        print('playEffect $err');
       });
     }
   }

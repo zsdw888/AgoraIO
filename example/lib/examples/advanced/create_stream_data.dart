@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:agora_rtc_engine/rtc_engine.dart';
@@ -83,36 +82,36 @@ class _State extends State<CreateStreamData> {
   _addListener() {
     _engine.setEventHandler(RtcEngineEventHandler(
       warning: (warningCode) {
-        log('warning ${warningCode}');
+        print('warning ${warningCode}');
       },
       error: (errorCode) {
-        log('error ${errorCode}');
+        print('error ${errorCode}');
       },
       joinChannelSuccess: (channel, uid, elapsed) {
-        log('joinChannelSuccess ${channel} ${uid} ${elapsed}');
+        print('joinChannelSuccess ${channel} ${uid} ${elapsed}');
         setState(() {
           isJoined = true;
         });
       },
       userJoined: (uid, elapsed) {
-        log('userJoined $uid $elapsed');
+        print('userJoined $uid $elapsed');
         this.setState(() {
           remoteUid = uid;
         });
       },
       userOffline: (uid, reason) {
-        log('userOffline $uid $reason');
+        print('userOffline $uid $reason');
         this.setState(() {
           remoteUid = null;
         });
       },
       streamMessage: (int uid, int streamId, Uint8List data) {
         _showMyDialog(uid, streamId, String.fromCharCodes(data));
-        log('streamMessage $uid $streamId $data');
+        print('streamMessage $uid $streamId $data');
       },
       streamMessageError:
           (int uid, int streamId, ErrorCode error, int missed, int cached) {
-        log('streamMessage $uid $streamId $error $missed $cached');
+        print('streamMessage $uid $streamId $error $missed $cached');
       },
     ));
   }
