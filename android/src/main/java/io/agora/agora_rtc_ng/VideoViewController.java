@@ -23,7 +23,7 @@ public class VideoViewController implements MethodChannel.MethodCallHandler {
         return true;
     }
 
-    private long createTextureRender() {
+    private long createTextureRender(long uid, String channelId, int videoSourceType) {
         return 0L;
     }
 
@@ -42,7 +42,23 @@ public class VideoViewController implements MethodChannel.MethodCallHandler {
                 break;
 
             case "createTextureRender":
+            {
+                final Long uid = call.argument("uid");
+                final String channelId = call.argument("channelId");
+                final Integer videoSourceType = call.argument("videoSourceType");
+
+                @SuppressWarnings("ConstantConditions")
+                final long textureId = createTextureRender(uid, channelId, videoSourceType);
+                result.success(textureId);
+                break;
+            }
             case "destroyTextureRender":
+            {
+                final long textureId = (long) call.arguments;
+                final boolean success = destroyTextureRender(textureId);
+                result.success(success);
+                break;
+            }
             case "updateTextureRenderData":
             default:
                 result.notImplemented();
