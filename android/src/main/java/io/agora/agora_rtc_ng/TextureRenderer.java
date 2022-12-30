@@ -1,42 +1,64 @@
 package io.agora.agora_rtc_ng;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.Surface;
 
+import java.util.HashMap;
+
+import io.agora.iris.IrisRenderer;
+import io.agora.iris.IrisVideoFrameBufferManager;
+import io.flutter.plugin.common.BinaryMessenger;
+import io.flutter.plugin.common.MethodChannel;
 import io.flutter.view.TextureRegistry;
 
 public class TextureRenderer {
-    private final TextureRegistry textureRegistry;
-    private final TextureRegistry.SurfaceTextureEntry surfaceTextureEntry;
-    private final Surface surface;
-    private final long uid;
-    private final String channelId;
-    private final int videoSourceType;
+    private final TextureRegistry.SurfaceTextureEntry flutterTexture;
+    private final IrisRenderer irisRenderer;
+    private final MethodChannel methodChannel;
+    private final Handler handler;
 
     public TextureRenderer(
             TextureRegistry textureRegistry,
+            BinaryMessenger binaryMessenger,
+            IrisVideoFrameBufferManager irisVideoFrameBufferManager,
             long uid,
             String channelId,
             int videoSourceType) {
-        this.textureRegistry = textureRegistry;
-        this.uid = uid;
-        this.channelId = channelId;
-        this.videoSourceType = videoSourceType;
 
-        this.surfaceTextureEntry = this.textureRegistry.createSurfaceTexture();
-        surface = new Surface(this.surfaceTextureEntry.surfaceTexture());
+        this.handler = new Handler(Looper.getMainLooper());
 
-        nativeBindingRawData(this.uid, this.channelId, this.videoSourceType, this.surface);
+        this.flutterTexture = textureRegistry.createSurfaceTexture();
+        Surface surface = new Surface(this.flutterTexture.surfaceTexture());
+
+        this.methodChannel = new MethodChannel(binaryMessenger, "agora_rtc_engine/texture_render_" + flutterTexture.id());
+
+        this.irisRenderer = new IrisRenderer(
+                irisVideoFrameBufferManager.getNativeHandle(),
+                uid,
+                channelId,
+                videoSourceType);
+        this.irisRenderer.setCallback(new IrisRenderer.Callback() {
+            @Override
+            public void onSizeChanged(int width, int height) {
+                handler.post(() -> methodChannel.invokeMethod(
+                        "onSizeChanged",
+                        new HashMap<String, Integer>() {{
+                            put("width", width);
+                            put("height", height);
+                        }}));
+
+            }
+        });
+        this.irisRenderer.startRenderingToSurface(surface);
+    }
+
+    public long getTextureId() {
+        return flutterTexture.id();
     }
 
     public void dispose() {
-        nativeUnbindingRawData();
+        irisRenderer.stopRenderingToSurface();
+        flutterTexture.release();
     }
-
-    private static native int nativeBindingRawData(
-            long uid,
-            String channelId,
-            int videoSourceType,
-            Surface surface);
-
-    private static native int nativeUnbindingRawData();
 }

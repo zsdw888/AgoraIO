@@ -2,20 +2,34 @@ package io.agora.agora_rtc_ng;
 
 import androidx.annotation.NonNull;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import io.agora.iris.IrisVideoFrameBufferManager;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
+import io.flutter.view.TextureRegistry;
 
 public class VideoViewController implements MethodChannel.MethodCallHandler {
 
+    private final TextureRegistry textureRegistry;
+    private final BinaryMessenger binaryMessenger;
+
     private final MethodChannel methodChannel;
 
-    VideoViewController(BinaryMessenger binaryMessenger) {
+    private final Map<Long, TextureRenderer> textureRendererMap = new HashMap<>();
+
+    private IrisVideoFrameBufferManager irisVideoFrameBufferManager;
+
+    VideoViewController(TextureRegistry textureRegistry, BinaryMessenger binaryMessenger) {
+        this.textureRegistry = textureRegistry;
+        this.binaryMessenger = binaryMessenger;
         methodChannel = new MethodChannel(binaryMessenger, "agora_rtc_ng/video_view_controller");
         methodChannel.setMethodCallHandler(this);
     }
 
-    private long createPlatformRender(){
+    private long createPlatformRender() {
         return 0L;
     }
 
@@ -24,37 +38,66 @@ public class VideoViewController implements MethodChannel.MethodCallHandler {
     }
 
     private long createTextureRender(long uid, String channelId, int videoSourceType) {
-        return 0L;
+        final TextureRenderer textureRenderer = new TextureRenderer(
+                textureRegistry,
+                binaryMessenger,
+                irisVideoFrameBufferManager,
+                uid,
+                channelId,
+                videoSourceType);
+        final long textureId = textureRenderer.getTextureId();
+        textureRendererMap.put(textureId, textureRenderer);
+
+        return textureId;
     }
 
-    private boolean destroyTextureRender(long textureId){
+    private boolean destroyTextureRender(long textureId) {
+        final TextureRenderer textureRenderer = textureRendererMap.get(textureId);
+        if (textureRenderer != null) {
+            textureRenderer.dispose();
+            textureRendererMap.remove(textureId);
+            return true;
+        }
+
         return false;
     }
 
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
         switch (call.method) {
-            case "attachVideoFrameBufferManager":
-                result.success(0);
+            case "attachVideoFrameBufferManager": {
+                if (irisVideoFrameBufferManager == null) {
+                    final long engineIntPtr = (long) call.arguments;
+                    irisVideoFrameBufferManager = IrisVideoFrameBufferManager.create();
+                    irisVideoFrameBufferManager.attachToApiEngine(engineIntPtr);
+                    result.success(irisVideoFrameBufferManager.getNativeHandle());
+                } else {
+                    result.success(0L);
+                }
+
                 break;
-            case "detachVideoFrameBufferManager":
+            }
+            case "detachVideoFrameBufferManager": {
+                final long engineIntPtr = (long) call.arguments;
+                detachVideoFrameBufferManager(engineIntPtr);
+
                 result.success(true);
                 break;
-
-            case "createTextureRender":
-            {
-                final Long uid = call.argument("uid");
-                final String channelId = call.argument("channelId");
-                final Integer videoSourceType = call.argument("videoSourceType");
+            }
+            case "createTextureRender": {
+                final Map<?, ?> args = (Map<?, ?>) call.arguments;
 
                 @SuppressWarnings("ConstantConditions")
+                final long uid = getLong(args.get("uid"));
+                final String channelId = (String) args.get("channelId");
+                final int videoSourceType = (int) args.get("videoSourceType");
+
                 final long textureId = createTextureRender(uid, channelId, videoSourceType);
                 result.success(textureId);
                 break;
             }
-            case "destroyTextureRender":
-            {
-                final long textureId = (long) call.arguments;
+            case "destroyTextureRender": {
+                final long textureId = getLong(call.arguments);
                 final boolean success = destroyTextureRender(textureId);
                 result.success(success);
                 break;
@@ -63,6 +106,26 @@ public class VideoViewController implements MethodChannel.MethodCallHandler {
             default:
                 result.notImplemented();
                 break;
+        }
+    }
+
+    /**
+     * Flutter may convert a long to int type in java, we force parse a long value via this function
+     */
+    private long getLong(Object value) {
+        return Long.parseLong(value.toString());
+    }
+
+    private void detachVideoFrameBufferManager(long engineIntPtr) {
+        if (irisVideoFrameBufferManager != null) {
+            irisVideoFrameBufferManager.detachFromApiEngine(engineIntPtr);
+
+            for (Map.Entry<Long, TextureRenderer> pair : textureRendererMap.entrySet()) {
+                pair.getValue().dispose();
+            }
+            textureRendererMap.clear();
+            irisVideoFrameBufferManager.destroy();
+            irisVideoFrameBufferManager = null;
         }
     }
 
