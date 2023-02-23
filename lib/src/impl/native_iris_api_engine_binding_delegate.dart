@@ -100,11 +100,12 @@ class NativeIrisApiEngineBindingsDelegate extends NativeBindingDelegate {
           final irisRtcEngineNativeHandle =
               data['irisRtcEngineNativeHandle'] as int;
 
-          final bufferManager = _binding.CreateIrisVideoFrameBufferManager();
-          _binding.Attach(
-            ffi.Pointer<ffi.Void>.fromAddress(irisRtcEngineNativeHandle),
-            bufferManager,
-          );
+          final bufferManager = _binding.CreateIrisRtcRendering(
+              ffi.Pointer<ffi.Void>.fromAddress(irisRtcEngineNativeHandle));
+          // _binding.Attach(
+          //   ffi.Pointer<ffi.Void>.fromAddress(irisRtcEngineNativeHandle),
+          //   bufferManager,
+          // );
 
           final result = {
             'videoFrameBufferManagerNativeHandle': bufferManager.address
@@ -121,13 +122,13 @@ class NativeIrisApiEngineBindingsDelegate extends NativeBindingDelegate {
           final irisRtcEngineNativeHandle =
               data['irisRtcEngineNativeHandle'] as int;
 
-          _binding.Detach(
-            ffi.Pointer<ffi.Void>.fromAddress(irisRtcEngineNativeHandle),
-            ffi.Pointer<ffi.Void>.fromAddress(videoFrameBufferManagerIntPtr),
-          );
+          // _binding.Detach(
+          //   ffi.Pointer<ffi.Void>.fromAddress(irisRtcEngineNativeHandle),
+          //   ffi.Pointer<ffi.Void>.fromAddress(videoFrameBufferManagerIntPtr),
+          // );
 
-          _binding.FreeIrisVideoFrameBufferManager(
-              ffi.Pointer<ffi.Void>.fromAddress(videoFrameBufferManagerIntPtr));
+          // _binding.FreeIrisVideoFrameBufferManager(
+          //     ffi.Pointer<ffi.Void>.fromAddress(videoFrameBufferManagerIntPtr));
 
           _response(param, {});
 
