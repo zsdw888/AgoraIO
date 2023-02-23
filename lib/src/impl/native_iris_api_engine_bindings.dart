@@ -308,6 +308,35 @@ class NativeIrisApiEngineBinding {
   late final _StopDumpVideo = _StopDumpVideoPtr.asFunction<
       int Function(IrisVideoFrameBufferManagerPtr)>();
 
+  IrisRtcRenderingHandle CreateIrisRtcRendering(
+    ffi.Pointer<ffi.Void> rtc_engine_handle,
+  ) {
+    return _CreateIrisRtcRendering(
+      rtc_engine_handle,
+    );
+  }
+
+  late final _CreateIrisRtcRenderingPtr = _lookup<
+      ffi.NativeFunction<
+          IrisRtcRenderingHandle Function(
+              ffi.Pointer<ffi.Void>)>>('CreateIrisRtcRendering');
+  late final _CreateIrisRtcRendering = _CreateIrisRtcRenderingPtr.asFunction<
+      IrisRtcRenderingHandle Function(ffi.Pointer<ffi.Void>)>();
+
+  void FreeIrisRtcRendering(
+    ffi.Pointer<ffi.Void> rtc_engine_handle,
+  ) {
+    return _FreeIrisRtcRendering(
+      rtc_engine_handle,
+    );
+  }
+
+  late final _FreeIrisRtcRenderingPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
+          'FreeIrisRtcRendering');
+  late final _FreeIrisRtcRendering = _FreeIrisRtcRenderingPtr.asFunction<
+      void Function(ffi.Pointer<ffi.Void>)>();
+
   int CallIrisApi(
     IrisApiEnginePtr engine_ptr,
     ffi.Pointer<ApiParam> param,
@@ -475,6 +504,7 @@ abstract class IRIS_VIDEO_PROCESS_ERR {
   static const int ERR_NULL_POINTER = 1;
   static const int ERR_SIZE_NOT_MATCHING = 2;
   static const int ERR_BUFFER_EMPTY = 5;
+  static const int ERR_FRAM_TYPE_NOT_MATCHING = 6;
 }
 
 class IrisVideoFrameBufferConfig extends ffi.Struct {
@@ -588,6 +618,24 @@ class IrisVideoFrame extends ffi.Struct {
 
 typedef IrisVideoFrameBufferManagerPtr = ffi.Pointer<ffi.Void>;
 typedef IrisVideoFrameBufferDelegateHandle = ffi.Pointer<ffi.Void>;
+
+class IrisRtcVideoFrameConfig extends ffi.Struct {
+  /// int value of agora::rtc::VIDEO_SOURCE_TYPE
+  @ffi.Uint32()
+  external int video_source_type;
+
+  /// int value of agora::media::base::VIDEO_PIXEL_FORMAT
+  @ffi.Uint32()
+  external int video_frame_format;
+
+  @ffi.Uint32()
+  external int id;
+
+  @ffi.Array.multi([512])
+  external ffi.Array<ffi.Int8> key;
+}
+
+typedef IrisRtcRenderingHandle = ffi.Pointer<ffi.Void>;
 
 abstract class IRIS_API_ERROR_CODE_TYPE {
   static const int IRIS_API_NOT_CREATE = 666666;

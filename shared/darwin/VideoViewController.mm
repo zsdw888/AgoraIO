@@ -2,7 +2,7 @@
 #import "VideoViewController.h"
 #import "TextureRenderer.h"
 #import <AgoraRtcWrapper/iris_engine_base.h>
-#import <AgoraRtcWrapper/iris_video_processor_cxx.h>
+#import <AgoraRtcWrapper/iris_rtc_rendering_cxx.h>
 
 @interface VideoViewController ()
 @property(nonatomic, weak) NSObject<FlutterTextureRegistry> *textureRegistry;
@@ -82,7 +82,7 @@
                            uid:(NSNumber *)uid
                      channelId:(NSString *)channelId
                videoSourceType:(NSNumber *)videoSourceType {
-    agora::iris::IrisVideoFrameBufferManager *videoFrameBufferManager = reinterpret_cast<agora::iris::IrisVideoFrameBufferManager *>(videoFrameBufferManagerIntPtr);
+    agora::iris::IrisRtcRendering *videoFrameBufferManager = reinterpret_cast<agora::iris::IrisRtcRendering *>(videoFrameBufferManagerIntPtr);
     TextureRender *textureRender = [[TextureRender alloc]
         initWithTextureRegistry:self.textureRegistry
                       messenger:self.messenger
