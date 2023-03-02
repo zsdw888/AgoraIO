@@ -97,7 +97,7 @@ class _State extends State<JoinChannelVideo> {
       ),
     );
 
-    await _engine.startPreview();
+    // await _engine.startPreview();
 
     setState(() {
       _isReadyPreview = true;
@@ -105,15 +105,16 @@ class _State extends State<JoinChannelVideo> {
   }
 
   Future<void> _joinChannel() async {
-    await _engine.joinChannel(
-      token: config.token,
-      channelId: _controller.text,
-      uid: config.uid,
-      options: ChannelMediaOptions(
-        channelProfile: _channelProfileType,
-        clientRoleType: ClientRoleType.clientRoleBroadcaster,
-      ),
-    );
+    await _engine.startPreview();
+    // await _engine.joinChannel(
+    //   token: config.token,
+    //   channelId: _controller.text,
+    //   uid: config.uid,
+    //   options: ChannelMediaOptions(
+    //     channelProfile: _channelProfileType,
+    //     clientRoleType: ClientRoleType.clientRoleBroadcaster,
+    //   ),
+    // );
   }
 
   Future<void> _leaveChannel() async {
