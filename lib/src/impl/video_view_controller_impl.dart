@@ -1,3 +1,4 @@
+import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:agora_rtc_engine/src/agora_base.dart';
 import 'package:agora_rtc_engine/src/agora_rtc_engine_ex.dart';
 import 'package:agora_rtc_engine/src/impl/agora_rtc_engine_impl.dart';
@@ -66,20 +67,25 @@ mixin VideoViewControllerBaseMixin implements VideoViewControllerBase {
       return;
     }
 
-    VideoCanvas videoCanvas = VideoCanvas(
-      view: 0, // null
-      renderMode: canvas.renderMode,
-      mirrorMode: canvas.mirrorMode,
-      uid: canvas.uid,
-      sourceType: canvas.sourceType,
-      cropArea: canvas.cropArea,
-      setupMode: canvas.setupMode,
-      mediaPlayerId: canvas.mediaPlayerId,
-    );
-    if (canvas.uid != 0) {
-      await rtcEngine.setupRemoteVideo(videoCanvas);
-    } else {
-      await rtcEngine.setupLocalVideo(videoCanvas);
+    try {
+      VideoCanvas videoCanvas = VideoCanvas(
+        view: 0, // null
+        renderMode: canvas.renderMode,
+        mirrorMode: canvas.mirrorMode,
+        uid: canvas.uid,
+        sourceType: canvas.sourceType,
+        cropArea: canvas.cropArea,
+        setupMode: canvas.setupMode,
+        mediaPlayerId: canvas.mediaPlayerId,
+      );
+
+      if (canvas.uid != 0) {
+        await rtcEngine.setupRemoteVideo(videoCanvas);
+      } else {
+        await rtcEngine.setupLocalVideo(videoCanvas);
+      }
+    } on AgoraRtcException catch (e) {
+      debugPrint('setupView(..) - disposeRender - error caught: $e');
     }
   }
 
@@ -112,25 +118,30 @@ mixin VideoViewControllerBaseMixin implements VideoViewControllerBase {
 
   @override
   Future<void> setupView(int nativeViewPtr) async {
-    VideoCanvas videoCanvas = VideoCanvas(
-      view: nativeViewPtr,
-      renderMode: canvas.renderMode,
-      mirrorMode: canvas.mirrorMode,
-      uid: canvas.uid,
-      sourceType: canvas.sourceType,
-      cropArea: canvas.cropArea,
-      setupMode: canvas.setupMode,
-      mediaPlayerId: canvas.mediaPlayerId,
-    );
-    if (canvas.uid != 0) {
-      if (connection != null) {
-        await (rtcEngine as RtcEngineEx)
-            .setupRemoteVideoEx(canvas: videoCanvas, connection: connection!);
+    try {
+      VideoCanvas videoCanvas = VideoCanvas(
+        view: nativeViewPtr,
+        renderMode: canvas.renderMode,
+        mirrorMode: canvas.mirrorMode,
+        uid: canvas.uid,
+        sourceType: canvas.sourceType,
+        cropArea: canvas.cropArea,
+        setupMode: canvas.setupMode,
+        mediaPlayerId: canvas.mediaPlayerId,
+      );
+
+      if (canvas.uid != 0) {
+        if (connection != null) {
+          await (rtcEngine as RtcEngineEx)
+              .setupRemoteVideoEx(canvas: videoCanvas, connection: connection!);
+        } else {
+          await rtcEngine.setupRemoteVideo(videoCanvas);
+        }
       } else {
-        await rtcEngine.setupRemoteVideo(videoCanvas);
+        await rtcEngine.setupLocalVideo(videoCanvas);
       }
-    } else {
-      await rtcEngine.setupLocalVideo(videoCanvas);
+    } on AgoraRtcException catch (e) {
+      debugPrint('setupView(..) - error caught: $e');
     }
   }
 
