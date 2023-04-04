@@ -317,15 +317,29 @@ class _AgoraRtcRenderTextureState extends State<AgoraRtcRenderTexture>
     }
   }
 
-  Widget _applyMirrorMode(VideoMirrorModeType mirrorMode, Widget child) {
-    if (mirrorMode == VideoMirrorModeType.videoMirrorModeDisabled) {
-      return child;
+  bool _isScreenSource(VideoSourceType sourceType) {
+    final sourceTypeInt = sourceType.value();
+    // int value of `VideoSourceType.videoSourceScreen` and `VideoSourceType.videoSourceScreenPrimary` is the same
+    return sourceTypeInt == VideoSourceType.videoSourceScreenPrimary.value() ||
+        sourceTypeInt == VideoSourceType.videoSourceScreenSecondary.value();
+  }
+
+  Widget _applyMirrorMode(VideoMirrorModeType mirrorMode, Widget child,
+      VideoSourceType sourceType) {
+    bool enableMirror = true;
+    if (mirrorMode == VideoMirrorModeType.videoMirrorModeDisabled ||
+        _isScreenSource(sourceType)) {
+      enableMirror = false;
     }
 
-    return Transform.scale(
-      scaleX: -1.0,
-      child: child,
-    );
+    if (enableMirror) {
+      return Transform.scale(
+        scaleX: -1.0,
+        child: child,
+      );
+    }
+
+    return child;
   }
 
   @override
@@ -348,7 +362,10 @@ class _AgoraRtcRenderTextureState extends State<AgoraRtcRenderTexture>
                 VideoMirrorModeType.videoMirrorModeDisabled;
           }
 
-          result = _applyMirrorMode(mirrorMode, result);
+          final sourceType = widget.controller.canvas.sourceType ??
+              VideoSourceType.videoSourceCameraPrimary;
+
+          result = _applyMirrorMode(mirrorMode, result, sourceType);
         } else {
           // Fit mode by default if does not need to handle render mode
           result = _applyRenderMode(RenderModeType.renderModeFit, result);
