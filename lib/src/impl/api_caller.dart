@@ -912,8 +912,6 @@ class _SettableIrisEventHandler implements DisposableNativeIrisEventHandler {
           irisApiEnginePtr, _irisEventHandlerPtr);
     } else if (key.unregisterName ==
         'MusicContentCenter_unregisterEventHandler') {
-      nativeIrisApiEngineBinding.UnsetIrisMediaRecorderEventHandler(
-          irisApiEnginePtr, _irisEventHandlerPtr);
     }
   }
 }
