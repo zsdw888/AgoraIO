@@ -7,13 +7,13 @@ import android.view.Surface;
 import java.util.HashMap;
 
 import io.agora.iris.IrisRenderer;
-import io.agora.iris.IrisVideoFrameBufferManager;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.view.TextureRegistry;
 
 public class TextureRenderer {
     private final TextureRegistry.SurfaceTextureEntry flutterTexture;
+
     private final IrisRenderer irisRenderer;
     private final MethodChannel methodChannel;
     private final Handler handler;
@@ -21,10 +21,10 @@ public class TextureRenderer {
     public TextureRenderer(
             TextureRegistry textureRegistry,
             BinaryMessenger binaryMessenger,
-            IrisVideoFrameBufferManager irisVideoFrameBufferManager,
+            long irisRtcRenderingHandle,
             long uid,
             String channelId,
-            int videoSourceType) {
+            int videoSourceType, int videoViewSetupMode) {
 
         this.handler = new Handler(Looper.getMainLooper());
 
@@ -34,10 +34,11 @@ public class TextureRenderer {
         this.methodChannel = new MethodChannel(binaryMessenger, "agora_rtc_engine/texture_render_" + flutterTexture.id());
 
         this.irisRenderer = new IrisRenderer(
-                irisVideoFrameBufferManager.getNativeHandle(),
+                irisRtcRenderingHandle,
                 uid,
                 channelId,
-                videoSourceType);
+                videoSourceType,
+                videoViewSetupMode);
         this.irisRenderer.setCallback(new IrisRenderer.Callback() {
             @Override
             public void onSizeChanged(int width, int height) {

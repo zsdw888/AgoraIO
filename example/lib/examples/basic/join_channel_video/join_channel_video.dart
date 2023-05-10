@@ -20,7 +20,7 @@ class _State extends State<JoinChannelVideo> {
   bool isJoined = false, switchCamera = true, switchRender = true;
   Set<int> remoteUid = {};
   late TextEditingController _controller;
-  bool _isUseFlutterTexture = false;
+  bool _isUseFlutterTexture = true;
   bool _isUseAndroidSurfaceView = false;
   ChannelProfileType _channelProfileType =
       ChannelProfileType.channelProfileLiveBroadcasting;

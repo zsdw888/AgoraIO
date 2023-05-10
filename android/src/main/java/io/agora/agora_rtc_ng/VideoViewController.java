@@ -5,7 +5,6 @@ import androidx.annotation.NonNull;
 import java.util.HashMap;
 import java.util.Map;
 
-import io.agora.iris.IrisVideoFrameBufferManager;
 import io.flutter.plugin.common.BinaryMessenger;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
@@ -19,8 +18,6 @@ public class VideoViewController implements MethodChannel.MethodCallHandler {
     private final MethodChannel methodChannel;
 
     private final Map<Long, TextureRenderer> textureRendererMap = new HashMap<>();
-
-    private IrisVideoFrameBufferManager irisVideoFrameBufferManager;
 
     VideoViewController(TextureRegistry textureRegistry, BinaryMessenger binaryMessenger) {
         this.textureRegistry = textureRegistry;
@@ -37,14 +34,20 @@ public class VideoViewController implements MethodChannel.MethodCallHandler {
         return true;
     }
 
-    private long createTextureRender(long uid, String channelId, int videoSourceType) {
+    private long createTextureRender(
+            long irisRtcRenderingHandle,
+            long uid,
+            String channelId,
+            int videoSourceType,
+            int videoViewSetupMode) {
         final TextureRenderer textureRenderer = new TextureRenderer(
                 textureRegistry,
                 binaryMessenger,
-                irisVideoFrameBufferManager,
+                irisRtcRenderingHandle,
                 uid,
                 channelId,
-                videoSourceType);
+                videoSourceType,
+                videoViewSetupMode);
         final long textureId = textureRenderer.getTextureId();
         textureRendererMap.put(textureId, textureRenderer);
 
@@ -65,34 +68,42 @@ public class VideoViewController implements MethodChannel.MethodCallHandler {
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
         switch (call.method) {
-            case "attachVideoFrameBufferManager": {
-                if (irisVideoFrameBufferManager == null) {
-                    final long engineIntPtr = (long) call.arguments;
-                    irisVideoFrameBufferManager = IrisVideoFrameBufferManager.create();
-                    irisVideoFrameBufferManager.attachToApiEngine(engineIntPtr);
-                    result.success(irisVideoFrameBufferManager.getNativeHandle());
-                } else {
-                    result.success(0L);
-                }
-
-                break;
-            }
-            case "detachVideoFrameBufferManager": {
-                final long engineIntPtr = (long) call.arguments;
-                detachVideoFrameBufferManager(engineIntPtr);
-
-                result.success(true);
-                break;
-            }
+//            case "attachVideoFrameBufferManager": {
+//                if (irisVideoFrameBufferManager == null) {
+//                    final long engineIntPtr = (long) call.arguments;
+//                    irisVideoFrameBufferManager = IrisVideoFrameBufferManager.create();
+//                    irisVideoFrameBufferManager.attachToApiEngine(engineIntPtr);
+//                    result.success(irisVideoFrameBufferManager.getNativeHandle());
+//                } else {
+//                    result.success(0L);
+//                }
+//
+//                break;
+//            }
+//            case "detachVideoFrameBufferManager": {
+//                final long engineIntPtr = (long) call.arguments;
+//                detachVideoFrameBufferManager(engineIntPtr);
+//
+//                result.success(true);
+//                break;
+//            }
             case "createTextureRender": {
                 final Map<?, ?> args = (Map<?, ?>) call.arguments;
 
                 @SuppressWarnings("ConstantConditions")
+                final long irisRtcRenderingHandle = getLong(args.get("irisRtcRenderingHandle"));
+                @SuppressWarnings("ConstantConditions")
                 final long uid = getLong(args.get("uid"));
                 final String channelId = (String) args.get("channelId");
                 final int videoSourceType = (int) args.get("videoSourceType");
+                final int videoViewSetupMode = (int) args.get("videoViewSetupMode");
 
-                final long textureId = createTextureRender(uid, channelId, videoSourceType);
+                final long textureId = createTextureRender(
+                        irisRtcRenderingHandle,
+                        uid,
+                        channelId,
+                        videoSourceType,
+                        videoViewSetupMode);
                 result.success(textureId);
                 break;
             }
@@ -116,18 +127,18 @@ public class VideoViewController implements MethodChannel.MethodCallHandler {
         return Long.parseLong(value.toString());
     }
 
-    private void detachVideoFrameBufferManager(long engineIntPtr) {
-        if (irisVideoFrameBufferManager != null) {
-            irisVideoFrameBufferManager.detachFromApiEngine(engineIntPtr);
-
-            for (Map.Entry<Long, TextureRenderer> pair : textureRendererMap.entrySet()) {
-                pair.getValue().dispose();
-            }
-            textureRendererMap.clear();
-            irisVideoFrameBufferManager.destroy();
-            irisVideoFrameBufferManager = null;
-        }
-    }
+//    private void detachVideoFrameBufferManager(long engineIntPtr) {
+//        if (irisVideoFrameBufferManager != null) {
+//            irisVideoFrameBufferManager.detachFromApiEngine(engineIntPtr);
+//
+//            for (Map.Entry<Long, TextureRenderer> pair : textureRendererMap.entrySet()) {
+//                pair.getValue().dispose();
+//            }
+//            textureRendererMap.clear();
+//            irisVideoFrameBufferManager.destroy();
+//            irisVideoFrameBufferManager = null;
+//        }
+//    }
 
     public void dispose() {
         methodChannel.setMethodCallHandler(null);
